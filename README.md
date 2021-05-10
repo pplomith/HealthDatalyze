@@ -1,2 +1,2 @@
 # meddataviz
-Visualization medical data of set of patients.
+Visualization of medical data on a patient dataset.
