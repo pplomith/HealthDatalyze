@@ -1,0 +1,250 @@
+
+.main_div {
+    background: grey;
+    display: flex;
+    flex-direction: row;
+}
+
+.sx_div {
+    margin-left: 3%;
+    background: green;
+    width: 46%;
+    max-width: 700px;
+    max-height: 800px;
+    display: flex;
+    flex-direction: column;
+}
+
+.dx_div {
+    margin-right: 2%;
+    background: blue;
+    width: 46%;
+    max-width: 700px;
+    max-height: 800px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.search_patient {
+    /*background-image: url('/css/searchicon.png');*/
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    height: 30px;
+    width: 95%;
+    margin: 2%;
+
+}
+
+.table_patient {
+    background: white;
+    height: 280px;
+    width: 95%;
+    margin: 2%;
+}
+
+.table_visit_patient {
+    background: white;
+    height: 200px;
+    width: 95%;
+    margin: 2%;
+}
+
+.visit_data_div {
+    background: white;
+    height: 200px;
+    width: 95%;
+    margin: 2%;
+    display: flex;
+    flex-direction: row;
+}
+
+.table_data_visit {
+    background: white;
+    height: 90%;
+    width: 50%;
+    max-width: 350px;
+    margin: 1% 1% 1% 1%;
+}
+.div_note_visit {
+    background: yellow;
+    height: 90%;
+    width: 50%;
+    max-width: 350px;
+    margin: 1% 1% 1% 1%;
+}
+
+
+.patient_info {
+    background: white;
+    width: 96%;
+    height: 170px;
+    margin: 2% 2% 1% 2%;
+    display: flex;
+    flex-direction: row;
+
+}
+.div_filter {
+    background: white;
+    width: 96%;
+    height: 170px;
+    margin: 2% 1% 2% 2%;
+}
+
+.div_graph {
+    background: white;
+    width: 96%;
+    height: 400px;
+    margin: 2%;
+}
+
+.personal_info{
+    background: yellow;
+    width: 350px;
+    height: 90%;
+    margin: 1%;
+}
+
+.helth_info{
+    background: yellow;
+    width: 350px;
+    height: 90%;
+    margin: 1%;
+    display: flex;
+    flex-direction: column;
+}
+.first_row, .second_row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+}
+.avg_info {
+    background: green;
+    width: 60%;
+    max-width: 200px;
+    height: 40px;
+    margin: 0.5%;
+}
+
+tbody {
+    overflow-X: scroll;
+}
+.div-table {
+    width: 600px;
+}
+
+.table-responsive {
+    overflow-y: auto;
+    overflow-x: auto;
+    width: 100%;
+    height: 100%;
+}
+.btn-primary{
+    color: #f8f9fa;
+    background-color: #0a58ca;
+    border-color: #288b5d00;
+    font-size: 10px;
+}
+@media all and (max-width: 880px) {
+
+    .main_div {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .sx_div {
+
+        margin: 0% 3% 2% 2%;
+        width: 100%;
+        max-width: 800px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .dx_div {
+
+        margin: 2% 3% 0% 2%;
+        width: 100%;
+        max-width: 800px;
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    .table_data_visit {
+        width: 50%;
+        max-width: 400px;
+    }
+    .div_note_visit {
+        max-width: 400px;
+    }
+
+
+
+    .personal_info{
+        width: 50%;
+        max-width: 400px;
+
+    }
+
+    .helth_info{
+        width: 50%;
+        max-width: 400px;
+
+    }
+
+
+
+
+
+}
+
+@media all and (max-width: 550px) {
+
+    .dx_div, .sx_div {
+        margin: 0;
+    }
+    .visit_data_div {
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    .table_data_visit {
+        height: 50%;
+        width: 98%;
+        max-width: 600px;
+
+    }
+    .div_note_visit {
+        height: 50%;
+        width: 98%;
+        max-width: 600px;
+    }
+    .patient_info {
+        width: 96%;
+        height: 350px;
+        margin: 2% 2% 1% 2%;
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    .personal_info{
+        width: 98%;
+        max-width: 600px;
+    }
+
+    .helth_info{
+        width: 98%;
+        max-width: 600px;
+        display: flex;
+        flex-direction: column;
+    }
+    .avg_info {
+        width: 98%;
+        max-width: 600px;
+    }
+
+}
