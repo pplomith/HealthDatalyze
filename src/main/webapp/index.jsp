@@ -87,7 +87,7 @@
                             <th>Value</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="measurementTable">
                         <tr>
                             <td>Calcium</td>
                             <td>11.2</td>
