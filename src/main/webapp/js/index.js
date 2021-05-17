@@ -2,7 +2,7 @@ import {select} from 'd3';
 
 const svg = select('svg');
 const width = +svg.attr('width');
-
+var patientSelected = null;
 
 
 const dataPrint =  (data) => {
@@ -71,13 +71,17 @@ function fillPatientTable(data) {
 }
 
 function visitDatePatient(data) {
+
+    patientSelected = data;
     var table = null;
     if(data.length > 0) {
+        $("#tableVisitDate").empty();
+        $("#tableVisitDate").off("click","button");
         var dataVisit = new Date(data[0].Date);
         var formatDate = dataVisit.getFullYear() + "-" + (dataVisit.getMonth() + 1) + "-" + dataVisit.getDate();
         table += "<tr><td>" + data[0].ID + "</td>"
             + "<td>" + formatDate + "</td>"
-            + "<td><button type='button' class='btn btn-primary'>Show</button></td>"
+            + "<td><button type='button' class='btn btn-primary' value='"+data[0].Date+"'>Show</button></td>"
             + "</tr>"
         var precedentData = dataVisit;
         for (var i = 1; i < data.length; i++) {
@@ -86,12 +90,38 @@ function visitDatePatient(data) {
                 var formatDate = dataVisit.getFullYear() + "-" + (dataVisit.getMonth() + 1) + "-" + dataVisit.getDate();
                 table += "<tr><td>" + data[i].ID + "</td>"
                     + "<td>" + formatDate + "</td>"
-                    + "<td><button type='button' class='btn btn-primary'>Show</button></td>"
+                    + "<td><button type='button' class='btn btn-primary' value='"+data[i].Date+"'>Show</button></td>"
                     + "</tr>"
             }
             precedentData = dataVisit;
         }
 
         $("#tableVisitDate").html(table);
+        $("#tableVisitDate").on("click","button", function () {
+            measurementTableUpdate(this.value);
+        });
+    }
+
+    function measurementTableUpdate(visitDate) {
+        var table = null;
+        let dataSelected = [];
+        if (patientSelected != null) {
+
+            for (var i = 0; i < patientSelected.length; i++) {
+                if (patientSelected[i].Date == visitDate) {
+                    dataSelected.push(patientSelected[i]);
+                }
+            }
+            for (var i = 0; i < dataSelected.length; i++) {
+                var vInt = parseFloat(dataSelected[i].Value);
+                var valueRounded = Math.round(vInt * 100) / 100;
+                table += "<tr><td>" + dataSelected[i].Measurement + "</td>"
+                        + "<td>" + valueRounded + "</td>"
+                        + "</tr>"
+            }
+
+            $("#measurementTable").html(table);
+        }
+
     }
 }
