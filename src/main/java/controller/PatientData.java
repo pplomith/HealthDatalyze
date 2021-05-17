@@ -22,7 +22,7 @@ public class PatientData extends HttpServlet {
         String patientId = request.getParameter("id");
 
         if (patientId != null) {
-            jsonObject = patientDAO.getVisitDatePatient(patientId);
+            jsonObject = patientDAO.getPatientAndVD(patientId);
         }
         else {
             jsonObject = patientDAO.getAllPatients();
