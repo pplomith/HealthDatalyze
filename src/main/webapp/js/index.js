@@ -71,12 +71,12 @@ function fillPatientTable(data) {
 }
 
 function visitDatePatient(data) {
-
+    $("#measurementTable").empty();
+    $("#tableVisitDate").empty();
+    $("#tableVisitDate").off("click","button");
     patientSelected = data;
     var table = null;
     if(data.length > 0) {
-        $("#tableVisitDate").empty();
-        $("#tableVisitDate").off("click","button");
         var dataVisit = new Date(data[0].Date);
         var formatDate = dataVisit.getFullYear() + "-" + (dataVisit.getMonth() + 1) + "-" + dataVisit.getDate();
         table += "<tr><td>" + data[0].ID + "</td>"
