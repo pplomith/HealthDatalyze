@@ -1,0 +1,154 @@
+body {
+    background: rgba(224,224,224,0.5);
+
+}
+
+#svgId {
+    width: 100%;
+    height: 100%;
+}
+div#root {
+    max-width: 1500px;
+}
+.searchDiv {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    border-radius: 5px;
+
+}
+.searchDiv span {
+    width: 30px;
+    border-left: 2px;
+    border-color: black;
+    text-align: center;
+}
+.searchDiv span .fa {
+    margin-top: 8px;
+}
+.search_patient {
+    background: white;
+    border: none;
+    outline: none;
+    width: 90%;
+}
+
+.table_patient {
+    background: #fff;
+    border-radius: 5px;
+}
+
+.table_visit_patient {
+    border-radius: 5px;
+    background: white;
+}
+
+
+.table_data_visit {
+    border-radius: 5px;
+    background: white;
+}
+.div_note_visit {
+    border-radius: 5px;
+    background: white;
+}
+
+.div_filter {
+    border-radius: 5px;
+    background: white;
+}
+
+.div_graph {
+    border-radius: 5px;
+    background: white;
+}
+
+.personal_info{
+    border-radius: 5px;
+    background: white;
+}
+
+
+.stats {
+    justify-content: space-around;
+    background-color: white;
+    color: black;
+}
+.titleSpan {
+    font-size: 10px;
+    color: #a1aab9;
+}
+
+#patientName {
+    text-align: center;
+    margin-top: 15px;
+    font-family: 'Poppins';
+}
+.div-table {
+    width: 600px;
+}
+tbody {
+    overflow: auto;
+}
+tbody td, th, tr {
+    white-space: nowrap;
+}
+.table-responsive {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+.btn-primary{
+    color: #f8f9fa;
+    background-color: #0a58ca;
+    border-color: #288b5d00;
+    font-size: 10px;
+}
+
+tbody, td, tfoot, th, thead, tr {
+    border-color: antiquewhite;
+    border-style: solid;
+    border-width: 0;
+}
+.table>thead>tr>th {
+    border-color: rgb(103,143,103);
+    border-style: solid;
+    border-width: 2px;
+    background: rgb(103,143,103);
+    color: #fff;
+    font-weight: 400;
+}
+.table>:not(:last-child)>:last-child>* {
+    border-bottom-color: rgb(103,143,103);
+}
+.table>tbody>tr>td {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+
+#titleNote, #titleGraph, #titleFilter {
+    width: 100%;
+    margin-top: 5px;
+    text-align: center;
+    font-size: 16px;
+}
+
+
+@media all and (max-width: 970px) {
+
+    .table-responsive {
+        width: 99%;
+    }
+}
+
+@media all and (max-width: 550px) {
+
+    .table-responsive {
+        width: 99%;
+    }
+
+    #patientName {
+        font-size: 5vw;
+    }
+}
