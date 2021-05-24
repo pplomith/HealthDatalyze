@@ -1,0 +1,65 @@
+PATOLOGY_ID,MARKER_ID,NOTE
+OSTEOPOROSIS,2000-8,Blood calcium levels - this test is usually normal in osteoporosis but may be elevated with other bone diseases.
+OSTEOPOROSIS,35365-6,Vitamin D - deficiencies can lead to decreased calcium absorption.
+OSTEOPOROSIS,14921-1,Thyroid tests T4 to screen for thyroid disease
+OSTEOPOROSIS,3016-3,Thyroid tests TSH to screen for thyroid disease
+OSTEOPOROSIS,14866-8,Parathyroid hormone (PTH) - to check for hyperparathyroidism
+OSTEOPOROSIS,15067-2,Follicle-stimulating hormone (FSH) - to check for menopause
+OSTEOPOROSIS,14913-8,Testosterone - to check for deficiency in men
+OSTEOPOROSIS,12851-2,Protein electrophoresis - to identify abnormal proteins produced by a certain type of cancer (called multiple myeloma) that can break down bone
+OSTEOPOROSIS,6768-6,Alkaline phosphatase (ALP) - to test for increased levels that may point to a problem with the bones
+OSTEOARTHRITIS,11572-5,Rheumatoid factor (RF) - to help diagnose rheumatoid arthritis (RA) and differentiate it from osteoarthritis; both RF and CCP are positive with RA and generally negative in OA.
+OSTEOARTHRITIS,33935-8,Cyclic citrullinated peptide antibody (CCP) - to help diagnose rheumatoid arthritis (RA) and differentiate it from osteoarthritis; both RF and CCP are positive with RA and generally negative in OA.
+OSTEOARTHRITIS,79399-2,Synovial fluid analysis - to look for signs of joint infection and to detect monosodium urate (uric acid) crystals that could indicate gout or calcium pyrophosphate crystals that may contribute to joint damage in osteoarthritis
+OSTEOARTHRITIS,35004-1,TODO: needed?
+OSTEOARTHRITIS,30341-2,Erythrocyte sedimentation rate (sed rate or ESR) - to detect inflammation in the body; ESR will be increased in RA but not in osteoarthritis.
+OSTEOARTHRITIS,1988-5,C-reactive protein (CRP) - to detect inflammation and test for the activity of the disease; may be used to help differentiate osteoarthritis and RA; an increased level of CRP occurs in RA but not in osteoarthritis.
+OSTEOARTHRITIS,58410-2,Complete blood count (CBC) - to help evaluate red and white blood cells and hemoglobin; may be ordered to monitor the side effects of some OA treatments
+OSTEOARTHRITIS,TODO,Comprehensive metabolic panel (CMP) - to help evaluate and monitor kidney and liver function
+OSTEOARTHRITIS,Non-laboratory test,"X-rays of the affected joints may show loss of cartilage, bone damage, bone spurs, and narrowing of the joint space but will frequently not show significant changes early in the disease."
+OSTEOARTHRITIS,Non-laboratory test,MRI (magnetic resonance imaging) - may also be used to examine affected joints
+RHEUMATOID-ARTHRITIS,11572-5,"Rheumatoid factor (RF) - used to help diagnose RA; it is present in significant concentrations in most people (about 80%) with RA but can also be present in people with other diseases and in a small percentage of healthy people; when positive in someone with symptoms of RA, this test can be useful to confirm the diagnosis."
+RHEUMATOID-ARTHRITIS,33935-8,"Cyclic citrullinated peptide (CCP) antibody - may be used to help diagnose RA, especially early in the disease - potentially before symptoms even appear - and in people who are RF-negative; found in 60-70% of people with RA; when used with the RF test, CCP results can help confirm a diagnosis of RA."
+RHEUMATOID-ARTHRITIS,27200-5,"Antinuclear antibody (ANA) - this test is used to screen for certain autoimmune disorders, sometimes including RA, but is most often used as one of the tests to diagnose systemic lupus erythematosus (SLE)."
+RHEUMATOID-ARTHRITIS,30341-2,Erythrocyte sedimentation rate (ESR) - this test shows the presence of inflammation in the body and the activity of the disease. It is used to help diagnose RA and to evaluate and monitor the condition. ESR will be increased in RA but not in osteoarthritis.
+RHEUMATOID-ARTHRITIS,1988-5,C-reactive protein (CRP) - this test also indicates inflammation and tests for the activity of the disease. It may be used to help diagnose RA and to evaluate and monitor the condition. An increased level of CRP occurs in RA but not in osteoarthritis.
+RHEUMATOID-ARTHRITIS,58410-2,Complete blood count (CBC) - this is a group of tests used to help evaluate the person's red and white blood cells and hemoglobin to help monitor for anemia and/or a decrease in white blood cells.
+RHEUMATOID-ARTHRITIS,TODO,Comprehensive metabolic panel (CMP) - this is a group of tests that may be used to help evaluate and monitor kidney and liver function.
+RHEUMATOID-ARTHRITIS,Non-laboratory test,X-ray - used to help diagnose RA and monitor joint damage but will not usually show significant changes early in the disease; can be used to rule out other causes of joint pain.
+RHEUMATOID-ARTHRITIS,Non-laboratory test,Ultrasound and MRI - may be used to help detect changes in the joints earlier in the disease.
+JUVENILE-RHEUMATOID-ARTHRITIS,27200-5,Antinuclear antibody (ANA) - to detect the presence of autoantibodies; most common test to be positive in children with JRA; about 80% of those with eye involvement will test positive for ANA.
+JUVENILE-RHEUMATOID-ARTHRITIS,11572-5,Rheumatoid factor (RF) - may be positive or negative depending on the type of juvenile arthritis a child has; more commonly found in adults with rheumatoid arthritis
+JUVENILE-RHEUMATOID-ARTHRITIS,30341-2,Erythrocyte sedimentation rate (ESR) - to detect inflammation in the body (or CRP)
+JUVENILE-RHEUMATOID-ARTHRITIS,1988-5,C-reactive protein (CRP) - to detect inflammation in the body (or ESR)
+JUVENILE-RHEUMATOID-ARTHRITIS,58410-2,"Complete blood count (CBC) - to evaluate a child's red and white blood cells and hemoglobin to help evaluate and monitor the condition and complications, such as anemia and/or a decreased white blood cell count"
+JUVENILE-RHEUMATOID-ARTHRITIS,TODO,Comprehensive metabolic panel (CMP) - to help evaluate and monitor a child's kidney and liver function
+JUVENILE-RHEUMATOID-ARTHRITIS,Non-laboratory test,"X-rays of the joints and chest - to identify the presence of joint inflammation or fluid build-up around the heart or lungs and to rule out other conditions, such as fractures, tumors, infection, or congenital defects"
+JUVENILE-RHEUMATOID-ARTHRITIS,Non-laboratory test,Eye exam - to detect the development of eye inflammation
+JUVENILE-RHEUMATOID-ARTHRITIS,Non-laboratory test,EKG - to detect inflammation of the heart
+GOUT,79399-2,Synovial fluid analysis - used to detect the needle-like crystals derived from uric acid or other crystals that may be present; to look for signs of joint infection.
+GOUT,35004-1,TODO: needed?
+GOUT,14933-6,"Uric acid - to detect elevated levels in the blood; if a diagnosis of gout is made, uric acid testing may be performed regularly to monitor levels."
+GOUT,TODO,Basic metabolic panel (BMP) - this group of tests may be used to evaluate and monitor kidney function.
+GOUT,58410-2,Complete blood count (CBC) - to determine if there is an abnormal increase in the number of white blood cells (leukocytosis) and to help differentiate between septic arthritis and gout.
+GOUT,Non-laboratory test,X-rays of the affected joints may show uric acid deposits and damage indicative of gouty arthritis.
+SEPTIC-ARTHRITIS,79399-2,Synovial (joint) fluid analysis - to detect the presence of inflammatory cells or crystals that may indicate either an infectious or non-infectious cause (just as gout) for joint pain and symptoms
+SEPTIC-ARTHRITIS,35004-1,TODO: needed?
+SEPTIC-ARTHRITIS,TODO,"Culture of joint fluid - to detect the presence of bacteria, mycobacteria, or yeast in the joint in order to determine the antimicrobials to which they are susceptible and to evaluate the effectiveness of treatment"
+SEPTIC-ARTHRITIS,TODO,Blood culture - to determine if a microbe is present in the blood
+SEPTIC-ARTHRITIS,58410-2,Complete blood count (CBC) - to determine the presence and number of red and white blood cells that would indicate reaction to an infection to help evaluate and monitor the condition
+SEPTIC-ARTHRITIS,30341-2,Erythrocyte sedimentation rate (ESR) - to detect inflammation; useful in following response to therapy (or CRP)
+SEPTIC-ARTHRITIS,1988-5,C-reactive protein (CRP) - to detect inflammation; useful in following response to therapy (or ESR)
+SEPTIC-ARTHRITIS,Non-laboratory test,X-ray of joint(s) - to help evaluate joint damage; may not show abnormalities until significant damage exists
+ANKYLOSING-SPONDYLITIS,1988-5,C-reactive protein (CRP) - increased if inflammation
+ANKYLOSING-SPONDYLITIS,30341-2,Erythrocyte sedimentation rate (ESR) - increased for inflammation
+ANKYLOSING-SPONDYLITIS,58410-2,"Complete blood count (CBC) - to check for anemia (a low red blood cell count), which is a complication of the chronic inflammation associated with ankylosing spondylitis, and to check for increased numbers of white blood cells, which is a marker of inflammation"
+ANKYLOSING-SPONDYLITIS,4821-5,"HLA-B27 antigen test - to determine if someone has this human leukocyte antigen attached to their cells, which correlates with an increased risk of developing ankylosing spondylitis. The test does not diagnose ankylosing spondylitis, but these results, along with other test results and evaluation of physical signs and symptoms help support or rule out a diagnosis of ankylosing spondylitis."
+ANKYLOSING-SPONDYLITIS,Non-laboratory test,"X-rays or other imaging tests - to look for changes in the spine and hips, although it may take several years before characteristic degenerative changes are visible"
+REACTIVE-ARTHRITIS,4821-5,"HLA-B27 antigen - to look for a specific protein that is found on cell surfaces; being positive for this protein suggests a greater than average risk for developing certain autoimmune disorders, including reactive arthritis."
+REACTIVE-ARTHRITIS,30341-2,Erythrocyte sedimentation rate (ESR) - to check for inflammation; increased with reactive arthritis as well as other diseases
+REACTIVE-ARTHRITIS,1988-5,C-reactive protein (CRP) - to check for inflammation; increased with reactive arthritis as well as other diseases
+REACTIVE-ARTHRITIS,79399-2,Synovial fluid analysis - to look for an infection in the joint (healthcare practitioners may also order tests to identify the infection that triggered the reaction)
+REACTIVE-ARTHRITIS,35004-1,TODO: needed?
+REACTIVE-ARTHRITIS,21613-5,"Chlamydia test - to look for evidence of infection by the bacterium Chlamydia trachomatis; if this is positive, early treatment can reduce arthritis progression (healthcare practitioners may also order tests to identify the infection that triggered the reaction)"
+REACTIVE-ARTHRITIS,TODO,"Stool culture - to look for Salmonella, Shigella, Campylobacter, E. coli, Yersinia (healthcare practitioners may also order tests to identify the infection that triggered the reaction)"
+REACTIVE-ARTHRITIS,TODO,Urinalysis and urine culture--to detect a urinary tract infection (healthcare practitioners may also order tests to identify the infection that triggered the reaction)

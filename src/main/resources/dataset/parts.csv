@@ -1,0 +1,51 @@
+LOINC #,Long Common Name,Short Name,CLASS,Example UCUM ,Comment,MALE OK MIN,MALE OK MAX,MALE MIN,MALE MAX,FEMALE OK MIN,FEMALE OK MAX,FEMALE MIN,FEMALE MAX
+14749-6,Glucose [Moles/volume] in Serum or Plasma,Glucose SerPl-mCnc,Chem,mmol/L,,3.9,5.5,3.1,6.3,3.9,5.5,3.1,6.3
+2000-8,Calcium [Moles/volume] in Serum or Plasma,Calcium SerPl-mCnc,Chem,mmol/L,,8.3,10.6,7.15,11.75,8.3,10.6,7.15,11.75
+2862-1,Albumin [Mass/volume] in Serum or Plasma by Electrophoresis,Albumin SerPl Elph-mCnc,Chem,g/dL,,3.4,5.4,2.4,6.4,3.4,5.4,2.4,6.4
+2885-2,Protein [Mass/volume] in Serum or Plasma,Prot SerPl-mCnc,Chem,g/dL,,6,8.3,4.85,9.45,6,8.3,4.85,9.45
+12851-2,Protein Fractions [interpretation] in Serum or Plasma by Electrophoresis,Prot Pattern SerPl Elph-Imp,Chem,,,-1,-1,-1,-1,-1,-1,-1,-1
+2951-2,Sodium [Moles/volume] in Serum or Plasma,Sodium SerPl-sCnc,Chem,mmol/L,,135,145,130,150,135,145,130,150
+2823-3,Potassium [Moles/volume] in Serum or Plasma,Potassium SerPl-sCnc,Chem,mmol/L,,3.6,5.2,2.8,6,3.6,5.2,2.8,6
+1959-6,Bicarbonate [Moles/volume] in Blood,HCO3 Bld-sCnc,Chem,mmol/L,,23,29,20,32,23,29,20,32
+2075-0,Chloride [Moles/volume] in Serum or Plasma,Chloride SerPl-sCnc,Chem,mmol/L,,98,106,94,110,98,106,94,110
+6299-2,Urea nitrogen [Mass/volume] in Blood,BUN Bld-mCnc,Chem,mg/dL,(Usually called BUN) - This would be the POC instrument,7,20,0.5,26.5,7,20,0.5,26.5
+14682-9,Creatinine [Moles/volume] in Serum or Plasma,Creat SerPl-mCnc,Chem,umol/L,,60,110,35,135,45,90,22.5,112.5
+6768-6,Alkaline phosphatase [Enzymatic activity/volume] in Serum or Plasma,ALP SerPl-cCnc,Chem,U/L,,44,147,0,198.5,44,147,0,198.5
+1742-6,Alanine aminotransferase [Enzymatic activity/volume] in Serum or Plasma,ALT SerPl-cCnc,Chem,U/L,,7,55,0,79,7,55,0,79
+1920-8,Aspartate aminotransferase [Enzymatic activity/volume] in Serum or Plasma,AST SerPl-cCnc,Chem,U/L,,8,48,0,68,8,48,0,68
+14933-6,Urate [Moles/volume] in Serum or Plasma,Urate SerPl-mCnc,Chem,umol/L,,0,360,0,540,0,360,0,540
+14631-6,Bilirubin.total [Moles/volume] in Serum or Plasma,Bilirub SerPl-mCnc,Chem,umol/L,Total bilirubin = direct + indirect. ,1.71,20.5,0,29.895,1.71,20.5,0,29.895
+718-7,Hemoglobin [Mass/volume] in Blood,Hgb Bld-mCnc,HEM/BC,g/dL,This is the  the code included in the CBC auto.  It is NOT obtained via the automated counting but uses a chemistry method just like most other hemoglobins,13,17,11,19,12,15,10.5,16.5
+4544-3,Hematocrit [Volume Fraction] of Blood by Automated count,Hct VFr Bld Auto,HEM/BC,%,Most Hematocrits delivered by referral and hospital laboratories will be produced by automated count- and will be delivered with this code,40,52,34,58,36,47,30.5,52.5
+777-3,Platelets [#/volume] in Blood by Automated count,Platelet # Bld Auto,HEM/BC,10*3/uL,99% of all blood count will be automated so this is usually the right choice,150,400,25,525,150,400,25,525
+30341-2,Erythrocyte sedimentation rate,ESR Bld Qn,HEM/BC,mm/h,,0,22,0,33,0,29,0,43.5
+1988-5,C reactive protein [Mass/volume] in Serum or Plasma,CRP SerPl-mCnc,Chem,mg/dL,Low sensitivity CRP is used to assess severity of inflammatory diseases such as rheumatoid arthritis.,0.08,3.1,0,4.61,0.08,3.1,0,4.61
+35365-6,Vitamin D+Metabolites [Mass/volume] in Serum or Plasma,Vit D+metab SerPl-mCnc,Chem,ng/mL,,20,50,5,65,20,50,5,65
+14921-1,Thyroxine (T4) [Moles/volume] in Serum or Plasma,T4 SerPl-mCnc,Chem,nmol/L,,5,12,1.5,15.5,5,12,1.5,15.5
+3016-3,Thyrotropin [Units/volume] in Serum or Plasma,TSH SerPl-aCnc,Chem,m[IU]/L,,0.5,5,0,7.25,0.5,5,0,7.25
+14866-8,Parathyrin.intact [Moles/volume] in Serum or Plasma,PTH-Intact SerPl-sCnc,Chem,pmol/L,Note there is also a biologically intact PTH which identifies more of the polypeptide. The intact and biologically intact PTH are important for confirming removal of parathyroid tumor. Note other more specific LOINC  codes exist that define value of PTH post surgery,14,65,0,90.5,14,65,0,90.5
+15067-2,Follitropin [Units/volume] in Serum or Plasma,FSH SerPl-aCnc,Chem,[IU]/L,,0,134,0,201,0,134,0,201
+14913-8,Testosterone [Moles/volume] in Serum or Plasma,Testost SerPl-mCnc,Chem,nmol/L,,270,1070,0,1470,270,1070,0,1470
+11572-5,Rheumatoid factor [Units/volume] in Serum,Rheumatoid fact Ser-aCnc,SERO,[IU]/mL,,0,14,0,21,0,14,0,21
+33935-8,Cyclic citrullinated peptide IgG Ab [Units/volume] in Serum,cCP IgG Ser-aCnc,SERO,,,-1,-1,-1,-1,-1,-1,-1,-1
+35004-1,Polymorphonuclear cells [#/volume] in Synovial fluid,Polys # Snv,HEM/BC,10*3/uL,,-1,-1,-1,-1,-1,-1,-1,-1
+27200-5,Nuclear Ab [Units/volume] in Serum,ANA Ser-aCnc,SERO,[IU]/L,,0,80,0,120,0,80,0,120
+4821-5,HLA-B27 [Presence],HLA-B27 Ql,HLA,,,-1,-1,-1,-1,-1,-1,-1,-1
+21613-5,Chlamydia trachomatis DNA [Presence] in Unspecified specimen by Probe & target amplification method,C trach DNA XXX Ql PCR,MICRO,,,-1,-1,-1,-1,-1,-1,-1,-1
+6690-2,Leukocytes[#/volume] in Blood by Automated count ,WBC # Bld Auto,HEM/BC,10*3/uL,,5,10,2.5,12.5,5,10,2.5,12.5
+789-8,Erythrocytes [#/volume] in Blood by Automated count,RBC # Bld Auto,HEM/BC,10*6/uL,,4.7,6.1,4,6.8,4.2,5.4,3.6,6
+787-2,Erythrocyte mean corpuscular volume [Entitic volume] by Automated count,MCV RBC Auto,HEM/BC,fL,99% of these values will be done by automated method.,80,96,72,104,80,96,72,104
+785-6,Erythrocyte mean corpuscular hemoglobin [Entitic mass] by Automated count,MCH RBC Qn Auto,HEM/BC,pg,,27.5,33.2,24.65,36.05,27.5,33.2,24.65,36.05
+786-4,Erythrocyte mean corpuscular hemoglobin concentration [Mass/volume] by Automated count,MCHC RBC Auto-mCnc,HEM/BC,g/dL,,33,36,31.5,37.5,33,36,31.5,37.5
+21000-5,Erythrocyte distribution width [Entitic volume] by Automated count,RDW RBC Auto,HEM/BC,fL,"This is the version of RDW reported in volume units, Do not confuse with [LOINC: 788-0] reported as a %.  ",-1,-1,-1,-1,-1,-1,-1,-1
+788-0,Erythrocyte distribution width [Ratio] by Automated count,RDW RBC Auto-Rto,HEM/BC,%,This it the version of the RDW reported with units of %. Do not confuse with the term that reports the same test name with units of fL [LOINC: 21000-5].,-1,-1,-1,-1,-1,-1,-1,-1
+32207-3,Platelet distribution width [Entitic volume] in Blood by Automated count,PDW Bld Auto,HEM/BC,,,-1,-1,-1,-1,-1,-1,-1,-1
+32623-1,Platelet mean volume [Entitic volume] in Blood by Automated count,PMV Bld Auto,HEM/BC,fL,,9.4,12.3,7.95,13.75,9.4,12.3,7.95,13.75
+29605-3,Appearance of Synovial fluid,Appearance Snv,SPEC,,,-1,-1,-1,-1,-1,-1,-1,-1
+5781-0,Crystals [type] in Synovial fluid by Light microscopy,Crystals Snv Micro,HEM/BC,,,-1,-1,-1,-1,-1,-1,-1,-1
+26458-0,Erythrocytes [#/volume] in Synovial fluid,RBC # Snv,HEM/BC,{#}/uL,,-1,-1,-1,-1,-1,-1,-1,-1
+14750-4,Glucose [Moles/volume] in Synovial fluid,Glucose Snv-sCnc,CHEM,mmol/L,,-1,-1,-1,-1,-1,-1,-1,-1
+724-5,Hemoglobin [Mass/volume] in Synovial fluid,Hgb Snv-mCnc,HEM/BC,g/dL,,-1,-1,-1,-1,-1,-1,-1,-1
+26469-7,Leukocytes [#/volume] in Synovial fluid,WBC # Snv,HEM/BC,10*3/uL,,-1,-1,-1,-1,-1,-1,-1,-1
+2886-0,Protein [Mass/volume] in Synovial fluid,Prot Snv-mCnc,CHEM,g/L,,-1,-1,-1,-1,-1,-1,-1,-1
+39788-5,Urate [Moles/volume] in Synovial fluid,Urate Snv-sCnc,CHEM,umol/L,,-1,-1,-1,-1,-1,-1,-1,-1
