@@ -10,7 +10,9 @@
     "webpack-cli": "^4.7.0"
   },
   "dependencies": {
+    "bootstrap": "^5.0.1",
     "d3": "^6.7.0",
+    "d3-collection": "^1.0.7",
     "gridstack": "^4.2.3",
     "jquery": "^3.6.0",
     "jquery-ui": "^1.12.1",
