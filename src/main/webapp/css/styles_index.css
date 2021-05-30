@@ -134,7 +134,17 @@ tbody, td, tfoot, th, thead, tr {
     font-size: 16px;
 }
 
-
+.line-path{
+    fill: none;
+    stroke-width: 2px;
+}
+.multiselect-container {
+    max-height: 200px;
+    overflow: auto;
+}
+.text-legend {
+    font-size: 10px;
+}
 @media all and (max-width: 970px) {
 
     .table-responsive {
@@ -151,4 +161,95 @@ tbody, td, tfoot, th, thead, tr {
     #patientName {
         font-size: 5vw;
     }
+}
+
+#div-content {
+    display: flex;
+    flex-direction: row;
+}
+.react-grid-layout {
+    margin-left: 0;
+    margin-right: 3%;
+    position: relative;
+    transition: height 200ms ease;
+}
+#body-row {
+    margin-left:0;
+    margin-right:0;
+    position: relative;
+    left: 0;
+    top: 0;
+    right: auto;
+    border-style: solid;
+    border-width: 0px 1px 0px 0px;
+    border-color: rgba(0,0,0,0.3);
+}
+#sidebar-container {
+    min-height: 100vh;
+    background-color: white;
+    padding: 0;
+}
+#submenu1 .layouts-div {
+    border-radius: 0px;
+}
+/* Sidebar sizes when expanded and expanded */
+.sidebar-expanded {
+    width: 230px;
+}
+.sidebar-collapsed {
+    width: 60px;
+}
+
+/* Menu item*/
+#sidebar-container .list-group a {
+
+    height: 50px;
+    color: black;
+}
+
+/* Submenu item*/
+#sidebar-container .list-group .sidebar-submenu a {
+    height: 70px;
+    text-align: center;
+    padding-left: 30px;
+}
+.sidebar-submenu {
+    font-size: 0.9rem;
+}
+
+/* Separators */
+.sidebar-separator-title {
+    border-radius: 0px;
+    background-color: #176a8a;
+    height: 35px;
+}
+.sidebar-separator {
+    border-radius: 0px;
+    background-color: #176a8a;
+    height: 25px;
+}
+.logo-separator {
+    background-color: #176a8a;
+    height: 60px;
+}
+#menu {
+    border-radius: 0px;
+}
+
+/* Closed submenu icon */
+#sidebar-container .list-group .list-group-item[aria-expanded="false"] .submenu-icon::after {
+    content: " \f0d7";
+    font-family: FontAwesome;
+    display: inline;
+    text-align: right;
+    padding-left: 10px;
+    border-raius: 0px;
+}
+/* Opened submenu icon */
+#sidebar-container .list-group .list-group-item[aria-expanded="true"] .submenu-icon::after {
+    content: " \f0da";
+    font-family: FontAwesome;
+    display: inline;
+    text-align: right;
+    padding-left: 10px;
 }
