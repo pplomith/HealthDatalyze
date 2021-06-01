@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Responsive, WidthProvider } from 'react-grid-layout';
+import Collapsible from "react-collapsible";
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 //class that crates a dashboard
@@ -85,14 +86,6 @@ export class MyFirstGrid extends React.Component {
         this.setState({ layouts });
     }
 
-    saveLayout(value) {
-        saveToDB("layouts", this.state.layouts, value);
-    }
-
-    getLayout() {
-        getFromDB("layouts", '1');
-    }
-
     saveLayout() {
 
         var name = $('#newName').val();
@@ -105,7 +98,8 @@ export class MyFirstGrid extends React.Component {
 
     componentDidMount() {
         var obj = JSON.parse(allLayouts)
-        $('#layouts-list').attr("aria-expanded","true");
+        $('#layouts-list').attr("aria-expanded","false");
+        $('#layouts-list').addClass("collapsed");
         for (var i = 1; i < Object.keys(obj).length; i++){
             createDiv_SaveLayout(this.setState.bind(this), obj[i].layoutName, obj[i].layoutId);
         }
@@ -113,7 +107,7 @@ export class MyFirstGrid extends React.Component {
 
     render() {
         return (
-            <div id={"div-content"}>
+            <div className="d-flex" id="wrapper">
                 {/*Modal*/}
                 <div className={"modal fade"} id={"modalLayout"} role={"dialog"}>
                     <div className={"modal-dialog"}>
@@ -125,7 +119,7 @@ export class MyFirstGrid extends React.Component {
                             </div>
                             <div className={"modal-body"}>
                                 <label>Insert name: </label>
-                                <input id={"newName"} type={"text"} ></input>
+                                <input id={"newName"} type={"text"} defaultValue={"New Layout"}></input>
                             </div>
                             <div className={"modal-footer"}>
                                 <button type={"button"} className={"btn btn-default"} id={"name-saved"}
@@ -138,56 +132,48 @@ export class MyFirstGrid extends React.Component {
                     </div>
                 </div>
 
-            <div className={"row"} id={"body-row"}>
 
-                <div id={"sidebar-container"} className={"sidebar-expanded d-none d-md-block"}>
-
-                    <ul className={"list-group"} id={"main-ul"}>
-
-                        <a href={"#top"} data-toggle={"sidebar-colapse"} id={"menu"}
-                           className={"list-group-item list-group-item-action d-flex align-items-center"}>
-                            <div className={"d-flex w-100 justify-content-start align-items-center"}>
-                                <span> <i className={"fas fa-bars mr-3"}></i> <span className={"menu-collapsed"}>Medical Data Viz</span> </span>
-                            </div>
-                        </a>
-
-                        <a id="layouts-list" href={".submenu1"} data-toggle={"collapse"} aria-expanded={"false"}
-                           className={"list-group-item list-group-item-action flex-column align-items-start"}>
-                            <div className={"d-flex w-100 justify-content-start align-items-center"}>
-                                <span className={"fa fa-dashboard fa-fw mr-3"}></span>
-                                <span className={"menu-collapsed"}>Layouts</span>
-                                <span className={"submenu-icon ml-auto"}></span>
-                            </div>
-                        </a>
-                        <div id={'submenu1'} className={"submenu1 collapse sidebar-submenu"}>
-                            <a href={"#"} className={"layouts-div list-group-item list-group-item-action text-black"}>
-                                <div>
-                                    <span className={"menu-collapsed"}>Add Layout</span>
-                                </div>
-                                <div>
-                                    <button className={"btn-primary"} id={"add-layout"} data-toggle={"modal"} data-target={"#modalLayout"} value={"1"}>
-                                        <i className="fas fa-plus"></i>
-                                    </button>
+                    <div className="border-end bg-white" id="sidebar-wrapper">
+                        <div className="sidebar-heading border-bottom bg-light">Medical Data Viz</div>
+                        <div className="list-group list-group-flush">
+                            <a id="layouts-list" href={".submenu1"} data-toggle={"collapse"} aria-expanded={"false"}
+                               className={"list-group-item list-group-item-action flex-column align-items-start collapsed"}>
+                                <div className={"d-flex w-100 justify-content-start align-items-center"}>
+                                    <span className={"fa fa-dashboard fa-fw mr-3"}></span>
+                                    <span className={"menu-collapsed"}>Layouts</span>
+                                    <span className={"submenu-icon ml-auto"}></span>
                                 </div>
                             </a>
-                        </div>
-                        <div id={'submenu1'} className={"submenu1 collapse sidebar-submenu"}>
-                            <a href={"#"} className={"layouts-div list-group-item list-group-item-action text-black"}>
-                                <div>
-                                    <span className={"menu-collapsed"}>Reset Layout</span>
+                            <div id={"layout-div"}>
+                                <div id={'submenu1'} className={"submenu1 sidebar-submenu collapse show"}>
+                                    <a href={"javascript:void(0);"} className={"layouts-div list-group-item list-group-item-action text-black"}>
+                                        <div>
+                                            <button className={"btn btn-primary"} id={"add-layout"} data-toggle={"modal"} data-target={"#modalLayout"} value={"1"}>
+                                                ADD
+                                            </button>
+                                            <button className={"btn btn-primary"} onClick={() => this.resetLayout()}>
+                                                RESET
+                                            </button>
+                                        </div>
+                                    </a>
                                 </div>
-                                <div>
-                                    <button className={"btn-primary"} onClick={() => this.resetLayout()}>
-                                        <i className={"fas fa-arrow-right"}></i>
-                                    </button>
-                                </div>
-                            </a>
+
+                            </div>
+
+
                         </div>
+                    </div>
+                    <div id="page-content-wrapper">
+                        <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                            <div className="container-fluid">
+                                <button  id="sidebarToggle" className="navbar-toggler"><span
+                                    className="navbar-toggler-icon"></span>
+                                </button>
+                            </div>
+                        </nav>
 
-                    </ul>
-                </div>
 
-            </div>
+
                 <ResponsiveGridLayout
                     className="layout"
                     cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}
@@ -203,27 +189,31 @@ export class MyFirstGrid extends React.Component {
                     </div>
 
 
-                    <div key="tablePatient" className={"table_patient"} data-grid={{x: 0, y: 1, w: 5, h: 6, minW: 3, minH: 3}}>
-                        <div className={"table-responsive"}>
-                            <table id={"tableAllPatient"} className={"table table-hover nowrap"}
-                                   style={{width:100 + '%'}}>
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>ID</th>
-                                    <th>NAME</th>
-                                    <th>GENDER</th>
-                                    <th>DATE OF BIRTH</th>
-                                    <th>BLOOD TYPE</th>
-                                    <th>HEIGHT</th>
-                                </tr>
-                                </thead>
-                                <tbody id={"patientTableBody"}>
-                                </tbody>
-                            </table>
 
-                        </div>
-                    </div>
+
+
+                            <div key="tablePatient" className={"table_patient"} data-grid={{x: 0, y: 1, w: 5, h: 6, minW: 3, minH: 3}}>
+                                <div className={"table-responsive"} id={"allPatients"}>
+                                    <table id={"tableAllPatient"} className={"table table-hover nowrap"}
+                                           style={{width:100 + '%'}}>
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>ID</th>
+                                            <th>NAME</th>
+                                            <th>GENDER</th>
+                                            <th>DATE OF BIRTH</th>
+                                            <th>BLOOD TYPE</th>
+                                            <th>HEIGHT</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id={"patientTableBody"}>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
 
                     <div key="tabelVisitPatient" className={"table_visit_patient"} data-grid={{x: 0, y: 2, w: 5, h: 6, minW: 3, minH: 3}}>
                         <div className={"table-responsive"}>
@@ -279,9 +269,10 @@ export class MyFirstGrid extends React.Component {
                         </div>
                     </div>
 
-                    <div key="filter" className={"div_filter"} data-grid={{x: 5, y: 1, w: 5, h: 4, minW: 3, minH: 3}}>
-                        <div id={"titleFilter"}>FILTERS</div>
-
+                    <div key="filter" className={"div_filter"} data-grid={{x: 5, y: 1, w: 5, h: 1}}>
+                            <div key="filter" className={"div_filter"} data-grid={{x: 5, y: 1, w: 5, h: 4, minW: 3, minH: 3}}>
+                                <div id={"titleFilter"}>FILTERS</div>
+                                </div>
                     </div>
                     <div key="graph" className={"div_graph"} id={"containerSvg"} data-grid={{x: 5, y: 2, w: 5, h: 11, minW: 3, minH: 5}}>
                         <div id={"titleGraph"}><select id={"selectValue"} multiple={'multiple'} name={'measurement[]'}>
@@ -290,7 +281,8 @@ export class MyFirstGrid extends React.Component {
                         </svg>
                     </div>
                 </ResponsiveGridLayout>
-            </div>
+                </div>
+          </div>
         )
     }
 }
@@ -403,7 +395,7 @@ function createDiv_SaveLayout(setState, name, idButton) {
     newLayout.id = "submenu"+idButton;
     //second <a>
     var newA = document.createElement("a");
-    newA.href = "#";
+    newA.href = "javascript:void(0);";
     newA.classList.add('layouts-div', 'list-group-item', 'list-group-item-action', 'text-black');
     //<div> child <a>
     var divChildA = document.createElement("div");
@@ -422,7 +414,8 @@ function createDiv_SaveLayout(setState, name, idButton) {
     var buttonDelete = document.createElement("button");
     buttonDelete.innerHTML = "<i class='fas fa-minus'></i>";
     buttonDelete.value=idButton;
-    buttonDelete.classList.add('btn-primary');
+    buttonDelete.classList.add('btn-primary', 'btn');
+    buttonDelete.id = "btnDelete"
     buttonDelete.addEventListener('click', function () {
         deleteLayout(this.value);
     });
@@ -430,7 +423,7 @@ function createDiv_SaveLayout(setState, name, idButton) {
     var buttonApply = document.createElement("button");
     buttonApply.innerHTML = "<i class='fas fa-arrow-right'></i>";
     buttonApply.value=idButton;
-    buttonApply.classList.add('btn-primary');
+    buttonApply.classList.add('btn-primary', 'btn');
     buttonApply.id = "layoutBtn"+idButton;
     //set state on click button
     buttonApply.addEventListener('click', function() {
@@ -445,7 +438,7 @@ function createDiv_SaveLayout(setState, name, idButton) {
 
     newLayout.appendChild(newA);
     //append new layout to list
-    var mainUl = document.getElementById("main-ul");
+    var mainUl = document.getElementById("layout-div");
     mainUl.appendChild(newLayout);
 }
 
