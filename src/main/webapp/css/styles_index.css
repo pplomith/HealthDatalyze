@@ -130,10 +130,12 @@ tbody, td, tfoot, th, thead, tr {
 #titleNote, #titleGraph, #titleFilter {
     width: 100%;
     margin-top: 5px;
-    text-align: center;
     font-size: 16px;
 }
-
+span.multiselect-native-select {
+    margin-left: 10px;
+    font-size: 10px;
+}
 .line-path{
     fill: none;
     stroke-width: 2px;
@@ -142,6 +144,7 @@ tbody, td, tfoot, th, thead, tr {
     max-height: 200px;
     overflow: auto;
 }
+
 .text-legend {
     font-size: 10px;
 }
@@ -151,7 +154,52 @@ tbody, td, tfoot, th, thead, tr {
         width: 99%;
     }
 }
+#page-content-wrapper {
+    width: 100%;
+}
 
+#sidebar-wrapper {
+    min-height: 100vh;
+    margin-left: -15rem;
+    transition: margin 0.25s ease-out;
+}
+
+#sidebar-wrapper .sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.2rem;
+}
+
+#sidebar-wrapper .list-group {
+    width: 15rem;
+}
+
+#page-content-wrapper {
+    min-width: 100vw;
+}
+
+body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
+    margin-left: 0;
+}
+
+@media (min-width: 768px) {
+    #sidebar-wrapper {
+        margin-left: 0;
+    }
+
+    #page-content-wrapper {
+        min-width: 0;
+        width: 100%;
+    }
+
+    body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
+        margin-left: -15rem;
+    }
+}
+@media (min-width: 992px) {
+    .navbar-expand-lg .navbar-toggler {
+        display: block !important;
+    }
+}
 @media all and (max-width: 550px) {
 
     .table-responsive {
@@ -162,7 +210,11 @@ tbody, td, tfoot, th, thead, tr {
         font-size: 5vw;
     }
 }
-
+@media all and (max-width: 1000px) {
+    #div-content {
+        flex-direction: column;
+    }
+}
 #div-content {
     display: flex;
     flex-direction: row;
@@ -173,41 +225,23 @@ tbody, td, tfoot, th, thead, tr {
     position: relative;
     transition: height 200ms ease;
 }
-#body-row {
-    margin-left:0;
-    margin-right:0;
-    position: relative;
-    left: 0;
-    top: 0;
-    right: auto;
-    border-style: solid;
-    border-width: 0px 1px 0px 0px;
-    border-color: rgba(0,0,0,0.3);
-}
-#sidebar-container {
-    min-height: 100vh;
-    background-color: white;
-    padding: 0;
-}
+
 #submenu1 .layouts-div {
     border-radius: 0px;
 }
-/* Sidebar sizes when expanded and expanded */
-.sidebar-expanded {
-    width: 230px;
-}
-.sidebar-collapsed {
-    width: 60px;
-}
 
-/* Menu item*/
 #sidebar-container .list-group a {
 
     height: 50px;
     color: black;
 }
+#layout-div {
+    overflow: auto;
+    max-height: 300px;
+    border-style: solid;
+    border-width: 0 0 1px 0;
+}
 
-/* Submenu item*/
 #sidebar-container .list-group .sidebar-submenu a {
     height: 70px;
     text-align: center;
@@ -217,7 +251,6 @@ tbody, td, tfoot, th, thead, tr {
     font-size: 0.9rem;
 }
 
-/* Separators */
 .sidebar-separator-title {
     border-radius: 0px;
     background-color: #176a8a;
@@ -252,4 +285,40 @@ tbody, td, tfoot, th, thead, tr {
     display: inline;
     text-align: right;
     padding-left: 10px;
+}
+
+div.submenu1 button {
+    text-align: center;
+    font-size: 10px;
+    margin: 3px;
+    outline: none;
+    border: none;
+}
+
+a.layouts-div.list-group-item {
+    display: flex;
+    flex-direction: column;
+}
+
+#btnDelete {
+    background-color: #c81b1b;
+}
+
+#newName {
+    margin-left: 10px;
+}
+
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+    border-radius: 0.25rem;
+    background: rgba(0,0,0,0.2);
+}
+
+*::-webkit-scrollbar-track {
+    border-radius: 0.25rem;
+    background: rgba(0,0,0,0.1);
 }
