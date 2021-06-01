@@ -9,36 +9,19 @@ const gridProps = window.gridProps || {};
 ReactDOM.render(React.createElement(MyFirstGrid, gridProps), contentDiv);
 
 $('#searchPatient').keyup(searchPatient);
+window.addEventListener('DOMContentLoaded', event => {
 
-// Hide submenus
-$('#body-row .collapse').collapse('hide');
-
-// Collapse/Expand icon
-$('#collapse-icon').addClass('fa-angle-double-left');
-
-// Collapse click
-$('[data-toggle=sidebar-colapse]').click(function() {
-    sidebarCollapse();
-});
-
-function sidebarCollapse() {
-    $('.menu-collapsed').toggleClass('d-none');
-    $('.sidebar-submenu').toggleClass('d-none');
-    $('.submenu-icon').toggleClass('d-none');
-    $('#sidebar-container').toggleClass('sidebar-expanded sidebar-collapsed');
-
-    // Treating d-flex/d-none on separators with title
-    var SeparatorTitle = $('.sidebar-separator-title');
-    if ( SeparatorTitle.hasClass('d-flex') ) {
-        SeparatorTitle.removeClass('d-flex');
-    } else {
-        SeparatorTitle.addClass('d-flex');
+    // Toggle the side navigation
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', event => {
+            event.preventDefault();
+            document.body.classList.toggle('sb-sidenav-toggled');
+            localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+        });
     }
 
-    // Collapse/Expand icon
-    $('#collapse-icon').toggleClass('fa-angle-double-left fa-angle-double-right');
-}
-
+});
 
 // //create multiselection
 $(document).ready(function () {
@@ -78,31 +61,7 @@ $(document).ready(function () {
     });
 });
 
-
 var patientSelected = null;
-
-
-// const dataPrint = (data) => {
-//     data.forEach(d => {
-//         d.Value = +d.Value;
-//         d.Date = new Date(d.Date);
-//     });
-//     console.log(data);
-// }
-//
-//
-//
-// function getJson() {
-//     $.ajax({
-//         type: 'POST',
-//         url: 'GetData',
-//         dataType: 'json',
-//         success: function (response) {
-//             dataPrint(response);
-//         }
-//
-//     });
-// }
 
 //get all patients ajax function
 $(document).ready(function () {
