@@ -192,7 +192,7 @@ export class MyFirstGrid extends React.Component {
 
 
 
-                            <div key="tablePatient" className={"table_patient"} data-grid={{x: 0, y: 1, w: 5, h: 6, minW: 3, minH: 3}}>
+                            <div id={"patients"} key="tablePatient" className={"table_patient"} data-grid={{x: 0, y: 1, w: 5, h: 6, minW: 3, minH: 3}}>
                                 <div className={"table-responsive"} id={"allPatients"}>
                                     <table id={"tableAllPatient"} className={"table table-hover nowrap"}
                                            style={{width:100 + '%'}}>
@@ -271,7 +271,7 @@ export class MyFirstGrid extends React.Component {
 
                     <div key="filter" className={"div_filter"} data-grid={{x: 5, y: 1, w: 5, h: 1}}>
                             <div key="filter" className={"div_filter"} data-grid={{x: 5, y: 1, w: 5, h: 4, minW: 3, minH: 3}}>
-                                <div id={"titleFilter"}>FILTERS</div>
+                                <div id={"titleFilter"}></div>
                                 </div>
                     </div>
                     <div key="graph" className={"div_graph"} id={"containerSvg"} data-grid={{x: 5, y: 2, w: 5, h: 11, minW: 3, minH: 5}}>
