@@ -14,7 +14,7 @@ public class PatientDAO {
 
         try (Connection con = ConPool.getConnection()) {
 
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM meddata.patient");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM patient");
 
             JSONArray arrayObject = new JSONArray();
             ResultSet rs = ps.executeQuery();
@@ -40,7 +40,7 @@ public class PatientDAO {
     public JSONArray getPatientAndVD(String id) {
 
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM meddata.patient as p WHERE p.PatientId = ?");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM patient as p WHERE p.PatientId = ?");
 
             ps.setString(1,id);
             JSONArray arrayObject = new JSONArray();
@@ -57,7 +57,7 @@ public class PatientDAO {
             }
 
             ps = con.prepareStatement("SELECT vd.Date, part.Short_Name, vd.Value, vd.Comment " +
-                    "FROM meddata.patient as p, meddata.visitdata as vd, meddata.part as part"
+                    "FROM patient as p, visitdata as vd, part as part"
                     + " WHERE p.PatientId = ? AND vd.Part = part.LOINC AND p.PatientId = vd.Patient");
 
             ps.setString(1,id);

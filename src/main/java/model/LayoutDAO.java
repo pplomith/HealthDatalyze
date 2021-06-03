@@ -15,11 +15,11 @@ public class LayoutDAO {
 
         try (Connection con = ConPool.getConnection()) {
 
-            PreparedStatement ps = con.prepareStatement("DELETE FROM meddata.layoutconfig WHERE layoutid = ?");
+            PreparedStatement ps = con.prepareStatement("DELETE FROM layoutconfig WHERE layoutid = ?");
             ps.setString(1, id);
             int rs = ps.executeUpdate();
 
-             ps = con.prepareStatement("INSERT INTO meddata.layoutconfig(LayoutId, LayoutName, layouts) values (?, ?, ?)");
+             ps = con.prepareStatement("INSERT INTO layoutconfig(LayoutId, LayoutName, layouts) values (?, ?, ?)");
 
              ps.setString(1, id);
              ps.setString(2, lName);
@@ -37,7 +37,7 @@ public class LayoutDAO {
         String result = null;
         try (Connection con = ConPool.getConnection()) {
 
-            PreparedStatement ps = con.prepareStatement("SELECT layouts FROM meddata.layoutconfig WHERE layoutId = ?");
+            PreparedStatement ps = con.prepareStatement("SELECT layouts FROM layoutconfig WHERE layoutId = ?");
             ps.setString(1, lId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -52,8 +52,8 @@ public class LayoutDAO {
     public int getId() {
         try (Connection con = ConPool.getConnection()) {
             int id = -1;
-            PreparedStatement ps = con.prepareStatement("SELECT layoutid FROM (SELECT '1' AS layoutid) q1 WHERE NOT EXISTS (SELECT '1' FROM meddata.layoutconfig WHERE layoutid = '1')" +
-                    "UNION ALL SELECT * FROM (SELECT  layoutid + '1' FROM meddata.layoutconfig t WHERE NOT EXISTS (SELECT '1' FROM meddata.layoutconfig ti WHERE ti.layoutid = t.layoutid + '1' ) ORDER BY layoutid LIMIT 1) q2 ORDER BY layoutid LIMIT 1");
+            PreparedStatement ps = con.prepareStatement("SELECT layoutid FROM (SELECT '1' AS layoutid) q1 WHERE NOT EXISTS (SELECT '1' FROM layoutconfig WHERE layoutid = '1')" +
+                    "UNION ALL SELECT * FROM (SELECT  layoutid + '1' FROM layoutconfig t WHERE NOT EXISTS (SELECT '1' FROM layoutconfig ti WHERE ti.layoutid = t.layoutid + '1' ) ORDER BY layoutid LIMIT 1) q2 ORDER BY layoutid LIMIT 1");
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -69,7 +69,7 @@ public class LayoutDAO {
 
         try (Connection con = ConPool.getConnection()) {
 
-            PreparedStatement ps = con.prepareStatement("DELETE FROM meddata.layoutconfig WHERE layoutid = ?");
+            PreparedStatement ps = con.prepareStatement("DELETE FROM layoutconfig WHERE layoutid = ?");
             ps.setString(1, id);
             int rs = ps.executeUpdate();
 
@@ -84,7 +84,7 @@ public class LayoutDAO {
 
         try (Connection con = ConPool.getConnection()) {
 
-            PreparedStatement ps = con.prepareStatement("SELECT layoutId, layoutName FROM meddata.layoutconfig");
+            PreparedStatement ps = con.prepareStatement("SELECT layoutId, layoutName FROM layoutconfig");
 
             JSONArray arrayObject = new JSONArray();
             ResultSet rs = ps.executeQuery();
