@@ -22,7 +22,10 @@
     "react-dom": "^17.0.2",
     "react-grid-layout": "^1.2.5",
     "topojson": "^3.0.2",
-    "topojson-client": "^3.0.0"
+    "topojson-client": "^3.0.0",
+    "vega": "^5.20.2",
+    "vega-embed": "^6.18.2",
+    "vega-lite": "^5.1.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

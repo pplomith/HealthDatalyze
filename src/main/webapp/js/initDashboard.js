@@ -270,8 +270,8 @@ export class MyFirstGrid extends React.Component {
                     </div>
 
                     <div key="filter" className={"div_filter"} data-grid={{x: 5, y: 1, w: 5, h: 1}}>
-                            <div key="filter" className={"div_filter"} data-grid={{x: 5, y: 1, w: 5, h: 4, minW: 3, minH: 3}}>
-                                <div id={"titleFilter"}>FILTERS</div>
+                            <div id={"vis"} style={{width: '100%', height: '100%'}}>
+
                                 </div>
                     </div>
                     <div key="graph" className={"div_graph"} id={"containerSvg"} data-grid={{x: 5, y: 2, w: 5, h: 11, minW: 3, minH: 5}}>

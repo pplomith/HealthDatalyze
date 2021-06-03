@@ -3,10 +3,12 @@ import React from "react";
 import { MyFirstGrid } from './initDashboard';
 import { searchPatient} from './searchScript';
 import { createChart, processData } from './createChart';
-
+import { heatmap } from './heatmap';
 const contentDiv = document.getElementById("root");
 const gridProps = window.gridProps || {};
 ReactDOM.render(React.createElement(MyFirstGrid, gridProps), contentDiv);
+
+heatmap();
 
 $('#searchPatient').keyup(searchPatient);
 window.addEventListener('DOMContentLoaded', event => {
