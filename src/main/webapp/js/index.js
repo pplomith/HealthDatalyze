@@ -1,3 +1,10 @@
+import {
+    searchMultiselect,
+    nonSelectedText,
+    textButtonShow
+} from './allStrings'
+
+var patientSelected = null;
 import ReactDOM from "react-dom";
 import React from "react";
 import { MyFirstGrid } from './initDashboard';
@@ -23,12 +30,13 @@ window.addEventListener('DOMContentLoaded', event => {
 
 });
 
-// //create multiselection
+//create multiselection
 $(document).ready(function () {
     $('#selectValue').multiselect({
         enableFiltering: true,
         enableCaseInsensitiveFiltering: true,
-        filterPlaceholder:'Search Here...',
+        filterPlaceholder: searchMultiselect,
+        nonSelectedText: nonSelectedText,
         onChange: function () {
             var selected = this.$select.val();
             processData(selected);
@@ -61,7 +69,7 @@ $(document).ready(function () {
     });
 });
 
-var patientSelected = null;
+
 
 //get all patients ajax function
 $(document).ready(function () {
@@ -123,7 +131,7 @@ function visitDatePatient(data) {
         var formatDate = dataVisit.getFullYear() + "-" + (dataVisit.getMonth() + 1) + "-" + dataVisit.getDate();
         table += "<tr><td>" + data[0].ID + "</td>"
             + "<td>" + formatDate + "</td>"
-            + "<td><button type='button' class='btn btn-primary' value='"+data[1].Date+"'>Show</button></td>"
+            + "<td><button type='button' class='btn btn-primary' value='"+data[1].Date+"'>"+ textButtonShow +"</button></td>"
             + "</tr>"
         var precedentData = dataVisit;
         for (var i = 2; i < data.length; i++) {
@@ -132,7 +140,7 @@ function visitDatePatient(data) {
                 var formatDate = dataVisit.getFullYear() + "-" + (dataVisit.getMonth() + 1) + "-" + dataVisit.getDate();
                 table += "<tr><td>" + data[0].ID + "</td>"
                     + "<td>" + formatDate + "</td>"
-                    + "<td><button type='button' class='btn btn-primary' value='"+data[i].Date+"'>Show</button></td>"
+                    + "<td><button type='button' class='btn btn-primary' value='"+data[i].Date+"'>"+ textButtonShow +"</button></td>"
                     + "</tr>"
             }
             precedentData = dataVisit;
@@ -155,13 +163,11 @@ function visitDatePatient(data) {
 //create options for select
 function fillSelect(data) {
     $('#selectValue').empty();
-    console.log(data);
     var options = [];
     for (var i = 1; i < data.length; i++) {
         if(!options.includes(data[i].Measurement))
             options.push(data[i].Measurement);
     }
-    console.log(options);
     var select = document.getElementById('selectValue');
     options.forEach(d => {
         var opt = document.createElement('option');

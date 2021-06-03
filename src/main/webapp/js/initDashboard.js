@@ -1,7 +1,32 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Responsive, WidthProvider } from 'react-grid-layout';
-import Collapsible from "react-collapsible";
+import {
+    textNewLayout,
+    textLayoutSaving,
+    textLabelModal,
+    textButtonSave,
+    textButtonClose,
+    textLayouts,
+    textButtonAdd,
+    textButtonReset,
+    textSearch,
+    namePTable,
+    genderPTable,
+    dateBirthPTable,
+    bloodPTable,
+    heightTable,
+    visitDateTable,
+    infoTable,
+    measTable,
+    valueTable,
+    noteTitle,
+    nullNote,
+    noPatientSel,
+    ageLab,
+    sexLab,
+    bloodLab
+} from './allStrings'
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 //class that crates a dashboard
@@ -92,7 +117,7 @@ export class MyFirstGrid extends React.Component {
         var idButton = getIdfromDB();
         saveToDB("layouts", this.state.layouts, idButton, name);
         createDiv_SaveLayout(this.setState.bind(this),name, idButton);
-        $('#newName').val("New Layout");
+        $('#newName').val(textNewLayout);
 
     }
 
@@ -115,17 +140,17 @@ export class MyFirstGrid extends React.Component {
                         <div className={"modal-content"}>
                             <div className={"modal-header"}>
                                 <button type={"button"} className={"close"} data-dismiss={"modal"}>&times;</button>
-                                <h4 className={"modal-title"}>Layout Saving</h4>
+                                <h4 className={"modal-title"}> {textLayoutSaving} </h4>
                             </div>
                             <div className={"modal-body"}>
-                                <label>Insert name: </label>
-                                <input id={"newName"} type={"text"} defaultValue={"New Layout"}></input>
+                                <label>{textLabelModal} </label>
+                                <input id={"newName"} type={"text"} defaultValue={textNewLayout}></input>
                             </div>
                             <div className={"modal-footer"}>
                                 <button type={"button"} className={"btn btn-default"} id={"name-saved"}
-                                        data-dismiss={"modal"} onClick={() => this.saveLayout()}>Save
+                                        data-dismiss={"modal"} onClick={() => this.saveLayout()}> {textButtonSave}
                                 </button>
-                                <button type={"button"} className={"btn btn-default"} data-dismiss={"modal"}>Close</button>
+                                <button type={"button"} className={"btn btn-default"} data-dismiss={"modal"}> {textButtonClose} </button>
                             </div>
                         </div>
 
@@ -140,7 +165,7 @@ export class MyFirstGrid extends React.Component {
                                className={"list-group-item list-group-item-action flex-column align-items-start collapsed"}>
                                 <div className={"d-flex w-100 justify-content-start align-items-center"}>
                                     <span className={"fa fa-dashboard fa-fw mr-3"}></span>
-                                    <span className={"menu-collapsed"}>Layouts</span>
+                                    <span className={"menu-collapsed"}> { textLayouts } </span>
                                     <span className={"submenu-icon ml-auto"}></span>
                                 </div>
                             </a>
@@ -149,10 +174,10 @@ export class MyFirstGrid extends React.Component {
                                     <a href={"javascript:void(0);"} className={"layouts-div list-group-item list-group-item-action text-black"}>
                                         <div>
                                             <button className={"btn btn-primary"} id={"add-layout"} data-toggle={"modal"} data-target={"#modalLayout"} value={"1"}>
-                                                ADD
+                                                {textButtonAdd}
                                             </button>
                                             <button className={"btn btn-primary"} onClick={() => this.resetLayout()}>
-                                                RESET
+                                                {textButtonReset}
                                             </button>
                                         </div>
                                     </a>
@@ -184,7 +209,7 @@ export class MyFirstGrid extends React.Component {
 
                     <div key="search" className={"searchDiv"} data-grid={{x: 0, y: 0, w: 5, h: 1, minW: 3, maxH: 1}}>
                         <span><i className={"fa fa-search"}></i></span>
-                        <input type="text" className={"search_patient"} id={"searchPatient"} placeholder={"Search..."}
+                        <input type="text" className={"search_patient"} id={"searchPatient"} placeholder={textSearch}
                         />
                     </div>
 
@@ -200,11 +225,11 @@ export class MyFirstGrid extends React.Component {
                                         <tr>
                                             <th>#</th>
                                             <th>ID</th>
-                                            <th>NAME</th>
-                                            <th>GENDER</th>
-                                            <th>DATE OF BIRTH</th>
-                                            <th>BLOOD TYPE</th>
-                                            <th>HEIGHT</th>
+                                            <th>{namePTable}</th>
+                                            <th>{genderPTable}</th>
+                                            <th>{dateBirthPTable}</th>
+                                            <th>{bloodPTable}</th>
+                                            <th>{heightTable}</th>
                                         </tr>
                                         </thead>
                                         <tbody id={"patientTableBody"}>
@@ -221,8 +246,8 @@ export class MyFirstGrid extends React.Component {
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>VISIT DATE</th>
-                                    <th>INFORMATION</th>
+                                    <th>{visitDateTable}</th>
+                                    <th>{infoTable}</th>
                                 </tr>
                                 </thead>
                                 <tbody id={"tableVisitDate"}>
@@ -237,8 +262,8 @@ export class MyFirstGrid extends React.Component {
                             <table className={"table table-hover nowrap"} style={{width:100+'%'}}>
                                 <thead>
                                 <tr>
-                                    <th>MEASUREMENT</th>
-                                    <th>VALUE</th>
+                                    <th>{measTable}</th>
+                                    <th>{valueTable}</th>
                                 </tr>
                                 </thead>
                                 <tbody id={"measurementTable"}>
@@ -248,22 +273,22 @@ export class MyFirstGrid extends React.Component {
                     </div>
 
                     <div key="noteVisit" className={"div_note_visit"} data-grid={{x: 3, y: 3, w: 2, h: 5, minW: 2, minH: 3}}>
-                        <div id={"titleNote"}>NOTE</div>
-                        <p id={"noteVisit"}>NO NOTE</p>
+                        <div id={"titleNote"}>{noteTitle}</div>
+                        <p id={"noteVisit"}>{nullNote}</p>
                     </div>
 
 
                     <div key="patientInfo" className={"personal_info"} data-grid={{x: 5, y: 0, w: 3, h: 3, minW: 3, minH: 3}}>
                         <div>
-                            <h3 id={"patientName"}> NO PATIENT SELECTED </h3>
+                            <h3 id={"patientName"}> {noPatientSel} </h3>
                         </div>
                         <div className={"informationTable"}>
                             <div className={"p-2 d-flex stats"}>
-                                <div className={"d-flex flex-column"}><span className={"titleSpan"}>AGE</span><span
+                                <div className={"d-flex flex-column"}><span className={"titleSpan"}>{ageLab}</span><span
                                     id={"ageSpan"}>-</span></div>
-                                <div className={"d-flex flex-column"}><span className={"titleSpan"}>SEX</span><span
+                                <div className={"d-flex flex-column"}><span className={"titleSpan"}>{sexLab}</span><span
                                     id={"sexSpan"}>-</span></div>
-                                <div className={"d-flex flex-column"}><span className={"titleSpan"}>BLOOD</span><span
+                                <div className={"d-flex flex-column"}><span className={"titleSpan"}>{bloodLab}</span><span
                                     id={"bloodSpan"}>-</span></div>
                             </div>
                         </div>
@@ -271,7 +296,7 @@ export class MyFirstGrid extends React.Component {
 
                     <div key="filter" className={"div_filter"} data-grid={{x: 5, y: 1, w: 5, h: 1}}>
                             <div key="filter" className={"div_filter"} data-grid={{x: 5, y: 1, w: 5, h: 4, minW: 3, minH: 3}}>
-                                <div id={"titleFilter"}>FILTERS</div>
+
                                 </div>
                     </div>
                     <div key="graph" className={"div_graph"} id={"containerSvg"} data-grid={{x: 5, y: 2, w: 5, h: 11, minW: 3, minH: 5}}>
