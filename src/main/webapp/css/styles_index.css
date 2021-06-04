@@ -3,7 +3,7 @@ body {
 
 }
 
-#svgId {
+#svg-main, #svg-hr, #svg-rr, #svg-sp, #svg-dp {
     width: 100%;
     height: 100%;
 }
