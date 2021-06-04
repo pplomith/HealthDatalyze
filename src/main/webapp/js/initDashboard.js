@@ -295,14 +295,27 @@ export class MyFirstGrid extends React.Component {
                     </div>
 
                     <div key="filter" className={"div_filter"} data-grid={{x: 5, y: 1, w: 5, h: 1}}>
-                            <div key="filter" className={"div_filter"} data-grid={{x: 5, y: 1, w: 5, h: 4, minW: 3, minH: 3}}>
-
-                                </div>
+                        <div style={{width: 100+'%', height: 25+'%'}}>
+                            <svg id={"svg-hr"} viewBox={"0 0 600 400"}>
+                            </svg>
+                        </div>
+                        <div style={{width: 100+'%', height: 25+'%'}}>
+                            <svg id={"svg-rr"} viewBox={"0 0 600 400"}>
+                            </svg>
+                        </div>
+                        <div style={{width: 100+'%', height: 25+'%'}}>
+                            <svg id={"svg-sp"} viewBox={"0 0 600 400"}>
+                            </svg>
+                        </div>
+                        <div style={{width: 100+'%', height: 25+'%'}}>
+                            <svg id={"svg-dp"} viewBox={"0 0 600 400"}>
+                            </svg>
+                        </div>
                     </div>
                     <div key="graph" className={"div_graph"} id={"containerSvg"} data-grid={{x: 5, y: 2, w: 5, h: 11, minW: 3, minH: 5}}>
                         <div id={"titleGraph"}><select id={"selectValue"} multiple={'multiple'} name={'measurement[]'}>
                         </select></div>
-                        <svg id={"svgId"} viewBox={"0 0 600 400"}>
+                        <svg id={"svg-main"} viewBox={"0 0 600 400"}>
                         </svg>
                     </div>
                 </ResponsiveGridLayout>
