@@ -20,7 +20,7 @@ export const createChart = (patientSelected) => {
 
     console.log(allData);
 
-    svg = select('svg');
+    svg = select('#svg-main');
     svg.selectAll('g').remove(); //clear chart
     lineChartG = svg.append('g');
 
@@ -43,12 +43,12 @@ export const processData = (measurementSelected) => {
 
 const render = () => {
 
-    svg = select('svg');
+    svg = select('#svg-main');
     svg.selectAll('g').remove(); //clear chart
     if (dataSelected.length > 0) {
     lineChartG = svg.append('g');
 
-        const svgElement = document.getElementById("svgId");
+        const svgElement = document.getElementById("svg-main");
         const width = svgElement.viewBox.baseVal.width;
         const height = svgElement.viewBox.baseVal.height;
 
