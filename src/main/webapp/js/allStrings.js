@@ -1,3 +1,5 @@
+import React from "react";
+
 export const searchMultiselect = 'Search Here...';
 export const nonSelectedText = 'Select a value';
 export const textButtonShow = 'Show';
@@ -25,4 +27,8 @@ export const noPatientSel = 'NO PATIENT SELECTED';
 export const ageLab = 'AGE';
 export const sexLab = 'SEX';
 export const bloodLab = 'BLOOD';
-
+export const tablePatientsText = 'PATIENTS';
+export const tableVisitText = 'PATIENT VISITS';
+export const visitInfoText = 'VISIT INFORMATION';
+export const vitalSignsText = 'VITAL SIGNS';
+export const graphTitleText = 'VALUES MEASURED';
