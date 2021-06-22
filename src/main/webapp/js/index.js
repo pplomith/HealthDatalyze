@@ -37,6 +37,7 @@ $(document).ready(function () {
         enableCaseInsensitiveFiltering: true,
         filterPlaceholder: searchMultiselect,
         nonSelectedText: nonSelectedText,
+        numberDisplayed: 1,
         onChange: function () {
             var selected = this.$select.val();
             processData(selected);
@@ -69,7 +70,22 @@ $(document).ready(function () {
     });
 });
 
-
+$("#switchChart").change(function () {
+   if ($(this).is(":checked")) {
+       $("#svg-main").css("display", "none");
+       $("#container-1").css("display", "block");
+       $("#container-2").css("display", "block");
+       $("#container-3").css("display", "block");
+       $("#container-4").css("display", "block");
+   }
+   else {
+       $("#svg-main").css("display", "block");
+       $("#container-1").css("display", "none");
+       $("#container-2").css("display", "none");
+       $("#container-3").css("display", "none");
+       $("#container-4").css("display", "none");
+   }
+});
 
 //get all patients ajax function
 $(document).ready(function () {
@@ -78,7 +94,7 @@ $(document).ready(function () {
         url: 'PatientData',
         dataType: 'json',
         success: function (response) {
-            fillPatientTable(response);
+            fillPatientTable(response.Patients);
         }
     });
 });
@@ -108,6 +124,7 @@ function fillPatientTable(data) {
             dataType: 'json',
             data: {"id" : this.id},
             success: function (response) {
+                console.log(response);
                 visitDatePatient(response);
             }
         });
@@ -115,35 +132,38 @@ function fillPatientTable(data) {
 }
 //fill visit date table function
 function visitDatePatient(data) {
+
     //the first item of data is patient selected
-    $("#patientName").html(data[0].Name);
-    $("#ageSpan").html(getAge(data[0].DateOfBirth));
-    $("#sexSpan").html(data[0].Gender[0].toUpperCase()+data[0].Gender.slice(1));
-    $("#bloodSpan").html(data[0].BloodType);
+    $("#patientName").html(data.Patient[0].Name);
+    $("#ageSpan").html(getAge(data.Patient[0].DateOfBirth));
+    $("#sexSpan").html(data.Patient[0].Gender[0].toUpperCase()+data.Patient[0].Gender.slice(1));
+    $("#bloodSpan").html(data.Patient[0].BloodType);
     $("#measurementTable").empty();
     $("#tableVisitDate").empty();
     $('#noteVisit').empty();
     $("#tableVisitDate").off("click","button");
     patientSelected = data; //patient selected
     var table = null;
-    if(data.length > 1) {
-        var dataVisit = new Date(data[1].Date);
+    if(data.DataPatient.length > 1) {
+        var stringDate = [];
+        var dataVisit = new Date(data.DataPatient[1].Date);
         var formatDate = dataVisit.getFullYear() + "-" + (dataVisit.getMonth() + 1) + "-" + dataVisit.getDate();
-        table += "<tr><td>" + data[0].ID + "</td>"
+        table += "<tr><td>" + data.Patient[0].ID + "</td>"
             + "<td>" + formatDate + "</td>"
-            + "<td><button type='button' class='btn btn-primary' value='"+data[1].Date+"'>"+ textButtonShow +"</button></td>"
-            + "</tr>"
-        var precedentData = dataVisit;
-        for (var i = 2; i < data.length; i++) {
-            dataVisit = new Date(data[i].Date);
-            if (dataVisit.getTime() != precedentData.getTime()) {
+            + "<td><button type='button' class='btn btn-primary' value='"+data.DataPatient[1].Date+"'>"+ textButtonShow +"</button></td>"
+            + "</tr>";
+
+        stringDate.push(dataVisit.toString());
+        for (var i = 2; i < data.DataPatient.length; i++) {
+            dataVisit = new Date(data.DataPatient[i].Date);
+            if (!stringDate.includes(dataVisit.toString())) {
                 var formatDate = dataVisit.getFullYear() + "-" + (dataVisit.getMonth() + 1) + "-" + dataVisit.getDate();
-                table += "<tr><td>" + data[0].ID + "</td>"
+                table += "<tr><td>" + data.Patient[0].ID + "</td>"
                     + "<td>" + formatDate + "</td>"
-                    + "<td><button type='button' class='btn btn-primary' value='"+data[i].Date+"'>"+ textButtonShow +"</button></td>"
+                    + "<td><button type='button' class='btn btn-primary' value='"+data.DataPatient[i].Date+"'>"+ textButtonShow +"</button></td>"
                     + "</tr>"
             }
-            precedentData = dataVisit;
+            stringDate.push(dataVisit.toString());
         }
 
         $("#tableVisitDate").html(table);
@@ -151,8 +171,8 @@ function visitDatePatient(data) {
             measurementTableUpdate(this.value);
         });
         //call to the funciont to create the chart
-        createChart(patientSelected);
-        fillSelect(data);
+        createChart(patientSelected.DataPatient, patientSelected.VitalSigns);
+        fillSelect(patientSelected.DataPatient);
     }
     function getAge(dateOfBirth) {
         var today = Date.now();
@@ -184,11 +204,11 @@ function measurementTableUpdate(visitDate) {
     var table, cmt = null;
 
     let dataSelected = [];
-    if (patientSelected != null) {
+    if (patientSelected.DataPatient != null) {
         var date = new Date(visitDate);
-        for (var i = 1; i < patientSelected.length; i++) {
-            if (patientSelected[i].Date.getTime() == date.getTime()) {
-                dataSelected.push(patientSelected[i]);
+        for (var i = 1; i < patientSelected.DataPatient.length; i++) {
+            if (patientSelected.DataPatient[i].Date.getTime() == date.getTime()) {
+                dataSelected.push(patientSelected.DataPatient[i]);
             }
         }
 
