@@ -1,3 +1,4 @@
+import { wrap } from './searchScript';
 export const colorLegend = (selection, props) => {
     const {
         colorScale,
@@ -29,5 +30,6 @@ export const colorLegend = (selection, props) => {
         .attr('class', 'text-legend')
         .text(d => d)
         .attr('dy', '0.32em')
-        .attr('x', textOffset);
+        .attr('x', textOffset)
+        .call(wrap, 80);
 }
