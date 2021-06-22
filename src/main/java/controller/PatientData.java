@@ -2,6 +2,7 @@ package controller;
 
 import model.PatientDAO;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,8 +18,7 @@ public class PatientData extends HttpServlet {
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PatientDAO patientDAO = new PatientDAO();
-        JSONArray jsonObject = null;
-
+        JSONObject jsonObject = null;
         String patientId = request.getParameter("id");
 
         if (patientId != null) {
@@ -32,7 +32,5 @@ public class PatientData extends HttpServlet {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         out.print(jsonObject.toString());
-
-
     }
 }
