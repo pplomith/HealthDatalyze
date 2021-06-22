@@ -3,7 +3,7 @@ body {
 
 }
 
-#svg-main, #svg-hr, #svg-rr, #svg-sp, #svg-dp {
+#svg-main, #svg-hr, #svg-rr, #svg-sp, #svg-dp, #svg-main-1, #svg-main-2, #svg-main-3, #svg-main-4{
     width: 100%;
     height: 100%;
 }
@@ -36,31 +36,47 @@ div#root {
 .table_patient {
     background: #fff;
     border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .table_visit_patient {
     border-radius: 5px;
     background: white;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 
 .table_data_visit {
     border-radius: 5px;
     background: white;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 .div_note_visit {
     border-radius: 5px;
     background: white;
+    display: flex;
+    flex-direction: column;
 }
 
 .div_filter {
     border-radius: 5px;
     background: white;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .div_graph {
     border-radius: 5px;
     background: white;
+    display: flex;
+    flex-direction: column;
 }
 
 .personal_info{
@@ -95,7 +111,6 @@ tbody td, th, tr {
 }
 .table-responsive {
     width: 100%;
-    height: 100%;
     border-radius: 5px;
 }
 .btn-primary{
@@ -106,31 +121,48 @@ tbody td, th, tr {
 }
 
 tbody, td, tfoot, th, thead, tr {
-    border-color: antiquewhite;
+
     border-style: solid;
     border-width: 0;
 }
 .table>thead>tr>th {
-    border-color: rgb(103,143,103);
+    border-color: white;
     border-style: solid;
     border-width: 2px;
-    background: rgb(103,143,103);
-    color: #fff;
+    background: white;
+    color: #000;
     font-weight: 400;
 }
 .table>:not(:last-child)>:last-child>* {
-    border-bottom-color: rgb(103,143,103);
+    border-bottom-color: #dee2e6;
 }
 .table>tbody>tr>td {
     margin-top: 15px;
     margin-bottom: 15px;
 }
 
-
-#titleNote, #titleGraph, #titleFilter {
-    width: 100%;
+.h4_titleDiv {
     margin-top: 5px;
+    color: rgba(0, 0, 0, 0.5);
+}
+.firstDiv {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+}
+ #titleGraph, #titleFilter {
+    width: 100%;
     font-size: 16px;
+}
+#titleGraph {
+    display: flex;
+    flex-direction: row;
+}
+#titleNote{
+    border-radius: 5px;
+}
+.form-check {
+    margin-left: 50px;
 }
 span.multiselect-native-select {
     margin-left: 10px;
@@ -220,8 +252,6 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     flex-direction: row;
 }
 .react-grid-layout {
-    margin-left: 0;
-    margin-right: 3%;
     position: relative;
     transition: height 200ms ease;
 }
@@ -240,6 +270,7 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     max-height: 300px;
     border-style: solid;
     border-width: 0 0 1px 0;
+    border-color: #dee2e6;
 }
 
 #sidebar-container .list-group .sidebar-submenu a {
@@ -307,7 +338,14 @@ a.layouts-div.list-group-item {
 #newName {
     margin-left: 10px;
 }
-
+.btn-collShow {
+    float: right;
+    margin-right: 10px;
+    margin-left: 10px;
+    border: none;
+    background-color: white;
+    outline: none;
+}
 *::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -321,4 +359,40 @@ a.layouts-div.list-group-item {
 *::-webkit-scrollbar-track {
     border-radius: 0.25rem;
     background: rgba(0,0,0,0.1);
+}
+
+.line-path-vs-area {
+    fill:red;
+    fill-opacity: 0.1;
+}
+.line-path-vs{
+    fill:none;
+    stroke-width: 1px;
+}
+.line-path{
+    fill:none;
+    stroke-width: 1px;
+}
+.tick line {
+    stroke: #C0C0BB;
+}
+.tooltip-svg {
+    opacity: 1;
+    fill: white;
+    stroke: #cac2c2;
+    line-height: 1.4em;
+    border: 1px solid #dddddd;
+    z-index: 1070;
+    transition: all 0.1s ease-out;
+    pointer-events: none;
+}
+
+.tooltip-marker, .tooltip-date, .tooltip-value {
+    /*margin-bottom: 0.2em;*/
+    font-weight: 500;
+    font-size: 0.6em;
+    line-height: 1.4em;
+}
+.tooltip-value, .tooltip-date {
+    font-weight: 800;
 }
