@@ -25,65 +25,77 @@ import {
     noPatientSel,
     ageLab,
     sexLab,
-    bloodLab
+    bloodLab,
+    tablePatientsText,
+    tableVisitText,
+    visitInfoText,
+    vitalSignsText,
+    graphTitleText
 } from './allStrings'
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 //class that crates a dashboard
 var layoutsInit = {
     lg:[
-        {i: "search", x: 0, y: 0, w: 5, h: 1, minW: 3, maxH: 1},
-        {i: "tablePatient", x: 0, y: 1, w: 5, h: 6, minW: 3, minH: 3},
-        {i: "tabelVisitPatient", x: 0, y: 2, w: 5, h: 6, minW: 3, minH: 3},
-        {i: "tableDataVisit", x: 0, y: 3, w: 3, h: 5, minW: 2, minH: 3},
+        {i: "searchPatient", x: 0, y: 0, w: 5, h: 1, minW: 3, maxH: 1},
+        {i: "allPatients", x: 0, y: 1, w: 5, h: 6, minW: 3, minH: 5},
+        {i: "tabelVisitPatient", x: 0, y: 2, w: 5, h: 6, minW: 3, minH: 6},
+        {i: "tableDataVisit", x: 0, y: 3, w: 3, h: 5, minW: 3, minH: 3},
         {i: "noteVisit", x: 3, y: 3, w: 2, h: 5, minW: 2, minH: 3},
-        {i: "patientInfo", x: 5, y: 0, w: 3, h: 3, minW: 3, minH: 3},
-        {i: "filter", x: 5, y: 1, w: 5, h: 4, minW: 3, minH: 3},
-        {i: "graph", x: 5, y: 2, w: 5, h: 11, minW: 3, minH: 5}
+        {i: "patientInfo", x: 5, y: 0, w: 3, h: 3, minW: 3, minH: 3, maxH: 3},
+        {i: "VitalSignsGraph", x: 5, y: 1, w: 5, h: 10, minW: 4, minH: 8},
+        {i: "graph", x: 5, y: 2, w: 5, h: 11, minW: 4, minH: 7}
     ],
     md: [
-        {i: "search", x: 0, y: 0, w: 5, h: 1, minW: 3, maxH: 1},
-        {i: "tablePatient", x: 0, y: 1, w: 5, h: 6, minW: 3, minH: 3},
-        {i: "tabelVisitPatient", x: 0, y: 2, w: 5, h: 6, minW: 3, minH: 3},
-        {i: "tableDataVisit", x: 0, y: 3, w: 3, h: 5, minW: 2, minH: 3},
+        {i: "searchPatient", x: 0, y: 0, w: 5, h: 1, minW: 3, maxH: 1},
+        {i: "allPatients", x: 0, y: 1, w: 5, h: 6, minW: 3, minH: 5},
+        {i: "tabelVisitPatient", x: 0, y: 2, w: 5, h: 6, minW: 3, minH: 6},
+        {i: "tableDataVisit", x: 0, y: 3, w: 3, h: 5, minW: 3, minH: 3},
         {i: "noteVisit", x: 3, y: 3, w: 2, h: 5, minW: 2, minH: 3},
-        {i: "patientInfo", x: 5, y: 0, w: 3, h: 3, minW: 3, minH: 3},
-        {i: "filter", x: 5, y: 1, w: 5, h: 4, minW: 3, minH: 3},
-        {i: "graph", x: 5, y: 2, w: 5, h: 11, minW: 3, minH: 5}
+        {i: "patientInfo", x: 5, y: 0, w: 3, h: 3, minW: 3, minH: 3, maxH: 3},
+        {i: "VitalSignsGraph", x: 5, y: 1, w: 5, h: 10, minW: 4, minH: 8},
+        {i: "graph", x: 5, y: 2, w: 5, h: 11, minW: 4, minH: 7}
     ],
     sm: [
-        {i: "search", x: 0, y: 0, w: 3, h: 1, minW: 3, maxH: 1},
-        {i: "tablePatient", x: 0, y: 1, w: 3, h: 6, minW: 3, minH: 3},
-        {i: "tabelVisitPatient", x: 0, y: 2, w: 3, h: 6, minW: 3, minH: 3},
-        {i: "tableDataVisit", x: 0, y: 3, w: 2, h: 4, minW: 1, minH: 3},
+        {i: "searchPatient", x: 0, y: 0, w: 3, h: 1, minW: 3, maxH: 1},
+        {i: "allPatients", x: 0, y: 1, w: 3, h: 6, minW: 3, minH: 5},
+        {i: "tabelVisitPatient", x: 0, y: 2, w: 3, h: 6, minW: 3, minH: 6},
+        {i: "tableDataVisit", x: 0, y: 3, w: 2, h: 4, minW: 2, minH: 3},
         {i: "noteVisit", x: 2, y: 3, w: 1, h: 4, minW: 1, minH: 3},
-        {i: "patientInfo", x: 3, y: 0, w: 2, h: 3, minW: 2, minH: 3},
-        {i: "filter", x: 4, y: 1, w: 3, h: 4, minW: 3, minH: 3},
-        {i: "graph", x: 4, y: 2, w: 3, h: 10, minW: 3, minH: 5}
+        {i: "patientInfo", x: 3, y: 0, w: 2, h: 3, minW: 2, minH: 3, maxH: 3},
+        {i: "VitalSignsGraph", x: 4, y: 1, w: 3, h: 10, minW: 4, minH: 8},
+        {i: "graph", x: 4, y: 2, w: 3, h: 10, minW: 3, minH: 7}
     ],
     xs: [
-        {i: "search", x: 0, y: 0, w: 2, h: 1, minW: 2, maxH: 1},
-        {i: "tablePatient", x: 0, y: 1, w: 2, h: 6, minW: 2, minH: 3},
-        {i: "tabelVisitPatient", x: 0, y: 2, w: 2, h: 6, minW: 2, minH: 3},
-        {i: "tableDataVisit", x: 0, y: 3, w: 1, h: 4, minW: 1, minH: 3},
+        {i: "searchPatient", x: 0, y: 0, w: 2, h: 1, minW: 2, maxH: 1},
+        {i: "allPatients", x: 0, y: 1, w: 2, h: 6, minW: 2, minH: 5},
+        {i: "tabelVisitPatient", x: 0, y: 2, w: 2, h: 6, minW: 2, minH: 6},
+        {i: "tableDataVisit", x: 0, y: 3, w: 2, h: 5, minW: 2, minH: 5},
         {i: "noteVisit", x: 1, y: 3, w: 1, h: 4, minW: 1, minH: 3},
-        {i: "patientInfo", x: 2, y: 0, w: 2, h: 3, minW: 2, minH: 3},
-        {i: "filter", x: 3, y: 1, w: 2, h: 4, minW: 2, minH: 3},
-        {i: "graph", x: 3, y: 2, w: 2, h: 10, minW: 2, minH: 5}
+        {i: "patientInfo", x: 2, y: 0, w: 2, h: 3, minW: 2, minH: 3, maxH: 3},
+        {i: "VitalSignsGraph", x: 3, y: 1, w: 2, h: 6, minW: 2, minH: 6},
+        {i: "graph", x: 3, y: 2, w: 2, h: 10, minW: 2, minH: 7}
     ],
     xxs: [
-        {i: "search", x: 0, y: 3, w: 2, h: 1, minW: 2, maxH: 1},
-        {i: "tablePatient", x: 0, y: 4, w: 2, h: 6, minW: 2, minH: 3},
-        {i: "tabelVisitPatient", x: 0, y: 5, w: 2, h: 6, minW: 2, minH: 3},
-        {i: "tableDataVisit", x: 0, y: 6, w: 2, h: 4, minW: 1, minH: 3},
+        {i: "searchPatient", x: 0, y: 3, w: 2, h: 1, minW: 2, maxH: 1},
+        {i: "allPatients", x: 0, y: 4, w: 2, h: 6, minW: 2, minH: 5},
+        {i: "tabelVisitPatient", x: 0, y: 5, w: 2, h: 6, minW: 2, minH: 6},
+        {i: "tableDataVisit", x: 0, y: 6, w: 2, h: 5, minW: 2, minH: 5},
         {i: "noteVisit", x: 0, y: 7, w: 2, h: 4, minW: 1, minH: 3},
-        {i: "patientInfo", x: 0, y: 0, w: 2, h: 3, minW: 2, minH: 1},
-        {i: "filter", x: 0, y: 1, w: 2, h: 4, minW: 2, minH: 3},
-        {i: "graph", x: 0, y: 2, w: 2, h: 8, minW: 2, minH: 5}
+        {i: "patientInfo", x: 0, y: 0, w: 2, h: 3, minW: 2, minH: 2, maxH: 3},
+        {i: "VitalSignsGraph", x: 0, y: 1, w: 2, h: 11, minW: 2, minH: 8},
+        {i: "graph", x: 0, y: 2, w: 2, h: 11, minW: 2, minH: 7}
     ]
 };
+var layoutCollapse = {
+    collapse: {w: 2, h: 1, minW: 2, minH:1, maxH:1}
+};
 
-const originalLayouts = getFromDB("layouts", '1');
+var originalLayouts = getFromDB("layouts", '1');
+if (originalLayouts == null) {
+    originalLayouts = layoutsInit;
+}
+var layoutsHMod = JSON.parse(JSON.stringify(originalLayouts));
 const allLayouts = getAllLayouts();
 export class MyFirstGrid extends React.Component {
 
@@ -96,6 +108,7 @@ export class MyFirstGrid extends React.Component {
 
     static get defaultProps() {
         return {
+            breakpoints: {lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0},
             className: "layouts",
             cols: {lg: 12, md: 10, sm: 6, xs: 4, xxs: 2},
             rowHeight: 30
@@ -104,12 +117,16 @@ export class MyFirstGrid extends React.Component {
 
     resetLayout() {
         this.setState({ layouts: layoutsInit });
+        this.checkHeightItem();
     }
 
     onLayoutChange(layout, layouts) {
         saveToDB("layouts", layouts, '1', 'localStorage');
         this.setState({ layouts });
+        layoutsHMod = JSON.parse(JSON.stringify(layouts));
+        this.checkHeightItem();
     }
+
 
     saveLayout() {
 
@@ -120,15 +137,102 @@ export class MyFirstGrid extends React.Component {
         $('#newName').val(textNewLayout);
 
     }
-
+    checkHeightItem() {
+        var layouts = this.state.layouts;
+        for (var i = 0; i < layouts.lg.length; i++){
+            var id = layouts.lg[i].i;
+            if (layouts.lg[i].h <= 1 && layouts.lg[i].i != 'searchPatient')  {
+                $('#'+id).css("display", "none");
+                $('#coll'+id).attr("disabled", true).css("display", "none");
+                $('#show'+id).attr("disabled", false).css("display", "block");
+            } else {
+                $('#'+id).css("display", "block");
+                $('#coll'+id).attr("disabled", false).css("display", "block");
+                $('#show'+id).attr("disabled", true).css("display", "none");
+            }
+        }
+    }
     componentDidMount() {
         var obj = JSON.parse(allLayouts)
         $('#layouts-list').attr("aria-expanded","false");
         $('#layouts-list').addClass("collapsed");
         for (var i = 1; i < Object.keys(obj).length; i++){
-            createDiv_SaveLayout(this.setState.bind(this), obj[i].layoutName, obj[i].layoutId);
+            createDiv_SaveLayout(this.setState.bind(this), obj[i].layoutName, obj[i].layoutId, this.checkHeightItem.bind(this));
         }
+        this.checkHeightItem();
+
     }
+
+    collapseItem(id, idCButton, idSButton) {
+        console.log(layoutsHMod);
+        for (var i = 0; i < layoutsHMod.lg.length; i++) {
+            if (layoutsHMod.lg[i].i == id) {
+                layoutsHMod.lg[i].minH = layoutCollapse.collapse.minH;
+                layoutsHMod.lg[i].h = layoutCollapse.collapse.h;
+                layoutsHMod.lg[i].maxH = layoutCollapse.collapse.maxH;
+                layoutsHMod.md[i].minH = layoutCollapse.collapse.minH;
+                layoutsHMod.md[i].h = layoutCollapse.collapse.h;
+                layoutsHMod.md[i].maxH = layoutCollapse.collapse.maxH;
+                layoutsHMod.sm[i].minH = layoutCollapse.collapse.minH;
+                layoutsHMod.sm[i].h = layoutCollapse.collapse.h;
+                layoutsHMod.sm[i].maxH = layoutCollapse.collapse.maxH;
+                layoutsHMod.xs[i].minH = layoutCollapse.collapse.minH;
+                layoutsHMod.xs[i].h = layoutCollapse.collapse.h;
+                layoutsHMod.xs[i].maxH = layoutCollapse.collapse.maxH;
+                layoutsHMod.xxs[i].minH = layoutCollapse.collapse.minH;
+                layoutsHMod.xxs[i].h = layoutCollapse.collapse.h;
+                layoutsHMod.xxs[i].maxH = layoutCollapse.collapse.maxH;
+                break;
+            }
+        }
+        $('#'+id).css("display", "none");
+        this.setState({
+            layouts: layoutsHMod
+        });
+        $('#'+idCButton).attr("disabled", true);
+        $('#'+idSButton).attr("disabled", false);
+        $('#'+idCButton).css("display", "none");
+        $('#'+idSButton).css("display", "block");
+        console.log(this.state.layouts);
+    };
+
+    expandItem(id, idCButton, idSButton) {
+
+        console.log(layoutsHMod);
+        for (var i = 0; i < layoutsHMod.lg.length; i++) {
+            if (layoutsHMod.lg[i].i == id) {
+                for (var j = 0; j < layoutsInit.lg.length; j++) {
+                    if (layoutsInit.lg[j].i == id) {
+                        layoutsHMod.lg[i].minH = layoutsInit.lg[j].minH;
+                        layoutsHMod.lg[i].h = layoutsInit.lg[j].h;
+                        layoutsHMod.lg[i].maxH = undefined;
+                        layoutsHMod.md[i].minH = layoutsInit.md[j].minH;
+                        layoutsHMod.md[i].h = layoutsInit.md[j].h;
+                        layoutsHMod.md[i].maxH = undefined;
+                        layoutsHMod.sm[i].minH = layoutsInit.sm[j].minH;
+                        layoutsHMod.sm[i].h = layoutsInit.sm[j].h;
+                        layoutsHMod.sm[i].maxH = undefined;
+                        layoutsHMod.xs[i].minH = layoutsInit.xs[j].minH;
+                        layoutsHMod.xs[i].h = layoutsInit.xs[j].h;
+                        layoutsHMod.xs[i].maxH = undefined;
+                        layoutsHMod.xxs[i].minH = layoutsInit.xxs[j].minH;
+                        layoutsHMod.xxs[i].h = layoutsInit.xxs[j].h;
+                        layoutsHMod.xxs[i].maxH = undefined;
+                    }
+                }
+            }
+        }
+
+        $('#'+id).css("display", "block");
+        this.setState({
+            layouts: layoutsHMod
+        });
+        $('#'+idCButton).attr("disabled", false);
+        $('#'+idSButton).attr("disabled", true);
+        $('#'+idCButton).css("display", "block");
+        $('#'+idSButton).css("display", "none");
+        console.log(this.state.layouts);
+    };
 
     render() {
         return (
@@ -147,10 +251,10 @@ export class MyFirstGrid extends React.Component {
                                 <input id={"newName"} type={"text"} defaultValue={textNewLayout}></input>
                             </div>
                             <div className={"modal-footer"}>
+                                <button type={"button"} className={"btn btn-default"} data-dismiss={"modal"}> {textButtonClose} </button>
                                 <button type={"button"} className={"btn btn-default"} id={"name-saved"}
                                         data-dismiss={"modal"} onClick={() => this.saveLayout()}> {textButtonSave}
                                 </button>
-                                <button type={"button"} className={"btn btn-default"} data-dismiss={"modal"}> {textButtonClose} </button>
                             </div>
                         </div>
 
@@ -166,12 +270,13 @@ export class MyFirstGrid extends React.Component {
                                 <div className={"d-flex w-100 justify-content-start align-items-center"}>
                                     <span className={"fa fa-dashboard fa-fw mr-3"}></span>
                                     <span className={"menu-collapsed"}> { textLayouts } </span>
-                                    <span className={"submenu-icon ml-auto"}></span>
+                                    <span className={"submenu-icon ml-auto"} id={"submenu-icon-up"}> <i className="fas fa-angle-up"></i> </span>
+                                    <span className={"submenu-icon ml-auto"} id={"submenu-icon-down"}> <i className="fas fa-angle-down"></i> </span>
                                 </div>
                             </a>
                             <div id={"layout-div"}>
                                 <div id={'submenu1'} className={"submenu1 sidebar-submenu collapse show"}>
-                                    <a href={"javascript:void(0);"} className={"layouts-div list-group-item list-group-item-action text-black"}>
+                                    <a href={"#javascript"} className={"layouts-div list-group-item list-group-item-action text-black"}>
                                         <div>
                                             <button className={"btn btn-primary"} id={"add-layout"} data-toggle={"modal"} data-target={"#modalLayout"} value={"1"}>
                                                 {textButtonAdd}
@@ -201,23 +306,26 @@ export class MyFirstGrid extends React.Component {
 
                 <ResponsiveGridLayout
                     className="layout"
+                    breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
                     cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}
                     rowHeight={30}
                     layouts={this.state.layouts}
                     onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
                 >
 
-                    <div key="search" className={"searchDiv"} data-grid={{x: 0, y: 0, w: 5, h: 1, minW: 3, maxH: 1}}>
+                    <div key="searchPatient" className={"searchDiv"} >
                         <span><i className={"fa fa-search"}></i></span>
                         <input type="text" className={"search_patient"} id={"searchPatient"} placeholder={textSearch}
                         />
                     </div>
 
-
-
-
-
-                            <div key="tablePatient" className={"table_patient"} data-grid={{x: 0, y: 1, w: 5, h: 6, minW: 3, minH: 3}}>
+                            <div key="allPatients" className={"table_patient"} >
+                                <div className={"firstDiv"}>
+                                    <button id={"collallPatients"} className={"btn-collShow"} onClick={() => this.collapseItem('allPatients', 'collallPatients', 'showallPatients')}> <i className="fas fa-angle-up"></i></button>
+                                    <button id={"showallPatients"} className={"btn-collShow"} onClick={() => this.expandItem('allPatients', 'collallPatients', 'showallPatients')}>
+                                        <i className="fas fa-angle-down"></i></button>
+                                    <h5 className={"h4_titleDiv"}>{tablePatientsText}</h5>
+                                </div>
                                 <div className={"table-responsive"} id={"allPatients"}>
                                     <table id={"tableAllPatient"} className={"table table-hover nowrap"}
                                            style={{width:100 + '%'}}>
@@ -240,8 +348,14 @@ export class MyFirstGrid extends React.Component {
                             </div>
 
 
-                    <div key="tabelVisitPatient" className={"table_visit_patient"} data-grid={{x: 0, y: 2, w: 5, h: 6, minW: 3, minH: 3}}>
-                        <div className={"table-responsive"}>
+                    <div key="tabelVisitPatient" className={"table_visit_patient"} >
+                        <div className={"firstDiv"}>
+                            <button id={"colltabelVisitPatient"} className={"btn-collShow"} onClick={() => this.collapseItem('tabelVisitPatient', 'colltabelVisitPatient', 'showtabelVisitPatient')}> <i className="fas fa-angle-up"></i></button>
+                            <button id={"showtabelVisitPatient"} className={"btn-collShow"} onClick={() => this.expandItem('tabelVisitPatient', 'colltabelVisitPatient', 'showtabelVisitPatient')}>
+                                <i className="fas fa-angle-down"></i></button>
+                            <h5 className={"h4_titleDiv"}>{tableVisitText}</h5>
+                        </div>
+                        <div className={"table-responsive"} id={"tabelVisitPatient"} >
                             <table className={"table table-hover nowrap"} style={{width:100+'%'}}>
                                 <thead>
                                 <tr>
@@ -257,8 +371,14 @@ export class MyFirstGrid extends React.Component {
                     </div>
 
 
-                    <div key="tableDataVisit" className={"table_data_visit"} data-grid={{x: 0, y: 3, w: 3, h: 5, minW: 2, minH: 3}}>
-                        <div className={"table-responsive"}>
+                    <div key="tableDataVisit" className={"table_data_visit"}>
+                        <div className={"firstDiv"}>
+                            <button id={"colltableDataVisit"} className={"btn-collShow"} onClick={() => this.collapseItem('tableDataVisit', 'colltableDataVisit', 'showtableDataVisit')}> <i className="fas fa-angle-up"></i></button>
+                            <button id={"showtableDataVisit"} className={"btn-collShow"} onClick={() => this.expandItem('tableDataVisit', 'colltableDataVisit', 'showtableDataVisit')}>
+                                <i className="fas fa-angle-down"></i></button>
+                            <h5 className={"h4_titleDiv"}>{visitInfoText}</h5>
+                        </div>
+                        <div className={"table-responsive"} id={"tableDataVisit"} >
                             <table className={"table table-hover nowrap"} style={{width:100+'%'}}>
                                 <thead>
                                 <tr>
@@ -272,13 +392,20 @@ export class MyFirstGrid extends React.Component {
                         </div>
                     </div>
 
-                    <div key="noteVisit" className={"div_note_visit"} data-grid={{x: 3, y: 3, w: 2, h: 5, minW: 2, minH: 3}}>
-                        <div id={"titleNote"}>{noteTitle}</div>
-                        <p id={"noteVisit"}>{nullNote}</p>
+                    <div key="noteVisit" className={"div_note_visit"} >
+                        <div id={"titleNote"} className={"firstDiv"}>
+                            <button id={"collnoteVisit"} className={"btn-collShow"} onClick={() => this.collapseItem('noteVisit', 'collnoteVisit', 'shownoteVisit')}> <i className="fas fa-angle-up"></i></button>
+                            <button id={"shownoteVisit"} className={"btn-collShow"} onClick={() => this.expandItem('noteVisit', 'collnoteVisit', 'shownoteVisit')}>
+                                <i className="fas fa-angle-down"></i></button>
+                            <h5 className={"h4_titleDiv"}>{noteTitle}</h5>
+                        </div>
+                        <div id={"noteVisit"} style={{width: 100+'%', height: 90+'%'}}>
+                            <p id={"noteVisit"}>{nullNote}</p>
+                        </div>
                     </div>
 
-
-                    <div key="patientInfo" className={"personal_info"} data-grid={{x: 5, y: 0, w: 3, h: 3, minW: 3, minH: 3}}>
+                    <div key="patientInfo" className={"personal_info"} >
+                        <div style={{width: 100+'%', height: 100+'%'}} id={"patientInfo"}>
                         <div>
                             <h3 id={"patientName"}> {noPatientSel} </h3>
                         </div>
@@ -293,30 +420,70 @@ export class MyFirstGrid extends React.Component {
                             </div>
                         </div>
                     </div>
-
-                    <div key="filter" className={"div_filter"} data-grid={{x: 5, y: 1, w: 5, h: 1}}>
-                        <div style={{width: 100+'%', height: 25+'%'}}>
-                            <svg id={"svg-hr"} viewBox={"0 0 600 400"}>
-                            </svg>
+                    </div>
+                    <div key="VitalSignsGraph" className={"div_filter"} >
+                        <div className={"firstDiv"}>
+                            <button id={"collVitalSignsGraph"} className={"btn-collShow"} onClick={() => this.collapseItem('VitalSignsGraph', 'collVitalSignsGraph', 'showVitalSignsGraph')}> <i className="fas fa-angle-up"></i></button>
+                            <button id={"showVitalSignsGraph"} className={"btn-collShow"} onClick={() => this.expandItem('VitalSignsGraph', 'collVitalSignsGraph', 'showVitalSignsGraph')}>
+                                <i className="fas fa-angle-down"></i></button>
+                            <h5 className={"h4_titleDiv"}>{vitalSignsText}</h5>
                         </div>
-                        <div style={{width: 100+'%', height: 25+'%'}}>
-                            <svg id={"svg-rr"} viewBox={"0 0 600 400"}>
-                            </svg>
-                        </div>
-                        <div style={{width: 100+'%', height: 25+'%'}}>
-                            <svg id={"svg-sp"} viewBox={"0 0 600 400"}>
-                            </svg>
-                        </div>
-                        <div style={{width: 100+'%', height: 25+'%'}}>
-                            <svg id={"svg-dp"} viewBox={"0 0 600 400"}>
-                            </svg>
+                        <div id={"VitalSignsGraph"} style={{width: 100+'%', height: 90+'%'}}>
+                            <div style={{width: 100+'%', height: 25+'%'}}>
+                                <svg id={"svg-hr"} viewBox={"0 0 600 100"} preserveAspectRatio={"none"}>
+                                </svg>
+                            </div>
+                            <div style={{width: 100+'%', height: 25+'%'}}>
+                                <svg id={"svg-rr"} viewBox={"0 0 600 100"} preserveAspectRatio={"none"}>
+                                </svg>
+                            </div>
+                            <div style={{width: 100+'%', height: 25+'%'}}>
+                                <svg id={"svg-sp"} viewBox={"0 0 600 100"} preserveAspectRatio={"none"}>
+                                </svg>
+                            </div>
+                            <div style={{width: 100+'%', height: 25+'%'}}>
+                                <svg id={"svg-dp"} viewBox={"0 0 600 100"} preserveAspectRatio={"none"}>
+                                </svg>
+                            </div>
                         </div>
                     </div>
-                    <div key="graph" className={"div_graph"} id={"containerSvg"} data-grid={{x: 5, y: 2, w: 5, h: 11, minW: 3, minH: 5}}>
+                    <div key="graph" className={"div_graph"} id={"containerSvg"} >
+                        <div className={"firstDiv"}>
+                            <button id={"collgraph"} className={"btn-collShow"} onClick={() => this.collapseItem('graph', 'collgraph', 'showgraph')}>
+                                <i className="fas fa-angle-up"></i></button>
+                            <button id={"showgraph"} className={"btn-collShow"} onClick={() => this.expandItem('graph', 'collgraph', 'showgraph')}>
+                                <i className="fas fa-angle-down"></i></button>
+                            <h5 className={"h4_titleDiv"}>{graphTitleText}</h5>
+                        </div>
+                        <div id={"graph"} style={{width: 100+'%', height: 90+'%'}}>
                         <div id={"titleGraph"}><select id={"selectValue"} multiple={'multiple'} name={'measurement[]'}>
-                        </select></div>
-                        <svg id={"svg-main"} viewBox={"0 0 600 400"}>
-                        </svg>
+                        </select>
+                            <div className="form-check form-switch">
+                                <input className="form-check-input" type="checkbox" id="switchChart"></input>
+                            </div>
+                        </div>
+                            <svg id={"svg-main"} viewBox={"0 0 600 400"} preserveAspectRatio={"none"}>
+                            </svg>
+
+                            <div id={"container-1"} style={{width: 100+'%', height: 20+'%', display: "none"}}>
+                                <svg id={"svg-main-1"} viewBox={"0 0 600 80"} preserveAspectRatio={"none"}>
+                                </svg>
+                            </div>
+                            <div id={"container-2"}  style={{width: 100+'%', height: 20+'%', display: "none"}}>
+                                <svg id={"svg-main-2"} viewBox={"0 0 600 80"} preserveAspectRatio={"none"}>
+                                </svg>
+                            </div>
+                            <div id={"container-3"}  style={{width: 100+'%', height: 20+'%', display: "none"}}>
+                                <svg id={"svg-main-3"} viewBox={"0 0 600 80"} preserveAspectRatio={"none"}>
+                                </svg>
+                            </div>
+                            <div id={"container-4"}  style={{width: 100+'%', height: 20+'%', display: "none"}}>
+                                <svg id={"svg-main-4"} viewBox={"0 0 600 80"} preserveAspectRatio={"none"}>
+                                </svg>
+                            </div>
+
+
+                        </div>
                     </div>
                 </ResponsiveGridLayout>
                 </div>
@@ -376,6 +543,7 @@ function getFromDB(key, id) {
                 ls = JSON.parse(response) || {};
                 result = ls[key];
             }
+            else result = null;
         }
     });
     return result;
@@ -403,7 +571,6 @@ function deleteLayout(id) {
         dataType: 'text',
         data: {"layoutId" : id, "boolDelete": "true"},
         success: function (response) {
-            console.log("eliminato ? "+response);
             document.getElementById("submenu"+id).remove();
         }
     });
@@ -418,14 +585,13 @@ function getAllLayouts() {
         dataType: 'text',
         data: {"boolAllLayout": "true"},
         success: function (response) {
-            console.log(response);
             result = response;
         }
     });
     return result;
 }
 
-function createDiv_SaveLayout(setState, name, idButton) {
+function createDiv_SaveLayout(setState, name, idButton, checkHeightItem) {
     // item creation
     //main <div>
     var newLayout = document.createElement("div");
@@ -433,7 +599,7 @@ function createDiv_SaveLayout(setState, name, idButton) {
     newLayout.id = "submenu"+idButton;
     //second <a>
     var newA = document.createElement("a");
-    newA.href = "javascript:void(0);";
+    newA.href = "#javascript";
     newA.classList.add('layouts-div', 'list-group-item', 'list-group-item-action', 'text-black');
     //<div> child <a>
     var divChildA = document.createElement("div");
@@ -467,6 +633,7 @@ function createDiv_SaveLayout(setState, name, idButton) {
     buttonApply.addEventListener('click', function() {
         var layout = getFromDB("layouts",this.value); //get layout
         setState({ layouts: JSON.parse(JSON.stringify(layout)) }); //set layout
+        checkHeightItem;
     });
     //add buttons to div
     divButton.appendChild(buttonDelete);
