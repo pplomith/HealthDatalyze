@@ -3,11 +3,10 @@ package model;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 public class PatientDAO {
 
     public JSONObject getAllPatients() {
@@ -83,7 +82,6 @@ public class PatientDAO {
 
             rootObject.put("DataPatient",visitData);
 
-
             ps = con.prepareStatement("SELECT * " +
                     "FROM patient as p, vitalsigns as vs"
                     + " WHERE p.PatientId = ? AND p.PatientId = vs.Patient");
@@ -104,12 +102,53 @@ public class PatientDAO {
 
             rootObject.put("VitalSigns",vitalSigns);
 
+            ps = con.prepareStatement("SELECT * " +
+                    "FROM patient as p, eventsData as ed"
+                    + " WHERE p.PatientId = ? AND p.PatientId = ed.patientId");
+
+            ps.setString(1,id);
+
+            rs = ps.executeQuery();
+
+            JSONArray eventsData = new JSONArray();
+            String dataPattern = "yyyy-MM-dd'T'HH:mm:ss";
+            String dataFormat = "yyyy-MM-dd hh:mm aa";
+            while (rs.next()) {
+                JSONObject object = new JSONObject();
+                String title;
+                object.put("id", rs.getString("id"));
+                object.put("group", rs.getString("groupId"));
+                title = rs.getString("content") + ' ';
+                StringBuilder sb = new StringBuilder(rs.getString("comment"));
+                int i = 0;
+                while (i + 50 < sb.length() && (i = sb.lastIndexOf(" ", i + 50)) != -1) {
+                    sb.replace(i, i + 1, "<br>");
+                }
+                title += sb.toString();
+                object.put("content", rs.getString("content"));
+                object.put("start", rs.getString("startDate"));
+                Date startDate = new SimpleDateFormat(dataPattern).parse(rs.getString("startDate"));
+                if (rs.getString("endDate") != null) {
+                    object.put("end", rs.getString("endDate"));
+                    Date endDate = new SimpleDateFormat(dataPattern).parse(rs.getString("endDate"));
+                    title += "<br>From: " + new SimpleDateFormat(dataFormat).format(startDate)+
+                            "<br>To: " + new SimpleDateFormat(dataFormat).format(endDate);
+                }
+                else {
+                    title += "<br>Date: " + new SimpleDateFormat(dataFormat).format(startDate);
+                    object.put("end", null);
+                }
+                object.put("title", title);
+                eventsData.add(object);
+            }
+
+            rootObject.put("TimelineData",eventsData);
+
             return rootObject;
 
-        } catch (SQLException throwables) {
+        } catch (SQLException | ParseException throwables) {
             throwables.printStackTrace();
         }
-
         return null;
     }
 }
