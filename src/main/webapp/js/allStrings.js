@@ -1,3 +1,4 @@
+//this file contains all displayed strings
 import React from "react";
 
 export const searchMultiselect = 'Search Here...';
@@ -32,3 +33,4 @@ export const tableVisitText = 'PATIENT VISITS';
 export const visitInfoText = 'VISIT INFORMATION';
 export const vitalSignsText = 'VITAL SIGNS';
 export const graphTitleText = 'VALUES MEASURED';
+export const timelineTitleText = 'TIMELINE';
