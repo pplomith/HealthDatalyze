@@ -1,4 +1,4 @@
-import {scaleOrdinal, select, schemeCategory10, schemeSet1} from 'd3';
+import { scaleOrdinal, select, schemeCategory10, schemeSet1 } from 'd3';
 import { lineChart } from './lineChart';
 import { vitalChart } from './vitalSignsChart';
 import data from "bootstrap/js/src/dom/data";
