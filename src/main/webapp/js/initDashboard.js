@@ -1,6 +1,8 @@
+// this class implements functions to create a dashboard
 import React from "react";
 import ReactDOM from "react-dom";
 import { Responsive, WidthProvider } from 'react-grid-layout';
+//import of strings from allString.js file
 import {
     textNewLayout,
     textLayoutSaving,
@@ -30,11 +32,14 @@ import {
     tableVisitText,
     visitInfoText,
     vitalSignsText,
-    graphTitleText
+    graphTitleText,
+    timelineTitleText
 } from './allStrings'
+//responsive width for GridLayout - React
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-//class that crates a dashboard
+//set default properties of each item in the dashboard
+//properties: (i: id,x: x-position,y: y-position,w: width,h: height, minW (maxW): minimum (maximum) width, minH (maxH): minimum (maximum) height)
 var layoutsInit = {
     lg:[
         {i: "searchPatient", x: 0, y: 0, w: 5, h: 1, minW: 3, maxH: 1},
@@ -44,7 +49,8 @@ var layoutsInit = {
         {i: "noteVisit", x: 3, y: 3, w: 2, h: 5, minW: 2, minH: 3},
         {i: "patientInfo", x: 5, y: 0, w: 3, h: 3, minW: 3, minH: 3, maxH: 3},
         {i: "VitalSignsGraph", x: 5, y: 1, w: 5, h: 10, minW: 4, minH: 8},
-        {i: "graph", x: 5, y: 2, w: 5, h: 11, minW: 4, minH: 7}
+        {i: "graph", x: 5, y: 2, w: 5, h: 11, minW: 4, minH: 7},
+        {i: "timelineChart", x: 0, y: 4, w: 5, h: 10, minW: 4, minH: 8}
     ],
     md: [
         {i: "searchPatient", x: 0, y: 0, w: 5, h: 1, minW: 3, maxH: 1},
@@ -54,7 +60,8 @@ var layoutsInit = {
         {i: "noteVisit", x: 3, y: 3, w: 2, h: 5, minW: 2, minH: 3},
         {i: "patientInfo", x: 5, y: 0, w: 3, h: 3, minW: 3, minH: 3, maxH: 3},
         {i: "VitalSignsGraph", x: 5, y: 1, w: 5, h: 10, minW: 4, minH: 8},
-        {i: "graph", x: 5, y: 2, w: 5, h: 11, minW: 4, minH: 7}
+        {i: "graph", x: 5, y: 2, w: 5, h: 11, minW: 4, minH: 7},
+        {i: "timelineChart", x: 0, y: 4, w: 5, h: 10, minW: 4, minH: 8}
     ],
     sm: [
         {i: "searchPatient", x: 0, y: 0, w: 3, h: 1, minW: 3, maxH: 1},
@@ -64,7 +71,8 @@ var layoutsInit = {
         {i: "noteVisit", x: 2, y: 3, w: 1, h: 4, minW: 1, minH: 3},
         {i: "patientInfo", x: 3, y: 0, w: 2, h: 3, minW: 2, minH: 3, maxH: 3},
         {i: "VitalSignsGraph", x: 4, y: 1, w: 3, h: 10, minW: 4, minH: 8},
-        {i: "graph", x: 4, y: 2, w: 3, h: 10, minW: 3, minH: 7}
+        {i: "graph", x: 4, y: 2, w: 3, h: 10, minW: 3, minH: 7},
+        {i: "timelineChart", x: 0, y: 4, w: 3, h: 10, minW: 4, minH: 8},
     ],
     xs: [
         {i: "searchPatient", x: 0, y: 0, w: 2, h: 1, minW: 2, maxH: 1},
@@ -74,34 +82,43 @@ var layoutsInit = {
         {i: "noteVisit", x: 1, y: 3, w: 1, h: 4, minW: 1, minH: 3},
         {i: "patientInfo", x: 2, y: 0, w: 2, h: 3, minW: 2, minH: 3, maxH: 3},
         {i: "VitalSignsGraph", x: 3, y: 1, w: 2, h: 6, minW: 2, minH: 6},
-        {i: "graph", x: 3, y: 2, w: 2, h: 10, minW: 2, minH: 7}
+        {i: "graph", x: 3, y: 2, w: 2, h: 10, minW: 2, minH: 7},
+        {i: "timelineChart", x: 0, y: 4, w: 2, h: 6, minW: 2, minH: 6},
     ],
     xxs: [
-        {i: "searchPatient", x: 0, y: 3, w: 2, h: 1, minW: 2, maxH: 1},
-        {i: "allPatients", x: 0, y: 4, w: 2, h: 6, minW: 2, minH: 5},
-        {i: "tabelVisitPatient", x: 0, y: 5, w: 2, h: 6, minW: 2, minH: 6},
-        {i: "tableDataVisit", x: 0, y: 6, w: 2, h: 5, minW: 2, minH: 5},
-        {i: "noteVisit", x: 0, y: 7, w: 2, h: 4, minW: 1, minH: 3},
+        {i: "searchPatient", x: 0, y: 4, w: 2, h: 1, minW: 2, maxH: 1},
+        {i: "allPatients", x: 0, y: 5, w: 2, h: 6, minW: 2, minH: 5},
+        {i: "tabelVisitPatient", x: 0, y: 6, w: 2, h: 6, minW: 2, minH: 6},
+        {i: "tableDataVisit", x: 0, y: 7, w: 2, h: 5, minW: 2, minH: 5},
+        {i: "noteVisit", x: 0, y: 8, w: 2, h: 4, minW: 1, minH: 3},
         {i: "patientInfo", x: 0, y: 0, w: 2, h: 3, minW: 2, minH: 2, maxH: 3},
         {i: "VitalSignsGraph", x: 0, y: 1, w: 2, h: 11, minW: 2, minH: 8},
-        {i: "graph", x: 0, y: 2, w: 2, h: 11, minW: 2, minH: 7}
+        {i: "graph", x: 0, y: 2, w: 2, h: 11, minW: 2, minH: 7},
+        {i: "timelineChart", x: 0, y: 3, w: 2, h: 11, minW: 2, minH: 8}
     ]
 };
+//layout that sets the properties of a collapsing element
 var layoutCollapse = {
     collapse: {w: 2, h: 1, minW: 2, minH:1, maxH:1}
 };
 
+//layout of each item saved in the database
 var originalLayouts = getFromDB("layouts", '1');
+//if there are no layouts in the database, use the default layout
 if (originalLayouts == null) {
     originalLayouts = layoutsInit;
 }
+//layout used to collapse-expand element
 var layoutsHMod = JSON.parse(JSON.stringify(originalLayouts));
+//all layouts to be displayed in the left bar
 const allLayouts = getAllLayouts();
-export class MyFirstGrid extends React.Component {
+
+//react class that creates the Dashboard
+export class Dashboard extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
+        this.state = { //set layout of dashboard
             layouts: JSON.parse(JSON.stringify(originalLayouts))
         };
     }
@@ -114,59 +131,64 @@ export class MyFirstGrid extends React.Component {
             rowHeight: 30
         };
     }
-
+    //reset default layout
     resetLayout() {
         this.setState({ layouts: layoutsInit });
         this.checkHeightItem();
     }
-
+    //called when layout changes
     onLayoutChange(layout, layouts) {
+        //save in the database new layout
         saveToDB("layouts", layouts, '1', 'localStorage');
+        //change state
         this.setState({ layouts });
         layoutsHMod = JSON.parse(JSON.stringify(layouts));
         this.checkHeightItem();
     }
 
-
+    //saves new layout when SAVE button is clicked
     saveLayout() {
-
         var name = $('#newName').val();
         var idButton = getIdfromDB();
         saveToDB("layouts", this.state.layouts, idButton, name);
         createDiv_SaveLayout(this.setState.bind(this),name, idButton);
         $('#newName').val(textNewLayout);
-
     }
+    //check the height of the element and set the icon to display
     checkHeightItem() {
         var layouts = this.state.layouts;
         for (var i = 0; i < layouts.lg.length; i++){
             var id = layouts.lg[i].i;
             if (layouts.lg[i].h <= 1 && layouts.lg[i].i != 'searchPatient')  {
+                //div not displayed (item is collapsed)
                 $('#'+id).css("display", "none");
                 $('#coll'+id).attr("disabled", true).css("display", "none");
                 $('#show'+id).attr("disabled", false).css("display", "block");
             } else {
+                //div is displayed (item is no collapsed)
                 $('#'+id).css("display", "block");
                 $('#coll'+id).attr("disabled", false).css("display", "block");
                 $('#show'+id).attr("disabled", true).css("display", "none");
             }
         }
     }
+    //called after the render method of the class
     componentDidMount() {
-        var obj = JSON.parse(allLayouts)
+        var obj = JSON.parse(allLayouts);
         $('#layouts-list').attr("aria-expanded","false");
         $('#layouts-list').addClass("collapsed");
         for (var i = 1; i < Object.keys(obj).length; i++){
             createDiv_SaveLayout(this.setState.bind(this), obj[i].layoutName, obj[i].layoutId, this.checkHeightItem.bind(this));
         }
         this.checkHeightItem();
-
     }
 
+    //called to collapse an element (id of element, idCButton collapse button id, idSButton show button id)
     collapseItem(id, idCButton, idSButton) {
-        console.log(layoutsHMod);
         for (var i = 0; i < layoutsHMod.lg.length; i++) {
+
             if (layoutsHMod.lg[i].i == id) {
+                //sets the properties of the collapsing element
                 layoutsHMod.lg[i].minH = layoutCollapse.collapse.minH;
                 layoutsHMod.lg[i].h = layoutCollapse.collapse.h;
                 layoutsHMod.lg[i].maxH = layoutCollapse.collapse.maxH;
@@ -186,6 +208,7 @@ export class MyFirstGrid extends React.Component {
             }
         }
         $('#'+id).css("display", "none");
+        //set a new layout with collapsed element
         this.setState({
             layouts: layoutsHMod
         });
@@ -193,16 +216,14 @@ export class MyFirstGrid extends React.Component {
         $('#'+idSButton).attr("disabled", false);
         $('#'+idCButton).css("display", "none");
         $('#'+idSButton).css("display", "block");
-        console.log(this.state.layouts);
     };
-
+    //called to expand an element (id of element, idCButton collapse button id, idSButton show button id)
     expandItem(id, idCButton, idSButton) {
-
-        console.log(layoutsHMod);
         for (var i = 0; i < layoutsHMod.lg.length; i++) {
             if (layoutsHMod.lg[i].i == id) {
                 for (var j = 0; j < layoutsInit.lg.length; j++) {
                     if (layoutsInit.lg[j].i == id) {
+                        //sets the properties of the expanded element
                         layoutsHMod.lg[i].minH = layoutsInit.lg[j].minH;
                         layoutsHMod.lg[i].h = layoutsInit.lg[j].h;
                         layoutsHMod.lg[i].maxH = undefined;
@@ -224,6 +245,7 @@ export class MyFirstGrid extends React.Component {
         }
 
         $('#'+id).css("display", "block");
+        //set a new layout with expanded element
         this.setState({
             layouts: layoutsHMod
         });
@@ -231,14 +253,31 @@ export class MyFirstGrid extends React.Component {
         $('#'+idSButton).attr("disabled", true);
         $('#'+idCButton).css("display", "block");
         $('#'+idSButton).css("display", "none");
-        console.log(this.state.layouts);
     };
 
+    //NOTE:
+    // to create a new item to insert on the dashboard, declare it inside the ResponsiveGridLayout as follows:
+    // <div key='[unique key]' className={"..."} >
+    //     title div
+    //     <div id={"..."} className={"..."}>
+    //         <button id={"coll[div id]"} className={"btn-collShow"} onClick={() => this.collapseItem([div id], [collapse button id], [show button id])}> <i className="fas fa-angle-up"></i></button>
+    //         <button id={"show[div id]"} className={"btn-collShow"} onClick={() => this.expandItem([div id], [collapse button id], [show button id])}><i className="fas fa-angle-down"></i></button>
+    //         <h5 className={"h4_titleDiv"}> [title] </h5>
+    //     </div>
+    //     <div id={"[div id]"} style={{...}}>
+    //         ...
+    //     </div>
+    // </div>
+    //and then create the properties {i: key, h: ..., ..., } in the layoutsInit array
+
+    //first method called that creates items
     render() {
         return (
+
             <div className="d-flex" id="wrapper">
-                {/*Modal*/}
+                {/*Modal element*/}
                 <div className={"modal fade"} id={"modalLayout"} role={"dialog"}>
+
                     <div className={"modal-dialog"}>
 
                         <div className={"modal-content"}>
@@ -256,24 +295,29 @@ export class MyFirstGrid extends React.Component {
                                         data-dismiss={"modal"} onClick={() => this.saveLayout()}> {textButtonSave}
                                 </button>
                             </div>
+
                         </div>
 
                     </div>
                 </div>
 
-
+                    {/*left nav bar*/}
                     <div className="border-end bg-white" id="sidebar-wrapper">
+
                         <div className="sidebar-heading border-bottom bg-light">Medical Data Viz</div>
+
                         <div className="list-group list-group-flush">
+
                             <a id="layouts-list" href={".submenu1"} data-toggle={"collapse"} aria-expanded={"false"}
                                className={"list-group-item list-group-item-action flex-column align-items-start collapsed"}>
                                 <div className={"d-flex w-100 justify-content-start align-items-center"}>
-                                    <span className={"fa fa-dashboard fa-fw mr-3"}></span>
+                                    <span className={"fa fa-bookmark fa-fw mr-3"}></span>
                                     <span className={"menu-collapsed"}> { textLayouts } </span>
-                                    <span className={"submenu-icon ml-auto"} id={"submenu-icon-up"}> <i className="fas fa-angle-up"></i> </span>
-                                    <span className={"submenu-icon ml-auto"} id={"submenu-icon-down"}> <i className="fas fa-angle-down"></i> </span>
+                                    <span className={"submenu-icon ml-auto"} id={"submenu-icon-up"}> <i
+                                        className="fas fa-angle-double-down"></i> </span>
                                 </div>
                             </a>
+
                             <div id={"layout-div"}>
                                 <div id={'submenu1'} className={"submenu1 sidebar-submenu collapse show"}>
                                     <a href={"#javascript"} className={"layouts-div list-group-item list-group-item-action text-black"}>
@@ -290,10 +334,11 @@ export class MyFirstGrid extends React.Component {
 
                             </div>
 
-
                         </div>
                     </div>
+                   {/*center div*/}
                     <div id="page-content-wrapper">
+                        {/*nav bar*/}
                         <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
                             <div className="container-fluid">
                                 <button  id="sidebarToggle" className="navbar-toggler"><span
@@ -301,221 +346,209 @@ export class MyFirstGrid extends React.Component {
                                 </button>
                             </div>
                         </nav>
+                        {/*GridLayout from react-grid-layout*/}
+                    <ResponsiveGridLayout
+                        className="layout"
+                        breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
+                        cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}
+                        rowHeight={30}
+                        layouts={this.state.layouts}
+                        onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}>
+                        {/*search bar*/}
+                        <div key="searchPatient" className={"searchDiv"} >
+                            <span><i className={"fa fa-search"}></i></span>
+                            <input type="text" className={"search_patient"} id={"searchPatient"} placeholder={textSearch}/>
+                        </div>
 
+                        {/*all patients table*/}
+                        <div key="allPatients" className={"table_patient"} >
+                            <div className={"firstDiv"}>
+                                <button id={"collallPatients"} className={"btn-collShow"} onClick={() => this.collapseItem('allPatients', 'collallPatients', 'showallPatients')}> <i className="fas fa-angle-up"></i></button>
+                                <button id={"showallPatients"} className={"btn-collShow"} onClick={() => this.expandItem('allPatients', 'collallPatients', 'showallPatients')}>
+                                    <i className="fas fa-angle-down"></i></button>
+                                <h5 className={"h4_titleDiv"}>{tablePatientsText}</h5>
+                            </div>
+                            <div className={"table-responsive"} id={"allPatients"}>
 
+                                <table id={"tableAllPatient"} className={"table table-hover nowrap"}
+                                       style={{width:100 + '%'}}>
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>ID</th>
+                                        <th>{namePTable}</th>
+                                        <th>{genderPTable}</th>
+                                        <th>{dateBirthPTable}</th>
+                                        <th>{bloodPTable}</th>
+                                        <th>{heightTable}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id={"patientTableBody"}>
+                                    </tbody>
+                                </table>
 
-                <ResponsiveGridLayout
-                    className="layout"
-                    breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
-                    cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}
-                    rowHeight={30}
-                    layouts={this.state.layouts}
-                    onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
-                >
-
-                    <div key="searchPatient" className={"searchDiv"} >
-                        <span><i className={"fa fa-search"}></i></span>
-                        <input type="text" className={"search_patient"} id={"searchPatient"} placeholder={textSearch}
-                        />
-                    </div>
-
-                            <div key="allPatients" className={"table_patient"} >
-                                <div className={"firstDiv"}>
-                                    <button id={"collallPatients"} className={"btn-collShow"} onClick={() => this.collapseItem('allPatients', 'collallPatients', 'showallPatients')}> <i className="fas fa-angle-up"></i></button>
-                                    <button id={"showallPatients"} className={"btn-collShow"} onClick={() => this.expandItem('allPatients', 'collallPatients', 'showallPatients')}>
-                                        <i className="fas fa-angle-down"></i></button>
-                                    <h5 className={"h4_titleDiv"}>{tablePatientsText}</h5>
+                            </div>
+                        </div>
+                        {/*table with all visits of a patient*/}
+                        <div key="tabelVisitPatient" className={"table_visit_patient"} >
+                            <div className={"firstDiv"}>
+                                <button id={"colltabelVisitPatient"} className={"btn-collShow"} onClick={() => this.collapseItem('tabelVisitPatient', 'colltabelVisitPatient', 'showtabelVisitPatient')}> <i className="fas fa-angle-up"></i></button>
+                                <button id={"showtabelVisitPatient"} className={"btn-collShow"} onClick={() => this.expandItem('tabelVisitPatient', 'colltabelVisitPatient', 'showtabelVisitPatient')}>
+                                    <i className="fas fa-angle-down"></i></button>
+                                <h5 className={"h4_titleDiv"}>{tableVisitText}</h5>
+                            </div>
+                            <div className={"table-responsive"} id={"tabelVisitPatient"} >
+                                <table className={"table table-hover nowrap"} style={{width:100+'%'}}>
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>{visitDateTable}</th>
+                                        <th>{infoTable}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id={"tableVisitDate"}>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {/*table with information about a visit*/}
+                        <div key="tableDataVisit" className={"table_data_visit"}>
+                            <div className={"firstDiv"}>
+                                <button id={"colltableDataVisit"} className={"btn-collShow"} onClick={() => this.collapseItem('tableDataVisit', 'colltableDataVisit', 'showtableDataVisit')}> <i className="fas fa-angle-up"></i></button>
+                                <button id={"showtableDataVisit"} className={"btn-collShow"} onClick={() => this.expandItem('tableDataVisit', 'colltableDataVisit', 'showtableDataVisit')}>
+                                    <i className="fas fa-angle-down"></i></button>
+                                <h5 className={"h4_titleDiv"}>{visitInfoText}</h5>
+                            </div>
+                            <div className={"table-responsive"} id={"tableDataVisit"} >
+                                <table className={"table table-hover nowrap"} style={{width:100+'%'}}>
+                                    <thead>
+                                    <tr>
+                                        <th>{measTable}</th>
+                                        <th>{valueTable}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id={"measurementTable"}>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {/*note about a visit*/}
+                        <div key="noteVisit" className={"div_note_visit"} >
+                            <div id={"titleNote"} className={"firstDiv"}>
+                                <button id={"collnoteVisit"} className={"btn-collShow"} onClick={() => this.collapseItem('noteVisit', 'collnoteVisit', 'shownoteVisit')}> <i className="fas fa-angle-up"></i></button>
+                                <button id={"shownoteVisit"} className={"btn-collShow"} onClick={() => this.expandItem('noteVisit', 'collnoteVisit', 'shownoteVisit')}>
+                                    <i className="fas fa-angle-down"></i></button>
+                                <h5 className={"h4_titleDiv"}>{noteTitle}</h5>
+                            </div>
+                            <div id={"noteVisit"} style={{width: 100+'%', height: 90+'%'}}>
+                                <p id={"noteVisit"}>{nullNote}</p>
+                            </div>
+                        </div>
+                        {/*patient personal information*/}
+                        <div key="patientInfo" className={"personal_info"} >
+                            <div style={{width: 100+'%', height: 100+'%'}} id={"patientInfo"}>
+                                <div>
+                                    <h3 id={"patientName"}> {noPatientSel} </h3>
                                 </div>
-                                <div className={"table-responsive"} id={"allPatients"}>
-                                    <table id={"tableAllPatient"} className={"table table-hover nowrap"}
-                                           style={{width:100 + '%'}}>
-                                        <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>ID</th>
-                                            <th>{namePTable}</th>
-                                            <th>{genderPTable}</th>
-                                            <th>{dateBirthPTable}</th>
-                                            <th>{bloodPTable}</th>
-                                            <th>{heightTable}</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody id={"patientTableBody"}>
-                                        </tbody>
-                                    </table>
-
+                                <div className={"informationTable"}>
+                                    <div className={"p-2 d-flex stats"}>
+                                        <div className={"d-flex flex-column"}><span className={"titleSpan"}>{ageLab}</span><span
+                                            id={"ageSpan"}>-</span></div>
+                                        <div className={"d-flex flex-column"}><span className={"titleSpan"}>{sexLab}</span><span
+                                            id={"sexSpan"}>-</span></div>
+                                        <div className={"d-flex flex-column"}><span className={"titleSpan"}>{bloodLab}</span><span
+                                            id={"bloodSpan"}>-</span></div>
+                                    </div>
                                 </div>
                             </div>
-
-
-                    <div key="tabelVisitPatient" className={"table_visit_patient"} >
-                        <div className={"firstDiv"}>
-                            <button id={"colltabelVisitPatient"} className={"btn-collShow"} onClick={() => this.collapseItem('tabelVisitPatient', 'colltabelVisitPatient', 'showtabelVisitPatient')}> <i className="fas fa-angle-up"></i></button>
-                            <button id={"showtabelVisitPatient"} className={"btn-collShow"} onClick={() => this.expandItem('tabelVisitPatient', 'colltabelVisitPatient', 'showtabelVisitPatient')}>
-                                <i className="fas fa-angle-down"></i></button>
-                            <h5 className={"h4_titleDiv"}>{tableVisitText}</h5>
                         </div>
-                        <div className={"table-responsive"} id={"tabelVisitPatient"} >
-                            <table className={"table table-hover nowrap"} style={{width:100+'%'}}>
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>{visitDateTable}</th>
-                                    <th>{infoTable}</th>
-                                </tr>
-                                </thead>
-                                <tbody id={"tableVisitDate"}>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-
-                    <div key="tableDataVisit" className={"table_data_visit"}>
-                        <div className={"firstDiv"}>
-                            <button id={"colltableDataVisit"} className={"btn-collShow"} onClick={() => this.collapseItem('tableDataVisit', 'colltableDataVisit', 'showtableDataVisit')}> <i className="fas fa-angle-up"></i></button>
-                            <button id={"showtableDataVisit"} className={"btn-collShow"} onClick={() => this.expandItem('tableDataVisit', 'colltableDataVisit', 'showtableDataVisit')}>
-                                <i className="fas fa-angle-down"></i></button>
-                            <h5 className={"h4_titleDiv"}>{visitInfoText}</h5>
-                        </div>
-                        <div className={"table-responsive"} id={"tableDataVisit"} >
-                            <table className={"table table-hover nowrap"} style={{width:100+'%'}}>
-                                <thead>
-                                <tr>
-                                    <th>{measTable}</th>
-                                    <th>{valueTable}</th>
-                                </tr>
-                                </thead>
-                                <tbody id={"measurementTable"}>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div key="noteVisit" className={"div_note_visit"} >
-                        <div id={"titleNote"} className={"firstDiv"}>
-                            <button id={"collnoteVisit"} className={"btn-collShow"} onClick={() => this.collapseItem('noteVisit', 'collnoteVisit', 'shownoteVisit')}> <i className="fas fa-angle-up"></i></button>
-                            <button id={"shownoteVisit"} className={"btn-collShow"} onClick={() => this.expandItem('noteVisit', 'collnoteVisit', 'shownoteVisit')}>
-                                <i className="fas fa-angle-down"></i></button>
-                            <h5 className={"h4_titleDiv"}>{noteTitle}</h5>
-                        </div>
-                        <div id={"noteVisit"} style={{width: 100+'%', height: 90+'%'}}>
-                            <p id={"noteVisit"}>{nullNote}</p>
-                        </div>
-                    </div>
-
-                    <div key="patientInfo" className={"personal_info"} >
-                        <div style={{width: 100+'%', height: 100+'%'}} id={"patientInfo"}>
-                        <div>
-                            <h3 id={"patientName"}> {noPatientSel} </h3>
-                        </div>
-                        <div className={"informationTable"}>
-                            <div className={"p-2 d-flex stats"}>
-                                <div className={"d-flex flex-column"}><span className={"titleSpan"}>{ageLab}</span><span
-                                    id={"ageSpan"}>-</span></div>
-                                <div className={"d-flex flex-column"}><span className={"titleSpan"}>{sexLab}</span><span
-                                    id={"sexSpan"}>-</span></div>
-                                <div className={"d-flex flex-column"}><span className={"titleSpan"}>{bloodLab}</span><span
-                                    id={"bloodSpan"}>-</span></div>
+                        {/*vital signs graph*/}
+                        <div key="VitalSignsGraph" className={"div_filter"} >
+                            <div className={"firstDiv"}>
+                                <button id={"collVitalSignsGraph"} className={"btn-collShow"} onClick={() => this.collapseItem('VitalSignsGraph', 'collVitalSignsGraph', 'showVitalSignsGraph')}> <i className="fas fa-angle-up"></i></button>
+                                <button id={"showVitalSignsGraph"} className={"btn-collShow"} onClick={() => this.expandItem('VitalSignsGraph', 'collVitalSignsGraph', 'showVitalSignsGraph')}>
+                                    <i className="fas fa-angle-down"></i></button>
+                                <h5 className={"h4_titleDiv"}>{vitalSignsText}</h5>
+                            </div>
+                            <div id={"VitalSignsGraph"} style={{width: 100+'%', height: 90+'%'}}>
+                                <div style={{width: 100+'%', height: 25+'%'}}>
+                                    <svg id={"svg-hr"} viewBox={"0 0 600 100"} preserveAspectRatio={"none"}>
+                                    </svg>
+                                </div>
+                                <div style={{width: 100+'%', height: 25+'%'}}>
+                                    <svg id={"svg-rr"} viewBox={"0 0 600 100"} preserveAspectRatio={"none"}>
+                                    </svg>
+                                </div>
+                                <div style={{width: 100+'%', height: 25+'%'}}>
+                                    <svg id={"svg-sp"} viewBox={"0 0 600 100"} preserveAspectRatio={"none"}>
+                                    </svg>
+                                </div>
+                                <div style={{width: 100+'%', height: 25+'%'}}>
+                                    <svg id={"svg-dp"} viewBox={"0 0 600 100"} preserveAspectRatio={"none"}>
+                                    </svg>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    </div>
-                    <div key="VitalSignsGraph" className={"div_filter"} >
-                        <div className={"firstDiv"}>
-                            <button id={"collVitalSignsGraph"} className={"btn-collShow"} onClick={() => this.collapseItem('VitalSignsGraph', 'collVitalSignsGraph', 'showVitalSignsGraph')}> <i className="fas fa-angle-up"></i></button>
-                            <button id={"showVitalSignsGraph"} className={"btn-collShow"} onClick={() => this.expandItem('VitalSignsGraph', 'collVitalSignsGraph', 'showVitalSignsGraph')}>
-                                <i className="fas fa-angle-down"></i></button>
-                            <h5 className={"h4_titleDiv"}>{vitalSignsText}</h5>
-                        </div>
-                        <div id={"VitalSignsGraph"} style={{width: 100+'%', height: 90+'%'}}>
-                            <div style={{width: 100+'%', height: 25+'%'}}>
-                                <svg id={"svg-hr"} viewBox={"0 0 600 100"} preserveAspectRatio={"none"}>
+                        {/*graph for data visualization*/}
+                        <div key="graph" className={"div_graph"} id={"containerSvg"} >
+                            <div className={"firstDiv"}>
+                                <button id={"collgraph"} className={"btn-collShow"} onClick={() => this.collapseItem('graph', 'collgraph', 'showgraph')}>
+                                    <i className="fas fa-angle-up"></i></button>
+                                <button id={"showgraph"} className={"btn-collShow"} onClick={() => this.expandItem('graph', 'collgraph', 'showgraph')}>
+                                    <i className="fas fa-angle-down"></i></button>
+                                <h5 className={"h4_titleDiv"}>{graphTitleText}</h5>
+                            </div>
+                            <div id={"graph"} style={{width: 100+'%', height: 90+'%'}}>
+                                <div id={"titleGraph"}><select id={"selectValue"} multiple={'multiple'} name={'measurement[]'}>
+                                </select>
+                                    <div className="form-check form-switch">
+                                        <input className="form-check-input" type="checkbox" id="switchChart"></input>
+                                    </div>
+                                </div>
+                                <svg id={"svg-main"} viewBox={"0 0 600 400"} preserveAspectRatio={"none"}>
                                 </svg>
-                            </div>
-                            <div style={{width: 100+'%', height: 25+'%'}}>
-                                <svg id={"svg-rr"} viewBox={"0 0 600 100"} preserveAspectRatio={"none"}>
-                                </svg>
-                            </div>
-                            <div style={{width: 100+'%', height: 25+'%'}}>
-                                <svg id={"svg-sp"} viewBox={"0 0 600 100"} preserveAspectRatio={"none"}>
-                                </svg>
-                            </div>
-                            <div style={{width: 100+'%', height: 25+'%'}}>
-                                <svg id={"svg-dp"} viewBox={"0 0 600 100"} preserveAspectRatio={"none"}>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    <div key="graph" className={"div_graph"} id={"containerSvg"} >
-                        <div className={"firstDiv"}>
-                            <button id={"collgraph"} className={"btn-collShow"} onClick={() => this.collapseItem('graph', 'collgraph', 'showgraph')}>
-                                <i className="fas fa-angle-up"></i></button>
-                            <button id={"showgraph"} className={"btn-collShow"} onClick={() => this.expandItem('graph', 'collgraph', 'showgraph')}>
-                                <i className="fas fa-angle-down"></i></button>
-                            <h5 className={"h4_titleDiv"}>{graphTitleText}</h5>
-                        </div>
-                        <div id={"graph"} style={{width: 100+'%', height: 90+'%'}}>
-                        <div id={"titleGraph"}><select id={"selectValue"} multiple={'multiple'} name={'measurement[]'}>
-                        </select>
-                            <div className="form-check form-switch">
-                                <input className="form-check-input" type="checkbox" id="switchChart"></input>
-                            </div>
-                        </div>
-                            <svg id={"svg-main"} viewBox={"0 0 600 400"} preserveAspectRatio={"none"}>
-                            </svg>
 
-                            <div id={"container-1"} style={{width: 100+'%', height: 20+'%', display: "none"}}>
-                                <svg id={"svg-main-1"} viewBox={"0 0 600 80"} preserveAspectRatio={"none"}>
-                                </svg>
-                            </div>
-                            <div id={"container-2"}  style={{width: 100+'%', height: 20+'%', display: "none"}}>
-                                <svg id={"svg-main-2"} viewBox={"0 0 600 80"} preserveAspectRatio={"none"}>
-                                </svg>
-                            </div>
-                            <div id={"container-3"}  style={{width: 100+'%', height: 20+'%', display: "none"}}>
-                                <svg id={"svg-main-3"} viewBox={"0 0 600 80"} preserveAspectRatio={"none"}>
-                                </svg>
-                            </div>
-                            <div id={"container-4"}  style={{width: 100+'%', height: 20+'%', display: "none"}}>
-                                <svg id={"svg-main-4"} viewBox={"0 0 600 80"} preserveAspectRatio={"none"}>
-                                </svg>
-                            </div>
+                                <div id={"container-1"} style={{width: 100+'%', height: 20+'%', display: "none"}}>
+                                    <svg id={"svg-main-1"} viewBox={"0 0 600 80"} preserveAspectRatio={"none"}>
+                                    </svg>
+                                </div>
+                                <div id={"container-2"}  style={{width: 100+'%', height: 20+'%', display: "none"}}>
+                                    <svg id={"svg-main-2"} viewBox={"0 0 600 80"} preserveAspectRatio={"none"}>
+                                    </svg>
+                                </div>
+                                <div id={"container-3"}  style={{width: 100+'%', height: 20+'%', display: "none"}}>
+                                    <svg id={"svg-main-3"} viewBox={"0 0 600 80"} preserveAspectRatio={"none"}>
+                                    </svg>
+                                </div>
+                                <div id={"container-4"}  style={{width: 100+'%', height: 20+'%', display: "none"}}>
+                                    <svg id={"svg-main-4"} viewBox={"0 0 600 80"} preserveAspectRatio={"none"}>
+                                    </svg>
+                                </div>
 
-
+                            </div>
                         </div>
-                    </div>
-                </ResponsiveGridLayout>
+                        {/*timeline chart*/}
+                        <div key="timelineChart" className={"div_timelineChart"} >
+                            <div className={"firstDiv"}>
+                                <button id={"colltimelineChart"} className={"btn-collShow"} onClick={() => this.collapseItem('timelineChart', 'colltimelineChart', 'showtimelineChart')}> <i className="fas fa-angle-up"></i></button>
+                                <button id={"showtimelineChart"} className={"btn-collShow"} onClick={() => this.expandItem('timelineChart', 'colltimelineChart', 'showtimelineChart')}>
+                                    <i className="fas fa-angle-down"></i></button>
+                                <h5 className={"h4_titleDiv"}>{timelineTitleText}</h5>
+                            </div>
+                            <div id={"timelineChart"} style={{width: 100+'%', height: 100+'%'}}>
+
+                            </div>
+                        </div>
+
+                    </ResponsiveGridLayout>
+
                 </div>
           </div>
         )
     }
 }
 
-function getFromLS(key) {
-    let ls = {};
-    if (global.localStorage) {
-        try {
-            ls = JSON.parse(global.localStorage.getItem("rgl-8")) || {};
-        } catch (e) {
-        }
-    }
-    return ls[key];
-}
-
-function saveToLS(key, value) {
-
-    if (global.localStorage) {
-        var string = JSON.stringify({[key]: value});
-        global.localStorage.setItem(
-            "rgl-8",
-            JSON.stringify({
-                [key]: value
-            })
-        );
-    }
-}
-
+//save layout in the database (key of layout, value is layout, id of layout, name of layout)
 function saveToDB (key, value, id, name) {
     var string = JSON.stringify({[key]: value});
 
@@ -528,7 +561,7 @@ function saveToDB (key, value, id, name) {
         }
     });
 }
-
+//get layout from the database (key of layout, id of layout)
 function getFromDB(key, id) {
     var result = "";
     $.ajax({
@@ -548,7 +581,7 @@ function getFromDB(key, id) {
     });
     return result;
 }
-
+//get id of layout from the database
 function getIdfromDB() {
     var result = "";
     $.ajax({
@@ -562,7 +595,7 @@ function getIdfromDB() {
     });
     return result;
 }
-
+//delete layout in the database
 function deleteLayout(id) {
     $.ajax({
         type: 'POST',
@@ -576,6 +609,7 @@ function deleteLayout(id) {
     });
 }
 
+//get all layouts to display in the left bar, with which the user can be interact
 function getAllLayouts() {
     var result = "";
     $.ajax({
@@ -591,8 +625,8 @@ function getAllLayouts() {
     return result;
 }
 
+//create an item in the list items in the left bar for each layout (allLayouts variable), with delete and apply buttons
 function createDiv_SaveLayout(setState, name, idButton, checkHeightItem) {
-    // item creation
     //main <div>
     var newLayout = document.createElement("div");
     newLayout.classList.add('collapse','sidebar-submenu', 'show','submenu1');
