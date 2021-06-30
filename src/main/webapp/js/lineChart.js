@@ -124,6 +124,9 @@ export const lineChart = (selection, props) => {
             textOffset: 25
         });
 
+    var d0 = new Date(2013, 0, 1),
+        d1 = new Date(2015, 0, 1);
+
     gEnter.call(zoom);
 
     function zoom(gEnter) {
