@@ -71,7 +71,12 @@ div#root {
     flex-direction: column;
     overflow: hidden;
 }
-
+.div_timelineChart {
+    border-radius: 5px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+}
 .div_graph {
     border-radius: 5px;
     background: white;
@@ -148,7 +153,6 @@ tbody, td, tfoot, th, thead, tr {
 .firstDiv {
     display: flex;
     flex-direction: row;
-    overflow: hidden;
 }
  #titleGraph, #titleFilter {
     width: 100%;
@@ -161,7 +165,7 @@ tbody, td, tfoot, th, thead, tr {
 #titleNote{
     border-radius: 5px;
 }
-.form-check {
+.form-switch {
     margin-left: 50px;
 }
 span.multiselect-native-select {
@@ -345,6 +349,7 @@ a.layouts-div.list-group-item {
     border: none;
     background-color: white;
     outline: none;
+    height: 30px;
 }
 *::-webkit-scrollbar {
     width: 8px;
@@ -395,4 +400,23 @@ a.layouts-div.list-group-item {
 }
 .tooltip-value, .tooltip-date {
     font-weight: 800;
+}
+
+.vis-timeline {
+    border-style: none !important;
+}
+
+#titleNote {
+    overflow: hidden;
+}
+
+.vis-item.vis-range {
+    min-width: 8px !important;
+}
+.vis-tooltip {
+    position: fixed !important;
+    z-index: 10000 !important;
+    font-family: 'Poppins' !important;
+    background-color: white !important;
+    border: 2px solid #dddddd !important;
 }
