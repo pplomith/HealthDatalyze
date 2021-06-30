@@ -1,23 +1,19 @@
-import {
-    searchMultiselect,
-    nonSelectedText,
-    textButtonShow
-} from './allStrings'
-
-var patientSelected = null;
 import ReactDOM from "react-dom";
 import React from "react";
-import { MyFirstGrid } from './initDashboard';
-import { searchPatient} from './searchScript';
+import { searchMultiselect, nonSelectedText, textButtonShow } from './allStrings'
+import { DataSet, Timeline } from "vis-timeline/standalone";
+import { Dashboard } from './initDashboard';
+import { searchPatient } from './searchScript';
 import { createChart, processData } from './createChart';
 
+var patientSelected = null;
+//call react render for create the dahsboard
 const contentDiv = document.getElementById("root");
 const gridProps = window.gridProps || {};
-ReactDOM.render(React.createElement(MyFirstGrid, gridProps), contentDiv);
+ReactDOM.render(React.createElement(Dashboard, gridProps), contentDiv);
 
 $('#searchPatient').keyup(searchPatient);
 window.addEventListener('DOMContentLoaded', event => {
-
     // Toggle the side navigation
     const sidebarToggle = document.getElementById('sidebarToggle');
     if (sidebarToggle) {
@@ -27,11 +23,10 @@ window.addEventListener('DOMContentLoaded', event => {
             localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
         });
     }
-
 });
 
-//create multiselection
 $(document).ready(function () {
+    // create a multiple selection of measurements for the graph
     $('#selectValue').multiselect({
         enableFiltering: true,
         enableCaseInsensitiveFiltering: true,
@@ -124,7 +119,6 @@ function fillPatientTable(data) {
             dataType: 'json',
             data: {"id" : this.id},
             success: function (response) {
-                console.log(response);
                 visitDatePatient(response);
             }
         });
@@ -173,6 +167,7 @@ function visitDatePatient(data) {
         //call to the funciont to create the chart
         createChart(patientSelected.DataPatient, patientSelected.VitalSigns);
         fillSelect(patientSelected.DataPatient);
+        createTimeline(patientSelected.TimelineData);
     }
     function getAge(dateOfBirth) {
         var today = Date.now();
@@ -223,5 +218,60 @@ function measurementTableUpdate(visitDate) {
 
         $("#measurementTable").html(table);
     }
+
+}
+
+function createTimeline(data) {
+    $('#timelineChart').empty();
+    // DOM element where the Timeline will be attached
+    var container = document.getElementById('timelineChart');
+    //static data groups
+    //id = 100 => MEDICINE
+    //id = 101 => EVENTS
+    var dataGroups = [{
+        groups: [
+            {
+                id: 100,
+                content: 'Medicine'
+            },
+            {
+                id: 101,
+                content: 'Events'
+            }
+        ]
+    }];
+    var groups = new DataSet();
+    groups.add(dataGroups[0].groups);
+
+    // Create a DataSet (allows two way data-binding)
+    var items = new DataSet();
+    data.forEach(d => {
+        var item = [{
+                id: d.id,
+                group: d.group,
+                content: d.content,
+                start: d.start,
+                end: d.end,
+                title: d.title
+            }];
+        items.add(item[0]);
+    });
+
+    // Configuration for the Timeline
+    var options = {
+        locale: 'en',
+        width: '100%',
+        height: '100%',
+        minHeight: '100%',
+        maxHeight: '100%',
+        tooltip: {
+            followMouse: true,
+        },
+        zoomMin: 60 * 60 * 60 * 240,
+        zoomMax:  100000 * 100 * 60 * 240
+    };
+
+    // Create a Timeline
+    var timeline = new Timeline(container, items, groups, options);
 
 }
