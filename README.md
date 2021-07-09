@@ -1,5 +1,4 @@
-# meddataviz
-HEALTHDATALYZE
+# HealthDatalyze
 
 IT
 HealthDatalyze è una Dashboard Web per la visualizzazione interattiva dei dati in ambito medico, consentendo ai dottori di monitorare la condizione dei pazienti, al fine di individuare le possibili malattie o delle cure nei valori misurati. Inoltre, per ogni paziente vengono mostrate le malattie precedentemente diagnosticate, periodi in cui sono stati assunti farmaci e la visualizzazione su una timeline di eventi particolari (operazioni, ricoveri).
