@@ -23,14 +23,22 @@ var lineChartGMain_1 = null;
 var lineChartGMain_2 = null;
 var lineChartGMain_3 = null;
 var lineChartGMain_4 = null;
+var minZoomDate = null;
+var maxZoomDate = null;
+export const createChart = (patientData, vitalSigns, startDate, endDate) => {
+    if (startDate != '' && endDate != '') {
+        minZoomDate = new Date(startDate);
+        maxZoomDate = new Date(endDate);
+    } else if (startDate == '' || endDate == '') {
+        minZoomDate = null;
+        maxZoomDate = null;
+    }
 
-export const createChart = (patientData, vitalSigns) => {
     allDataMain = [];
     patientData.forEach( d => {
         allDataMain.push(d);
     });
 
-    console.log("createChart");
 
     allDataMain.forEach(d => {
        d.Value = +d.Value;
@@ -41,8 +49,6 @@ export const createChart = (patientData, vitalSigns) => {
         d.Value = +d.Value;
     });
 
-    console.log(allDataMain);
-    console.log(vitalSigns);
 
     svg_main = select('#svg-main');
     svg_main.selectAll('g').remove(); //clear chart
@@ -130,8 +136,6 @@ export const processData = (measurementSelected) => {
         render_svg_main_n(dataGroup, "svg-main-"+(i+1));
         dataGroup = [];
     }
-    console.log("data selected");
-    console.log(dataSelected);
     render_SVG_main();
 }
 
@@ -150,6 +154,7 @@ const render_SVG_main = () => {
 
         const yValue = d => d.Value;
 
+
         lineChartGMain.call(lineChart, {
            yValue,
            xValue,
@@ -161,7 +166,9 @@ const render_SVG_main = () => {
            },
             width,
             height,
-            dataSelected
+            dataSelected,
+            minZoomDate,
+            maxZoomDate
         });
 
     }
@@ -187,6 +194,7 @@ const render_svg_main_n = (dataGroup, id) => {
 
         const colorValue = d => d.Measurement;
         const colorScale = scaleOrdinal(schemeSet1);
+
         lineChartGElement.call(vitalChart, {
             yValue,
             xValue,
@@ -199,18 +207,16 @@ const render_svg_main_n = (dataGroup, id) => {
             width,
             height,
             data: dataGroup,
-            colorValue
+            colorValue,
+            minZoomDate,
+            maxZoomDate
         });
     }
 }
 
 const render_vitalSigns_chart = (vitalSignsData, id) => {
         var lineChartGElement = null;
-        console.log(id);
-        console.log(vitalSignsData);
-        vitalSignsData.forEach(d => {
-            console.log(d.Value);
-        });
+
         switch (id) {
             case "svg-rr":
                 lineChartGElement = lineChartGRR;
@@ -233,11 +239,10 @@ const render_vitalSigns_chart = (vitalSignsData, id) => {
     const xValue = d => d.Date;
 
     const yValue = d => d.Value;
-    console.log(lineChartGElement);
+
 
     const colorValue = d => d.Name;
-    const colorScale = scaleOrdinal()
-        .range(['red']);
+
     lineChartGElement.call(vitalChart, {
             yValue,
             xValue,
@@ -250,7 +255,9 @@ const render_vitalSigns_chart = (vitalSignsData, id) => {
             width,
             height,
             data: vitalSignsData,
-            colorValue
+            colorValue,
+            minZoomDate,
+            maxZoomDate
         });
 
     }
