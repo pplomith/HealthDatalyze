@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>MedDataViz</title>
+    <title>HealthDatalyze</title>
     <script src="https://unpkg.com/d3@5.6.0/dist/d3.min.js">
     </script>
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
