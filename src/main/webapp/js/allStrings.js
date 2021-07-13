@@ -3,6 +3,7 @@ import React from "react";
 
 export const searchMultiselect = 'Search Here...';
 export const nonSelectedText = 'Select a value';
+export const nonSelectedPatientText = 'Select a patient';
 export const textButtonShow = 'Show';
 export const textNewLayout = 'New Layout';
 export const textLayoutSaving = 'Layout Saving';
@@ -34,3 +35,6 @@ export const visitInfoText = 'VISIT INFORMATION';
 export const vitalSignsText = 'VITAL SIGNS';
 export const graphTitleText = 'VALUES MEASURED';
 export const timelineTitleText = 'TIMELINE';
+export const dateFilterTitle = 'DATE FILTERS';
+export const heatmapTitleText = 'HEATMAP';
+export const btnHeatmapApply = 'Apply';
