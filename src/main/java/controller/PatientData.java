@@ -28,9 +28,16 @@ public class PatientData extends HttpServlet {
             jsonObject = patientDAO.getAllPatients();
         }
 
-        request.setCharacterEncoding("utf8");
-        response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
-        out.print(jsonObject.toString());
+
+        if (jsonObject != null) {
+            request.setCharacterEncoding("utf8");
+            response.setContentType("application/json");
+            PrintWriter out = response.getWriter();
+            out.print(jsonObject.toString());
+        } else {
+            request.setCharacterEncoding("utf8");
+            response.setContentType("text/plain");
+            response.getWriter().write("Server Error");
+        }
     }
 }
