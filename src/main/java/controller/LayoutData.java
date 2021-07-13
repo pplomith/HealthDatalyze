@@ -57,7 +57,6 @@ public class LayoutData extends HttpServlet {
             request.setCharacterEncoding("utf8");
             response.setContentType("text/plain");
             PrintWriter out = response.getWriter();
-            System.out.println(jsonObject.toString());
             out.print(jsonObject.toString());
         }
 
