@@ -33,7 +33,10 @@ import {
     visitInfoText,
     vitalSignsText,
     graphTitleText,
-    timelineTitleText
+    timelineTitleText,
+    dateFilterTitle,
+    heatmapTitleText,
+    btnHeatmapApply
 } from './allStrings'
 //responsive width for GridLayout - React
 const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -42,15 +45,17 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 //properties: (i: id,x: x-position,y: y-position,w: width,h: height, minW (maxW): minimum (maximum) width, minH (maxH): minimum (maximum) height)
 var layoutsInit = {
     lg:[
-        {i: "searchPatient", x: 0, y: 0, w: 5, h: 1, minW: 3, maxH: 1},
-        {i: "allPatients", x: 0, y: 1, w: 5, h: 6, minW: 3, minH: 5},
-        {i: "tabelVisitPatient", x: 0, y: 2, w: 5, h: 6, minW: 3, minH: 6},
-        {i: "tableDataVisit", x: 0, y: 3, w: 3, h: 5, minW: 3, minH: 3},
-        {i: "noteVisit", x: 3, y: 3, w: 2, h: 5, minW: 2, minH: 3},
-        {i: "patientInfo", x: 5, y: 0, w: 3, h: 3, minW: 3, minH: 3, maxH: 3},
-        {i: "VitalSignsGraph", x: 5, y: 1, w: 5, h: 10, minW: 4, minH: 8},
-        {i: "graph", x: 5, y: 2, w: 5, h: 11, minW: 4, minH: 7},
-        {i: "timelineChart", x: 0, y: 4, w: 5, h: 10, minW: 4, minH: 8}
+        {i: "searchPatient", x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1},
+        {i: "allPatients", x: 0, y: 1, w: 6, h: 8, minW: 3, minH: 5},
+        {i: "tabelVisitPatient", x: 0, y: 2, w: 6, h: 8, minW: 3, minH: 6},
+        {i: "tableDataVisit", x: 0, y: 3, w: 4, h: 7, minW: 3, minH: 3},
+        {i: "noteVisit", x: 4, y: 3, w: 2, h: 7, minW: 2, minH: 3},
+        {i: "patientInfo", x: 6, y: 0, w: 3, h: 3, minW: 3, minH: 3, maxH: 3},
+        {i: "VitalSignsGraph", x: 6, y: 1, w: 6, h: 10, minW: 4, minH: 8},
+        {i: "graph", x: 6, y: 2, w: 6, h: 11, minW: 4, minH: 7},
+        {i: "timelineChart", x: 0, y: 4, w: 12, h: 8, minW: 4, minH: 8},
+        {i: "dateFilter", x: 9, y: 0, w: 3, h: 3, minW: 2, minH: 3, maxH: 3},
+        {i: "heatmap", x: 0, y: 5, w: 6, h: 11, minW: 4, minH: 7}
     ],
     md: [
         {i: "searchPatient", x: 0, y: 0, w: 5, h: 1, minW: 3, maxH: 1},
@@ -61,7 +66,9 @@ var layoutsInit = {
         {i: "patientInfo", x: 5, y: 0, w: 3, h: 3, minW: 3, minH: 3, maxH: 3},
         {i: "VitalSignsGraph", x: 5, y: 1, w: 5, h: 10, minW: 4, minH: 8},
         {i: "graph", x: 5, y: 2, w: 5, h: 11, minW: 4, minH: 7},
-        {i: "timelineChart", x: 0, y: 4, w: 5, h: 10, minW: 4, minH: 8}
+        {i: "timelineChart", x: 0, y: 4, w: 5, h: 10, minW: 4, minH: 8},
+        {i: "dateFilter", x: 8, y: 0, w: 2, h: 3, minW: 2, minH: 3, maxH: 3},
+        {i: "heatmap", x: 0, y: 5, w: 6, h: 11, minW: 4, minH: 7}
     ],
     sm: [
         {i: "searchPatient", x: 0, y: 0, w: 3, h: 1, minW: 3, maxH: 1},
@@ -73,6 +80,8 @@ var layoutsInit = {
         {i: "VitalSignsGraph", x: 4, y: 1, w: 3, h: 10, minW: 4, minH: 8},
         {i: "graph", x: 4, y: 2, w: 3, h: 10, minW: 3, minH: 7},
         {i: "timelineChart", x: 0, y: 4, w: 3, h: 10, minW: 4, minH: 8},
+        {i: "dateFilter", x: 4, y: 0, w: 2, h: 3, minW: 1, minH: 3, maxH: 3},
+        {i: "heatmap", x: 0, y: 5, w: 5, h: 10, minW: 4, minH: 7}
     ],
     xs: [
         {i: "searchPatient", x: 0, y: 0, w: 2, h: 1, minW: 2, maxH: 1},
@@ -84,17 +93,21 @@ var layoutsInit = {
         {i: "VitalSignsGraph", x: 3, y: 1, w: 2, h: 6, minW: 2, minH: 6},
         {i: "graph", x: 3, y: 2, w: 2, h: 10, minW: 2, minH: 7},
         {i: "timelineChart", x: 0, y: 4, w: 2, h: 6, minW: 2, minH: 6},
+        {i: "dateFilter", x: 3, y: 0, w: 2, h: 3, minW: 1, minH: 3, maxH: 3},
+        {i: "heatmap", x: 0, y: 5, w: 5, h: 10, minW: 4, minH: 7}
     ],
     xxs: [
-        {i: "searchPatient", x: 0, y: 4, w: 2, h: 1, minW: 2, maxH: 1},
-        {i: "allPatients", x: 0, y: 5, w: 2, h: 6, minW: 2, minH: 5},
-        {i: "tabelVisitPatient", x: 0, y: 6, w: 2, h: 6, minW: 2, minH: 6},
-        {i: "tableDataVisit", x: 0, y: 7, w: 2, h: 5, minW: 2, minH: 5},
-        {i: "noteVisit", x: 0, y: 8, w: 2, h: 4, minW: 1, minH: 3},
+        {i: "searchPatient", x: 0, y: 5, w: 2, h: 1, minW: 2, maxH: 1},
+        {i: "allPatients", x: 0, y: 6, w: 2, h: 6, minW: 2, minH: 5},
+        {i: "tabelVisitPatient", x: 0, y: 7, w: 2, h: 6, minW: 2, minH: 6},
+        {i: "tableDataVisit", x: 0, y: 8, w: 2, h: 5, minW: 2, minH: 5},
+        {i: "noteVisit", x: 0, y: 9, w: 2, h: 4, minW: 1, minH: 3},
         {i: "patientInfo", x: 0, y: 0, w: 2, h: 3, minW: 2, minH: 2, maxH: 3},
-        {i: "VitalSignsGraph", x: 0, y: 1, w: 2, h: 11, minW: 2, minH: 8},
-        {i: "graph", x: 0, y: 2, w: 2, h: 11, minW: 2, minH: 7},
-        {i: "timelineChart", x: 0, y: 3, w: 2, h: 11, minW: 2, minH: 8}
+        {i: "VitalSignsGraph", x: 0, y: 2, w: 2, h: 11, minW: 2, minH: 8},
+        {i: "graph", x: 0, y: 3, w: 2, h: 11, minW: 2, minH: 7},
+        {i: "timelineChart", x: 0, y: 4, w: 2, h: 11, minW: 2, minH: 8},
+        {i: "dateFilter", x: 0, y: 1, w: 2, h: 3, minW: 1, minH: 3, maxH: 3},
+        {i: "heatmap", x: 0, y: 10, w: 6, h: 11, minW: 4, minH: 7}
     ]
 };
 //layout that sets the properties of a collapsing element
@@ -226,19 +239,19 @@ export class Dashboard extends React.Component {
                         //sets the properties of the expanded element
                         layoutsHMod.lg[i].minH = layoutsInit.lg[j].minH;
                         layoutsHMod.lg[i].h = layoutsInit.lg[j].h;
-                        layoutsHMod.lg[i].maxH = undefined;
+                        layoutsHMod.lg[i].maxH = layoutsInit.lg[j].maxH;
                         layoutsHMod.md[i].minH = layoutsInit.md[j].minH;
                         layoutsHMod.md[i].h = layoutsInit.md[j].h;
-                        layoutsHMod.md[i].maxH = undefined;
+                        layoutsHMod.md[i].maxH = layoutsInit.md[j].maxH;
                         layoutsHMod.sm[i].minH = layoutsInit.sm[j].minH;
                         layoutsHMod.sm[i].h = layoutsInit.sm[j].h;
-                        layoutsHMod.sm[i].maxH = undefined;
+                        layoutsHMod.sm[i].maxH = layoutsInit.sm[j].maxH;
                         layoutsHMod.xs[i].minH = layoutsInit.xs[j].minH;
                         layoutsHMod.xs[i].h = layoutsInit.xs[j].h;
-                        layoutsHMod.xs[i].maxH = undefined;
+                        layoutsHMod.xs[i].maxH = layoutsInit.xs[j].maxH;
                         layoutsHMod.xxs[i].minH = layoutsInit.xxs[j].minH;
                         layoutsHMod.xxs[i].h = layoutsInit.xxs[j].h;
-                        layoutsHMod.xxs[i].maxH = undefined;
+                        layoutsHMod.xxs[i].maxH = layoutsInit.xxs[j].maxH;
                     }
                 }
             }
@@ -304,7 +317,7 @@ export class Dashboard extends React.Component {
                     {/*left nav bar*/}
                     <div className="border-end bg-white" id="sidebar-wrapper">
 
-                        <div className="sidebar-heading border-bottom bg-light">Medical Data Viz</div>
+                        <div className="sidebar-heading border-bottom bg-light">HealthDatalyze</div>
 
                         <div className="list-group list-group-flush">
 
@@ -462,6 +475,24 @@ export class Dashboard extends React.Component {
                                 </div>
                             </div>
                         </div>
+
+                        <div key="dateFilter" className={"div_dateFilter"} >
+                            <div id={"titleDateFilter"} className={"firstDiv"}>
+                                <button id={"colldateFilter"} className={"btn-collShow"} onClick={() => this.collapseItem('dateFilter', 'colldateFilter', 'showdateFilter')}> <i className="fas fa-angle-up"></i></button>
+                                <button id={"showdateFilter"} className={"btn-collShow"} onClick={() => this.expandItem('dateFilter', 'colldateFilter', 'showdateFilter')}>
+                                    <i className="fas fa-angle-down"></i></button>
+                                <h5 className={"h4_titleDiv"}>{dateFilterTitle}</h5>
+                            </div>
+                            <div id={"dateFilter"} className={"date_row"} style={{width: 100+'%', height: 90+'%'}}>
+                                <div className="inputDate">
+                                    <input type="date" name="startDate" id="startDate" disabled/>
+                                </div>
+                                <div className="inputDate">
+                                    <input type="date" name="endDate" id="endDate" disabled />
+                                </div>
+                            </div>
+                        </div>
+
                         {/*vital signs graph*/}
                         <div key="VitalSignsGraph" className={"div_filter"} >
                             <div className={"firstDiv"}>
@@ -536,6 +567,32 @@ export class Dashboard extends React.Component {
                                 <h5 className={"h4_titleDiv"}>{timelineTitleText}</h5>
                             </div>
                             <div id={"timelineChart"} style={{width: 100+'%', height: 100+'%'}}>
+
+                            </div>
+                        </div>
+
+                        {/*heatmap chart based on genes and patients*/}
+                        <div key="heatmap" className={"div_heatmap"} id={"containerHeatmap"} >
+                            <div className={"firstDiv"}>
+                                <button id={"collheatmap"} className={"btn-collShow"} onClick={() => this.collapseItem('heatmap', 'collheatmap', 'showheatmap')}>
+                                    <i className="fas fa-angle-up"></i></button>
+                                <button id={"showheatmap"} className={"btn-collShow"} onClick={() => this.expandItem('heatmap', 'collheatmap', 'showheatmap')}>
+                                    <i className="fas fa-angle-down"></i></button>
+                                <h5 className={"h4_titleDiv"}>{heatmapTitleText}</h5>
+                            </div>
+                            <div id={"heatmap"} style={{width: 100+'%', height: 90+'%'}}>
+                                <div id={"titleHeatmap"}>
+                                    <select id={"selectValueHeatmap"} multiple={'multiple'} name={'measurement[]'}>
+                                    </select>
+                                    <select id={"selectPatientHeatmap"} multiple={'multiple'} name={'measurement[]'}>
+                                    </select>
+                                    <button className={"btn btn-primary"} id={"createHeatmap"} disabled>
+                                        {btnHeatmapApply}
+                                    </button>
+                                </div>
+                                <div id={"heatmapChart"} style={{width: 100+'%', height: 85+'%'}}>
+
+                                </div>
 
                             </div>
                         </div>
