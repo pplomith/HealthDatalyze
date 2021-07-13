@@ -25,6 +25,7 @@
     "react-grid-layout": "^1.2.5",
     "topojson": "^3.0.2",
     "topojson-client": "^3.0.0",
+    "vega-embed": "^6.18.2",
     "vis-timeline": "^7.4.9"
   },
   "scripts": {
