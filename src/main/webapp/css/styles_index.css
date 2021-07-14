@@ -454,7 +454,9 @@ a.layouts-div.list-group-item {
     width: 95%;
     margin: 5px;
 }
-
+#heatmapChart, #patientInfo {
+    overflow: hidden;
+}
 #heatmapChart > .marks {
     width: 100% !important;
     height: 100% !important;
