@@ -163,6 +163,16 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function (response) {
                     heatmap(response.Data);
+                    const config = {
+                        childList: true
+                    };
+                    const callback = function (mutationList, observer) {
+                       document.getElementById('heatmapChart')
+                           .getElementsByTagName('svg')[0]
+                           .setAttribute('preserveAspectRatio','none');
+                    }
+                    var mutationObserver = new MutationObserver(callback);
+                    mutationObserver.observe(document.getElementById('heatmapChart'), config);
                 }
             });
         });
@@ -303,6 +313,8 @@ function fillPatientTable(data) {
 function visitDatePatient(data) {
 
     //the first item of data is patient selected
+    $('#selectPatientHeatmap').multiselect('deselectAll', false);
+    $('#selectPatientHeatmap').multiselect('select', data.Patient[0].ID);
     $("#patientName").html(data.Patient[0].Name);
     $("#ageSpan").html(getAge(data.Patient[0].DateOfBirth));
     $("#sexSpan").html(data.Patient[0].Gender[0].toUpperCase()+data.Patient[0].Gender.slice(1));
