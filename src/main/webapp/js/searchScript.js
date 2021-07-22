@@ -45,3 +45,63 @@ export const wrap = (text, width) => {
         }
     })
 }
+
+
+export const filterDatePHR = (startDate, endDate) => {
+    var input, filter, table, tr, td, i, txtValue;
+    table = document.getElementById("tableVisitDate");
+    tr = table.getElementsByTagName("tr");
+    input = $('#selectTypeInfo option:selected').val();
+    filter = input.toUpperCase();
+    for (i = 0; i < tr.length; i++) {
+        if ((startDate == '' || endDate == '') && input == 'all') {
+            tr[i].style.display = "";
+        } else {
+            var td_type = tr[i].getElementsByTagName("td")[3];
+            var td_startDate = tr[i].getElementsByTagName("td")[1];
+            var td_endDate = tr[i].getElementsByTagName("td")[2];
+            if (td_startDate || td_endDate || td_type) {
+                var txtValue_id = td_type.textContent || td_type.innerText;
+                var txtStartDate = td_startDate.textContent || td_startDate.innerText;
+                var txtEndDate = td_endDate.textContent || td_endDate.innerText;
+                if (startDate == '' || endDate == '') {
+                    if (txtValue_id.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                } else {
+                    var sDate = new Date(startDate);
+                    var eDate = new Date(endDate);
+                    var txtSDate = new Date(txtStartDate);
+                    if (txtEndDate == '/') {
+                        if (input == 'all') {
+                            if (txtSDate.getTime() >= sDate.getTime() && txtSDate.getTime() <= eDate.getTime())
+                                tr[i].style.display = "";
+                            else
+                                tr[i].style.display = "none";
+                        } else if (txtSDate.getTime() >= sDate.getTime() && txtSDate.getTime() <= eDate.getTime()
+                            && txtValue_id.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    } else {
+                        var txtEDate = new Date(txtEndDate);
+                        if (txtSDate.getTime() >= sDate.getTime() && txtEDate.getTime() <= eDate.getTime() && txtValue_id.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else if (input == 'all') {
+                            if (txtSDate.getTime() >= sDate.getTime() && txtEDate.getTime() <= eDate.getTime()) {
+                                tr[i].style.display = "";
+                            } else {
+                                tr[i].style.display = "none";
+                            }
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -56,10 +56,12 @@ public class LayoutData extends HttpServlet {
             jsonObject = lDao.getAllLayouts();
             request.setCharacterEncoding("utf8");
             response.setContentType("text/plain");
-            PrintWriter out = response.getWriter();
-            out.print(jsonObject.toString());
+            if (jsonObject != null) {
+                PrintWriter out = response.getWriter();
+                out.print(jsonObject.toString());
+            } else {
+                response.getWriter().write("Server Error");
+            }
         }
-
-
     }
 }

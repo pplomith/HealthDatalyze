@@ -133,7 +133,7 @@ export const lineChart = (selection, props) => {
         .call(colorLegend, {
             colorScale,
             circleRadius: 7,
-            spacing: 25,
+            spacing: 45,
             textOffset: 25
         });
 

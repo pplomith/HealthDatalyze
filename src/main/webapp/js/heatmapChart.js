@@ -24,7 +24,7 @@ export const heatmap = (data) => {
         "mark": {"type": "rect", "tooltip": {"content": "data"}},
         "encoding": {
             "x": {
-                "field": "patientId",
+                "field": "Patient ID",
                 "type": "ordinal",
                 "title": "Patient",
                 "axis": {
@@ -33,13 +33,13 @@ export const heatmap = (data) => {
                 "scale": {"bandSize": "fit"}
             },
             "y": {
-                "field": "geneSymbol",
+                "field": "Symbol",
                 "type": "ordinal",
                 "title": "Gene",
                 "scale": {"bandSize": "fit"}
             },
             "color": {
-                "field": "value",
+                "field": "Value",
                 "scale": {"scheme": "redyellowgreen"},
                 "type": "quantitative",
                 "legend": {

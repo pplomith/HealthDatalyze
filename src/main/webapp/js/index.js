@@ -1,15 +1,17 @@
 import ReactDOM from "react-dom";
 import React from "react";
 import { searchMultiselect, nonSelectedText, textButtonShow, nonSelectedPatientText } from './allStrings'
-import { DataSet, Timeline } from "vis-timeline/standalone";
 import { Dashboard } from './initDashboard';
-import { searchPatient } from './searchScript';
+import { searchPatient, filterDatePHR } from './searchScript';
 import { createChart, processData } from './createChart';
+import { timelineChart } from './timelineChart';
 import { heatmap } from './heatmapChart';
+import { scatterplot } from './scatterPlot';
 var allPatients = null;
 var patientSelected = null;
 var geneData = null;
 var selectedGenes = [];
+var selectedPatients = [];
 //call react render for create the dahsboard
 const contentDiv = document.getElementById("root");
 const gridProps = window.gridProps || {};
@@ -47,6 +49,20 @@ $("#switchChart").change(function () {
 });
 
 $(document).ready(function () {
+
+    //<!---------- SCATTER PLOT ------------!>
+    scatterplot();
+    const config = {
+        childList: true
+    };
+    const callback = function (mutationList, observer) {
+        document.getElementById('scatterPlot')
+            .getElementsByTagName('svg')[0]
+            .setAttribute('preserveAspectRatio','none');
+    }
+    var mutationObserver = new MutationObserver(callback);
+    mutationObserver.observe(document.getElementById('scatterPlot'), config);
+
     //get all patients ajax function
     $.ajax({
         type: 'POST',
@@ -56,8 +72,7 @@ $(document).ready(function () {
             fillPatientTable(response.Patients);
             allPatients = response.Patients;
             // create a multiple selection of patients for heatmap
-            createMultiselect('selectPatientHeatmap', nonSelectedPatientText, 20);
-            fillSelectPatientsHeatmap();
+            createMultiSelectPatients();
         }
     });
 
@@ -75,6 +90,16 @@ $(document).ready(function () {
     createMultiselect('selectValue',nonSelectedText, 4);
 
     // create a multiple selection of genes for heatmap
+    createMultiSelectGenes();
+
+    $('#selectTypeInfo').on('change', function() {
+        filterDatePHR($('#startDate').val(), $('#endDate').val());
+    });
+});
+
+
+function createMultiSelectGenes() {
+
     $('#selectValueHeatmap').multiselect({
         enableFiltering: true,
         enableCaseInsensitiveFiltering: true,
@@ -89,6 +114,8 @@ $(document).ready(function () {
         onChange: function () {
             var selected = this.$select.val();
             var selectedOptions = jQuery('#selectValueHeatmap option:selected');
+            var idSelect = 'selectValueHeatmap';
+            var idMultiHeat = 'searchMultiselectHeatmap';
             var nonSelectedOptions = jQuery('#selectValueHeatmap option').filter(function () {
                 return !jQuery(this).is(':selected');
             });
@@ -103,36 +130,38 @@ $(document).ready(function () {
                         selectedGenes.splice(index, 1);
                 }
             });
-            maxValues(nonSelectedOptions);
-            changeButtonApply('selectPatientHeatmap');
+            maxValues(nonSelectedOptions, idSelect, 15, selectedGenes);
+            changeButtonApply();
         },
         onFiltering: function () {
-            var inputDom = document.getElementById('searchMultiselectHeatmap');
+            var idSelect = 'selectValueHeatmap';
+            var idMultiHeat = 'searchMultiselectHeatmap';
+            var inputDom = document.getElementById(idMultiHeat);
             var valueInput = inputDom.value;
-            var select = document.getElementById('selectValueHeatmap');
+            var select = document.getElementById(idSelect);
             $('#selectValueHeatmap').empty();
             var options = [];
 
-                geneData.Gene.forEach(d => {
-                    if (valueInput.length > 2) {
-                        if (d.Name.startsWith(valueInput)) {
-                            options.push(d.id);
-                            var opt = document.createElement('option');
-                            opt.value = d.id;
-                            opt.innerHTML = d.Name;
-                            select.appendChild(opt);
-                        }
-                    } else if (selectedGenes.length > 0) {
-                        if (selectedGenes.includes(d.id)) {
-                            var opt = document.createElement('option');
-                            opt.value = d.id;
-                            opt.innerHTML = d.Name;
-                            select.appendChild(opt);
-                        }
+            geneData.Gene.forEach(d => {
+                if (valueInput.length > 2) {
+                    if (d.Name.startsWith(valueInput)) {
+                        options.push(d.id);
+                        var opt = document.createElement('option');
+                        opt.value = d.id;
+                        opt.innerHTML = d.Name;
+                        select.appendChild(opt);
                     }
-                });
+                } else if (selectedGenes.length > 0) {
+                    if (selectedGenes.includes(d.id)) {
+                        var opt = document.createElement('option');
+                        opt.value = d.id;
+                        opt.innerHTML = d.Name;
+                        select.appendChild(opt);
+                    }
+                }
+            });
 
-            ghostValueMultiselect(select);
+            ghostValueMultiselect(select, idSelect);
             if (selectedGenes.length > 0) {
                 $('#selectValueHeatmap').multiselect('select', selectedGenes);
             }
@@ -140,84 +169,160 @@ $(document).ready(function () {
             var nonSelectedOptions = jQuery('#selectValueHeatmap option').filter(function () {
                 return !jQuery(this).is(':selected');
             });
-            maxValues(nonSelectedOptions);
+            maxValues(nonSelectedOptions, idSelect, 15, selectedGenes);
 
-            document.getElementById('searchMultiselectHeatmap').value = valueInput;
-            document.getElementById('searchMultiselectHeatmap').focus();
+            document.getElementById(idMultiHeat).value = valueInput;
+            document.getElementById(idMultiHeat).focus();
         }
     });
-        ghostValueMultiselect(document.getElementById('selectValueHeatmap'));
+    ghostValueMultiselect(document.getElementById('selectValueHeatmap'), 'selectValueHeatmap');
 
-        $('#createHeatmap').on('click', function () {
-            var selectedPatients = jQuery('#selectPatientHeatmap option:selected');
-            var patientsArray = [];
-            selectedPatients.each(function () {
-                patientsArray.push(jQuery(this).val());
+    $('#createHeatmap').on('click', function () {
+        var genes = JSON.stringify(selectedGenes.sort((a,b)=>a-b));
+        var patients = JSON.stringify(selectedPatients.sort((a,b)=>a-b));
+        $.ajax({
+            type: 'POST',
+            data: {"requestId" : '100', selectedGenes: genes, selectedPatients: patients},
+            url: 'GeneData',
+            dataType: 'json',
+            success: function (response) {
+                heatmap(response.Data);
+                const config = {
+                    childList: true
+                };
+                const callback = function (mutationList, observer) {
+                    document.getElementById('heatmapChart')
+                        .getElementsByTagName('svg')[0]
+                        .setAttribute('preserveAspectRatio','none');
+                }
+                var mutationObserver = new MutationObserver(callback);
+                mutationObserver.observe(document.getElementById('heatmapChart'), config);
+            }
+        });
+    });
+
+}
+
+function createMultiSelectPatients() {
+
+    $('#selectPatientHeatmap').multiselect({
+        enableFiltering: true,
+        enableCaseInsensitiveFiltering: true,
+        filterPlaceholder: searchMultiselect,
+        nonSelectedText: nonSelectedPatientText,
+        numberDisplayed: 1,
+        templates: {
+            filter: '<div class="multiselect-filter d-flex align-items-center"' +
+                '><i class="fas fa-sm fa-search text-muted"></i>' +
+                '<input id="searchMultiselectHeatmapPatient" type="search" class="multiselect-search form-control" placeholder="Search Here..."></div>'
+        },
+        onChange: function () {
+            var selected = this.$select.val();
+            var selectedOptions = jQuery('#selectPatientHeatmap option:selected');
+            var idSelect = 'selectPatientHeatmap';
+            var idMultiHeat = 'searchMultiselectHeatmapPatient';
+            var nonSelectedOptions = jQuery('#selectPatientHeatmap option').filter(function () {
+                return !jQuery(this).is(':selected');
             });
-            var genes = JSON.stringify(selectedGenes.sort((a,b)=>a-b));
-            var patients = JSON.stringify(patientsArray.sort((a,b)=>a-b));
-            $.ajax({
-                type: 'POST',
-                data: {"requestId" : '100', selectedGenes: genes, selectedPatients: patients},
-                url: 'GeneData',
-                dataType: 'json',
-                success: function (response) {
-                    heatmap(response.Data);
-                    const config = {
-                        childList: true
-                    };
-                    const callback = function (mutationList, observer) {
-                       document.getElementById('heatmapChart')
-                           .getElementsByTagName('svg')[0]
-                           .setAttribute('preserveAspectRatio','none');
-                    }
-                    var mutationObserver = new MutationObserver(callback);
-                    mutationObserver.observe(document.getElementById('heatmapChart'), config);
+            selectedOptions.each(function () {
+                if (!selectedPatients.includes(jQuery(this).val()))
+                    selectedPatients.push(jQuery(this).val());
+            });
+            nonSelectedOptions.each(function () {
+                if (selectedPatients.includes(jQuery(this).val())) {
+                    var index = selectedPatients.indexOf(jQuery(this).val());
+                    if (index > -1)
+                        selectedPatients.splice(index, 1);
                 }
             });
-        });
+            maxValues(nonSelectedOptions, idSelect, 20, selectedPatients);
+            changeButtonApply();
+        },
+        onFiltering: function () {
+            var idSelect = 'selectPatientHeatmap';
+            var idMultiHeat = 'searchMultiselectHeatmapPatient';
+            var inputDom = document.getElementById(idMultiHeat);
+            var valueInput = inputDom.value;
+            var select = document.getElementById(idSelect);
+            $('#selectPatientHeatmap').empty();
+            var options = [];
 
-});
+            allPatients.forEach(d => {
+                if (valueInput.length > 2) {
+                    if (d.Name.toUpperCase().startsWith(valueInput.toUpperCase())) {
+                        options.push(d.ID);
+                        var opt = document.createElement('option');
+                        opt.value = d.ID;
+                        opt.innerHTML = d.Name;
+                        select.appendChild(opt);
+                    }
+                } else if (selectedPatients.length > 0) {
+                    if (selectedPatients.includes(d.ID)) {
+                        var opt = document.createElement('option');
+                        opt.value = d.ID;
+                        opt.innerHTML = d.Name;
+                        select.appendChild(opt);
+                    }
+                }
+            });
 
-function ghostValueMultiselect(domElement) {
+            ghostValueMultiselect(select, idSelect);
+            if (selectedPatients.length > 0) {
+                $('#selectPatientHeatmap').multiselect('select', selectedPatients);
+            }
+
+            var nonSelectedOptions = jQuery('#selectPatientHeatmap option').filter(function () {
+                return !jQuery(this).is(':selected');
+            });
+            maxValues(nonSelectedOptions, idSelect, 20, selectedPatients);
+
+            document.getElementById(idMultiHeat).value = valueInput;
+            document.getElementById(idMultiHeat).focus();
+        }
+    });
+    ghostValueMultiselect(document.getElementById('selectPatientHeatmap'), 'selectPatientHeatmap');
+
+}
+
+
+function ghostValueMultiselect(domElement, id) {
     var select = domElement;
     var opt = document.createElement('option');
     opt.value = 'Default';
     opt.innerHTML = 'Default';
     select.appendChild(opt);
 
-    $('#selectValueHeatmap').multiselect('rebuild');
+    $('#'+id).multiselect('rebuild');
 
-    var button = jQuery('#selectValueHeatmap + .btn-group button[title="'+ 'Default' +'"]')
-    var input = jQuery('#selectValueHeatmap + .btn-group input[value="'+ 'Default' + '"]');
+    var button = jQuery('#' + id + ' + .btn-group button[title="'+ 'Default' +'"]')
+    var input = jQuery('#' + id +  ' + .btn-group input[value="'+ 'Default' + '"]');
     button.css('display', 'none');
     input.css('display', 'none');
 }
 
-function maxValues(nonSelectedOptions) {
+function maxValues(nonSelectedOptions, id, value, data) {
 
-    if(selectedGenes.length >= 15) {
+    if(data.length >= value) {
         nonSelectedOptions.each(function () {
-            var button = jQuery('#selectValueHeatmap + .btn-group button[title="'+ jQuery(this).text() +'"]')
-            var input = jQuery('#selectValueHeatmap + .btn-group input[value="'+ jQuery(this).val() + '"]');
+            var button = jQuery('#'+ id +' + .btn-group button[title="'+ jQuery(this).text() +'"]')
+            var input = jQuery('#'+ id +' + .btn-group input[value="'+ jQuery(this).val() + '"]');
             input.prop('disabled', true);
             button.prop('disabled', true);
             input.parent('li').addClass('disabled');
         });
     }
     else {
-        jQuery('#selectValueHeatmap option').each(function () {
-            var button = jQuery('#selectValueHeatmap + .btn-group button[title="'+ jQuery(this).text() +'"]')
-            var input = jQuery('#selectValueHeatmap + .btn-group input[value="' + jQuery(this).val() + '"]');
+        jQuery('#' + id + ' option').each(function () {
+            var button = jQuery('#'+ id +' + .btn-group button[title="'+ jQuery(this).text() +'"]')
+            var input = jQuery('#'+ id +' + .btn-group input[value="' + jQuery(this).val() + '"]');
             input.prop('disabled', false);
             button.prop('disabled', false);
             input.parent('li').addClass('disabled');
         });
     }
 }
-function changeButtonApply(idMultiselect) {
-    var selectedOptions = jQuery('#'+ idMultiselect +' option:selected');
-    if (selectedGenes.length >= 5 && selectedOptions.length >= 5)
+function changeButtonApply() {
+    if (selectedGenes.length >= 5 && selectedPatients.length >= 5)
         $('#createHeatmap').attr('disabled', false);
     else
         $('#createHeatmap').attr('disabled', true);
@@ -235,8 +340,6 @@ function createMultiselect(id, text, maxValues) {
             var selected = this.$select.val();
             if (id == 'selectValue')
                 processData(selected);
-            else if (id == 'selectPatientHeatmap')
-                changeButtonApply(id);
 
             var selectedOptions = jQuery('#'+ id +' option:selected');
 
@@ -265,20 +368,8 @@ function createMultiselect(id, text, maxValues) {
         }
     });
 }
-function fillSelectPatientsHeatmap() {
-    $('#selectPatientHeatmap').empty();
-    var select = document.getElementById('selectPatientHeatmap');
-    allPatients.forEach(d => {
-        var opt = document.createElement('option');
-        opt.value = d.ID;
-        opt.innerHTML = d.Name;
-        select.appendChild(opt);
-    });
 
-    $('#selectPatientHeatmap').multiselect('rebuild');
-}
-
-//fill patients table function
+//fills the table of all patients
 function fillPatientTable(data) {
     var table = null;
     for (var i=0; i<data.length;i++) {
@@ -304,17 +395,20 @@ function fillPatientTable(data) {
             dataType: 'json',
             data: {"id" : this.id},
             success: function (response) {
-                visitDatePatient(response);
+                tablePHR(response);
             }
         });
     });
 }
-//fill visit date table function
-function visitDatePatient(data) {
-
+//fill in the table with the appointments made by the patient
+function tablePHR(data) {
     //the first item of data is patient selected
-    $('#selectPatientHeatmap').multiselect('deselectAll', false);
-    $('#selectPatientHeatmap').multiselect('select', data.Patient[0].ID);
+    selectedPatients.push(data.Patient[0].ID);
+    var options = [
+        {label: data.Patient[0].Name, title: data.Patient[0].Name, value: data.Patient[0].ID, selected: true}
+    ];
+    $('#selectPatientHeatmap').multiselect('dataprovider', options);
+
     $("#patientName").html(data.Patient[0].Name);
     $("#ageSpan").html(getAge(data.Patient[0].DateOfBirth));
     $("#sexSpan").html(data.Patient[0].Gender[0].toUpperCase()+data.Patient[0].Gender.slice(1));
@@ -325,36 +419,81 @@ function visitDatePatient(data) {
     $("#tableVisitDate").off("click","button");
     patientSelected = data; //patient selected
     var table = null;
-    if(data.DataPatient.length > 1) {
+    if(data.DataPatient.length > 1 || data.TimelineData.length > 1) {
         var stringDate = [];
-        var dataVisit = new Date(data.DataPatient[1].Date);
-        var formatDate = dataVisit.getFullYear() + "-" + (dataVisit.getMonth() + 1) + "-" + dataVisit.getDate();
-        table += "<tr><td>" + data.Patient[0].ID + "</td>"
-            + "<td>" + formatDate + "</td>"
-            + "<td><button type='button' class='btn btn-primary' value='"+data.DataPatient[1].Date+"'>"+ textButtonShow +"</button></td>"
-            + "</tr>";
-
-        stringDate.push(dataVisit.toString());
-        for (var i = 2; i < data.DataPatient.length; i++) {
-            dataVisit = new Date(data.DataPatient[i].Date);
+        var dateObject = [];
+        for (var i = 1; i < data.DataPatient.length; i++) {
+            var dataVisit = new Date(data.DataPatient[i].Date);
             if (!stringDate.includes(dataVisit.toString())) {
-                var formatDate = dataVisit.getFullYear() + "-" + (dataVisit.getMonth() + 1) + "-" + dataVisit.getDate();
-                table += "<tr><td>" + data.Patient[0].ID + "</td>"
-                    + "<td>" + formatDate + "</td>"
-                    + "<td><button type='button' class='btn btn-primary' value='"+data.DataPatient[i].Date+"'>"+ textButtonShow +"</button></td>"
-                    + "</tr>"
+                var obj = {
+                    'id' : data.Patient[0].ID,
+                    'startDate': dataVisit,
+                    'endDate' : '/',
+                    'type' : 'clinical analysis',
+                    'btnValue' : data.DataPatient[i].Date
+                };
+                dateObject.push(obj);
+                stringDate.push(dataVisit.toString());
             }
-            stringDate.push(dataVisit.toString());
+        }
+        var analysisId = '102'; //exclude clinical analysis group
+        var nowDate = new Date();
+        stringDate = [];
+        for (var i = 0; i < data.TimelineData.length; i++) {
+            if (data.TimelineData[i].group != analysisId) {
+                var startDate = new Date(data.TimelineData[i].start);
+                if (!stringDate.includes(startDate.toString())) {
+                        var obj = {
+                            'id' : data.Patient[0].ID,
+                            'startDate': startDate,
+                            'endDate' : data.TimelineData[i].end != null ? new Date(data.TimelineData[i].end) : '/',
+                            'type' : data.TimelineData[i].type,
+                            'btnValue' : data.TimelineData[i].start
+                        };
+                        dateObject.push(obj);
+                        stringDate.push(startDate.toString());
+                }
+            }
+        }
+        dateObject.sort(function (a,b) {
+            var bDate = b.endDate;
+            var aDate = a.endDate;
+            if (b.endDate == '/') bDate = b.startDate;
+            if (a.endDate == '/') aDate = a.startDate;
+            return new Date(bDate) - new Date(aDate)
+        });
+        for (var i = 0; i < dateObject.length; i++) {
+            var formatStartDate = dateObject[i].startDate.getFullYear()
+                + "-" + (dateObject[i].startDate.getMonth() + 1)
+                + "-" + dateObject[i].startDate.getDate();
+            var formatEndDate;
+            if (dateObject[i].endDate != '/')
+                formatEndDate = dateObject[i].endDate.getFullYear()
+                    + "-" + (dateObject[i].endDate.getMonth() + 1)
+                    + "-" + dateObject[i].endDate.getDate();
+            else
+                formatEndDate = '/';
+            var btnValue = (dateObject[i].type == 'clinical analysis') ? 'PHR'+dateObject[i].btnValue : dateObject[i].btnValue;
+            table += "<tr><td>" + dateObject[i].id + "</td>"
+                + "<td>" + formatStartDate + "</td>"
+                + "<td>" + formatEndDate + "</td>"
+                + "<td>" + dateObject[i].type + "</td>"
+                + "<td>" +
+                "<button type='button' class='btn btn-primary' value='"+ btnValue +"'>"+ textButtonShow +"</button>" +
+                "</td>"
+                + "</tr>"
         }
 
         $("#tableVisitDate").html(table);
+        filterDatePHR($('#startDate').val(), $('#endDate').val());
         $("#tableVisitDate").on("click","button", function () {
-            measurementTableUpdate(this.value);
+            tableInformationAnalysis(this.value);
         });
+        list_Diseases_Medicines(patientSelected.TimelineData);
         //call to the funciont to create the chart
         createChart(patientSelected.DataPatient, patientSelected.VitalSigns, $('#startDate').val(), $('#endDate').val());
         fillSelect('selectValue',patientSelected.DataPatient);
-        createTimeline(patientSelected.TimelineData, $('#startDate').val(), $('#endDate').val());
+        timelineChart(patientSelected.TimelineData, $('#startDate').val(), $('#endDate').val());
         dateFilters();
     }
     function getAge(dateOfBirth) {
@@ -393,7 +532,8 @@ function dateFilters() {
         var endDate = $('#endDate').val();
         createChart(patientSelected.DataPatient, patientSelected.VitalSigns, startDate, endDate);
         processData(selected);
-        createTimeline(patientSelected.TimelineData, startDate, endDate);
+        timelineChart(patientSelected.TimelineData, startDate, endDate);
+        filterDatePHR(startDate, endDate);
     });
 }
 
@@ -416,26 +556,42 @@ function fillSelect(id,data) {
     $('#'+id).multiselect('rebuild');
 }
 
-function measurementTableUpdate(visitDate) {
+function tableInformationAnalysis(analysisDate) {
 
     var table, cmt = null;
 
     let dataSelected = [];
     if (patientSelected.DataPatient != null) {
-        var date = new Date(visitDate);
-        for (var i = 1; i < patientSelected.DataPatient.length; i++) {
-            if (patientSelected.DataPatient[i].Date.getTime() == date.getTime()) {
-                dataSelected.push(patientSelected.DataPatient[i]);
+        if (analysisDate.startsWith('PHR')) {
+            var date = new Date(analysisDate.substring(3));
+
+            for (var i = 1; i < patientSelected.DataPatient.length; i++) {
+                if (patientSelected.DataPatient[i].Date.getTime() == date.getTime()) {
+                    dataSelected.push(patientSelected.DataPatient[i]);
+                }
             }
-        }
-
-        for (var i = 0; i < dataSelected.length; i++) {
-            var vInt = parseFloat(dataSelected[i].Value);
-            var valueRounded = Math.round(vInt * 100) / 100;
-            table += "<tr><td>" + dataSelected[i].Measurement + "</td>"
-                + "<td>" + valueRounded + "</td>"
-                + "</tr>"
-
+            //analisys information (DataPatient)
+            for (var i = 0; i < dataSelected.length; i++) {
+                var vInt = parseFloat(dataSelected[i].Value);
+                var valueRounded = Math.round(vInt * 100) / 100;
+                table += "<tr><td>" + dataSelected[i].Measurement + "</td>"
+                    + "<td>" + 'Value: ' + valueRounded + "</td>"
+                    + "</tr>"
+            }
+        } else {
+            var date = new Date(analysisDate);
+            dataSelected = [];
+            for (var i = 0; i < patientSelected.TimelineData.length; i++) {
+                var startDate = new Date(patientSelected.TimelineData[i].start);
+                if (startDate.getTime() == date.getTime() && patientSelected.TimelineData[i].group != '102') {
+                    dataSelected.push(patientSelected.TimelineData[i]);
+                }
+            }
+            for (var i = 0; i < dataSelected.length; i++) {
+                table += "<tr><td>" + dataSelected[i].content + "</td>"
+                    + "<td>" + dataSelected[i].title + "</td>"
+                    + "</tr>"
+            }
         }
 
         $("#measurementTable").html(table);
@@ -443,63 +599,47 @@ function measurementTableUpdate(visitDate) {
 
 }
 
-function createTimeline(data, minZoomDate, maxZoomDate) {
-    var today = new Date();
-    var start = today.toString(), end = today.toString();
-    if (minZoomDate != '' && maxZoomDate != '') {
-        start = minZoomDate;
-        end = maxZoomDate;
-    }
-    $('#timelineChart').empty();
-    // DOM element where the Timeline will be attached
-    var container = document.getElementById('timelineChart');
-    //static data groups
-    //id = 100 => MEDICINE
-    //id = 101 => EVENTS
-    var dataGroups = [{
-        groups: [
-            {
-                id: 100,
-                content: 'Medicine'
-            },
-            {
-                id: 101,
-                content: 'Events'
+function list_Diseases_Medicines(data) {
+    $("#list-diseases").empty();
+    $("#list-medicines").empty();
+    var ulDiseases = document.getElementById('list-diseases');
+    var ulMedicines = document.getElementById('list-medicines');
+    var now = new Date();
+    for(var i = 0; i < data.length; i++) {
+        var node = document.createElement('li');
+        node.classList.add('listInfoPatient', 'list-group-item');
+        var h6 = document.createElement('h6');
+        h6.classList.add('heading-itemInfo');
+        var small = document.createElement('small');
+        if (data[i].end == null && new Date(data[i].start).getTime() <= now.getTime()) {
+            if (data[i].type == 'disease') {
+                var startDate = new Date(data[i].start);
+                var formatDate = startDate.getFullYear()
+                    + "-" + (startDate.getMonth() + 1)
+                    + "-" + startDate.getDate();
+                h6.innerHTML = data[i].content;
+                small.innerHTML = 'Diagnosed: ' + formatDate;
+                node.appendChild(h6);
+                node.appendChild(small);
+                ulDiseases.appendChild(node);
             }
-        ]
-    }];
-    var groups = new DataSet();
-    groups.add(dataGroups[0].groups);
+        } else if (new Date(data[i].end).getTime() >= now.getTime() && new Date(data[i].start).getTime() <= now.getTime()) {
+            if (data[i].type == 'medicine') {
+                 var startDate = new Date(data[i].start);
+                 var formatDate = startDate.getFullYear()
+                     + "-" + (startDate.getMonth() + 1)
+                     + "-" + startDate.getDate();
+                 var endDate = new Date(data[i].end);
+                 var formatEndDate = endDate.getFullYear()
+                     + "-" + (endDate.getMonth() + 1)
+                     + "-" + endDate.getDate();
+                h6.innerHTML = data[i].content;
+                small.innerHTML = 'from: ' + formatDate + ' to: ' + formatEndDate;
+                node.appendChild(h6);
+                node.appendChild(small);
+                ulMedicines.appendChild(node);
+            }
+        }
+    }
 
-    // Create a DataSet (allows two way data-binding)
-    var items = new DataSet();
-    data.forEach(d => {
-        var item = [{
-                id: d.id,
-                group: d.group,
-                content: d.content,
-                start: d.start,
-                end: d.end,
-                title: d.title
-            }];
-        items.add(item[0]);
-    });
-
-    // Configuration for the Timeline
-    var options = {
-        locale: 'en',
-        width: '100%',
-        height: '100%',
-        minHeight: '100%',
-        maxHeight: '100%',
-        tooltip: {
-            followMouse: true,
-        },
-        zoomMin: 60 * 60 * 60 * 240,
-        zoomMax:  100000 * 100 * 60 * 240,
-        start: start,
-        end: end
-    };
-    // Create a Timeline
-    var timeline = new Timeline(container, items, groups, options);
 }

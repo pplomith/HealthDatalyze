@@ -30,7 +30,6 @@ public class GeneDAO {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
         return null;
     }
 
@@ -52,12 +51,12 @@ public class GeneDAO {
                     ResultSet rs = ps.executeQuery();
                     while (rs.next()) {
                         JSONObject object = new JSONObject();
-                        object.put("patientId", rs.getString("patientId"));
-                        object.put("patientName", rs.getString("FirstName") +" "+rs.getString("LastName"));
-                        object.put("geneId", rs.getString("id"));
-                        object.put("geneSymbol", rs.getString("Symbol"));
-                        object.put("geneName", rs.getString("Name"));
-                        object.put("value", rs.getString("value"));
+                        object.put("Patient ID", rs.getString("patientId"));
+                        object.put("Patient Name", rs.getString("FirstName") +" "+rs.getString("LastName"));
+                        object.put("Gene ID", rs.getString("id"));
+                        object.put("Symbol", rs.getString("Symbol"));
+                        object.put("Name", rs.getString("Name"));
+                        object.put("Value", rs.getString("value"));
                         arrayObject.add(object);
                     }
                 }
@@ -69,7 +68,6 @@ public class GeneDAO {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
         return null;
     }
 

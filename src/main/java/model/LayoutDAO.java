@@ -98,8 +98,6 @@ public class LayoutDAO {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
-
         return null;
     }
 

@@ -6,7 +6,10 @@ import org.json.simple.JSONObject;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
+
 public class PatientDAO {
 
     public JSONObject getAllPatients() {
@@ -39,7 +42,7 @@ public class PatientDAO {
         return null;
     }
 
-    public JSONObject getPatientAndVD(String id) {
+    public JSONObject getPatientData(String id) {
 
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("SELECT * FROM patient as p WHERE p.PatientId = ?");
@@ -69,7 +72,7 @@ public class PatientDAO {
 
             rs = ps.executeQuery();
 
-            JSONArray visitData = new JSONArray();
+            JSONArray analysisData = new JSONArray();
 
             while (rs.next()) {
                 JSONObject object = new JSONObject();
@@ -77,10 +80,10 @@ public class PatientDAO {
                 object.put("Measurement", rs.getString("Short_Name"));
                 object.put("Value", rs.getString("Value"));
                 object.put("Comment", rs.getString("Comment"));
-                visitData.add(object);
+                analysisData.add(object);
             }
 
-            rootObject.put("DataPatient",visitData);
+            rootObject.put("DataPatient",analysisData);
 
             ps = con.prepareStatement("SELECT * " +
                     "FROM patient as p, vitalsigns as vs"
@@ -108,11 +111,35 @@ public class PatientDAO {
 
             ps.setString(1,id);
 
-            rs = ps.executeQuery();
-
             JSONArray eventsData = new JSONArray();
             String dataPattern = "yyyy-MM-dd'T'HH:mm:ss";
             String dataFormat = "yyyy-MM-dd hh:mm aa";
+            ArrayList<String> dateList = new ArrayList<>();
+
+            int phdId = 1;
+            for (int i = 0; i < analysisData.size(); i++) {
+                JSONObject item = (JSONObject) analysisData.get(i);
+                JSONObject object = new JSONObject();
+                String dataItem = (String) item.get("Date");
+                if (!dateList.contains(dataItem)) {
+                    dateList.add(dataItem);
+                    String title;
+                    object.put("id", null);
+                    object.put("group", "102");
+                    title = "Clinical Analysis #"+phdId+": ";
+                    title += getCommentPHR(analysisData, dataItem);
+                    object.put("content", "PHR #"+phdId);
+                    object.put("start", item.get("Date"));
+                    Date startDate = new SimpleDateFormat(dataPattern).parse((String) item.get("Date"));
+                    title += "Date: " + new SimpleDateFormat(dataFormat).format(startDate);
+                    object.put("end", null);
+                    object.put("title", title);
+                    object.put("type", "clinical analysis");
+                    eventsData.add(object);
+                    phdId++;
+                }
+            }
+            rs = ps.executeQuery();
             while (rs.next()) {
                 JSONObject object = new JSONObject();
                 String title;
@@ -139,6 +166,7 @@ public class PatientDAO {
                     object.put("end", null);
                 }
                 object.put("title", title);
+                object.put("type", rs.getString("type"));
                 eventsData.add(object);
             }
 
@@ -150,5 +178,18 @@ public class PatientDAO {
             throwables.printStackTrace();
         }
         return null;
+    }
+
+    private String getCommentPHR(JSONArray analysisData, String data) {
+        String cnt = "<ul>";
+        for (int i = 0; i < analysisData.size(); i++) {
+            JSONObject item = (JSONObject) analysisData.get(i);
+            if (item.get("Date").equals(data)) {
+                float vFloat = Float.parseFloat(String.valueOf(item.get("Value")));
+                cnt += "<li>" +item.get("Measurement") + ": " + String.format(Locale.US,"%.2f", vFloat) + "</li>";
+            }
+        }
+        cnt += "</ul>";
+        return cnt;
     }
 }

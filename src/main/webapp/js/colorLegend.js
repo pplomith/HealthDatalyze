@@ -31,5 +31,5 @@ export const colorLegend = (selection, props) => {
         .text(d => d)
         .attr('dy', '0.32em')
         .attr('x', textOffset)
-        .call(wrap, 80);
+        .call(wrap, 60);
 }

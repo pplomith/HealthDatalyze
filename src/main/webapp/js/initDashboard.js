@@ -18,12 +18,13 @@ import {
     dateBirthPTable,
     bloodPTable,
     heightTable,
-    visitDateTable,
+    startDateTable,
+    endDateTable,
+    typeInfoTable,
     infoTable,
     measTable,
     valueTable,
     noteTitle,
-    nullNote,
     noPatientSel,
     ageLab,
     sexLab,
@@ -36,7 +37,17 @@ import {
     timelineTitleText,
     dateFilterTitle,
     heatmapTitleText,
-    btnHeatmapApply
+    btnHeatmapApply,
+    labelSwitchMulti,
+    labelSwitchSingle,
+    filterPHRAllTypes,
+    filterPHRSurgery,
+    filterPHRMedicine,
+    filterPHRClnAnl,
+    filterPHRDisease,
+    tabDetails,
+    tabDiseases,
+    tabMedicines
 } from './allStrings'
 //responsive width for GridLayout - React
 const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -45,69 +56,64 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 //properties: (i: id,x: x-position,y: y-position,w: width,h: height, minW (maxW): minimum (maximum) width, minH (maxH): minimum (maximum) height)
 var layoutsInit = {
     lg:[
-        {i: "searchPatient", x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1},
-        {i: "allPatients", x: 0, y: 1, w: 6, h: 8, minW: 3, minH: 5},
-        {i: "tabelVisitPatient", x: 0, y: 2, w: 6, h: 8, minW: 3, minH: 6},
-        {i: "tableDataVisit", x: 0, y: 3, w: 4, h: 7, minW: 3, minH: 3},
-        {i: "noteVisit", x: 4, y: 3, w: 2, h: 7, minW: 2, minH: 3},
+        {i: "allPatients", x: 0, y: 0, w: 6, h: 8, minW: 3, minH: 6},
+        {i: "tableAnalysis", x: 0, y: 9, w: 6, h: 8, minW: 3, minH: 6},
+        {i: "allDataInformation", x: 0, y: 17, w: 6, h: 8, minW: 3, minH: 3},
         {i: "patientInfo", x: 6, y: 0, w: 3, h: 3, minW: 3, minH: 3, maxH: 3},
-        {i: "VitalSignsGraph", x: 6, y: 1, w: 6, h: 10, minW: 4, minH: 8},
-        {i: "graph", x: 6, y: 2, w: 6, h: 11, minW: 4, minH: 7},
-        {i: "timelineChart", x: 0, y: 4, w: 12, h: 8, minW: 4, minH: 8},
-        {i: "dateFilter", x: 9, y: 0, w: 3, h: 3, minW: 2, minH: 3, maxH: 3},
-        {i: "heatmap", x: 0, y: 5, w: 6, h: 11, minW: 4, minH: 7}
+        {i: "VitalSignsGraph", x: 6, y: 4, w: 6, h: 10, minW: 4, minH: 8},
+        {i: "graph", x: 7, y: 15, w: 6, h: 11, minW: 4, minH: 7},
+        {i: "dateFilter", x: 11, y: 0, w: 3, h: 3, minW: 2, minH: 3, maxH: 3},
+        {i: "heatmap", x: 0, y: 36, w: 6, h: 11, minW: 4, minH: 7},
+        {i: "scatterPlot", x: 7, y: 36, w: 6, h: 11, minW: 4, minH: 7},
+        {i: "timelineChart", x: 0, y: 27, w: 12, h: 8, minW: 4, minH: 8}
     ],
     md: [
-        {i: "searchPatient", x: 0, y: 0, w: 5, h: 1, minW: 3, maxH: 1},
         {i: "allPatients", x: 0, y: 1, w: 5, h: 6, minW: 3, minH: 5},
-        {i: "tabelVisitPatient", x: 0, y: 2, w: 5, h: 6, minW: 3, minH: 6},
-        {i: "tableDataVisit", x: 0, y: 3, w: 3, h: 5, minW: 3, minH: 3},
-        {i: "noteVisit", x: 3, y: 3, w: 2, h: 5, minW: 2, minH: 3},
+        {i: "tableAnalysis", x: 0, y: 2, w: 5, h: 6, minW: 3, minH: 6},
+        {i: "allDataInformation", x: 0, y: 3, w: 5, h: 5, minW: 3, minH: 3},
         {i: "patientInfo", x: 5, y: 0, w: 3, h: 3, minW: 3, minH: 3, maxH: 3},
         {i: "VitalSignsGraph", x: 5, y: 1, w: 5, h: 10, minW: 4, minH: 8},
         {i: "graph", x: 5, y: 2, w: 5, h: 11, minW: 4, minH: 7},
-        {i: "timelineChart", x: 0, y: 4, w: 5, h: 10, minW: 4, minH: 8},
-        {i: "dateFilter", x: 8, y: 0, w: 2, h: 3, minW: 2, minH: 3, maxH: 3},
-        {i: "heatmap", x: 0, y: 5, w: 6, h: 11, minW: 4, minH: 7}
+        {i: "dateFilter", x: 11, y: 0, w: 2, h: 3, minW: 2, minH: 3, maxH: 3},
+        {i: "heatmap", x: 0, y: 5, w: 5, h: 11, minW: 4, minH: 7},
+        {i: "scatterPlot", x: 5, y: 5, w: 5, h: 11, minW: 4, minH: 7},
+        {i: "timelineChart", x: 0, y: 4, w: 5, h: 10, minW: 4, minH: 8}
     ],
     sm: [
-        {i: "searchPatient", x: 0, y: 0, w: 3, h: 1, minW: 3, maxH: 1},
         {i: "allPatients", x: 0, y: 1, w: 3, h: 6, minW: 3, minH: 5},
-        {i: "tabelVisitPatient", x: 0, y: 2, w: 3, h: 6, minW: 3, minH: 6},
-        {i: "tableDataVisit", x: 0, y: 3, w: 2, h: 4, minW: 2, minH: 3},
-        {i: "noteVisit", x: 2, y: 3, w: 1, h: 4, minW: 1, minH: 3},
+        {i: "tableAnalysis", x: 0, y: 2, w: 3, h: 6, minW: 3, minH: 6},
+        {i: "allDataInformation", x: 0, y: 3, w: 3, h: 4, minW: 2, minH: 3},
         {i: "patientInfo", x: 3, y: 0, w: 2, h: 3, minW: 2, minH: 3, maxH: 3},
         {i: "VitalSignsGraph", x: 4, y: 1, w: 3, h: 10, minW: 4, minH: 8},
         {i: "graph", x: 4, y: 2, w: 3, h: 10, minW: 3, minH: 7},
-        {i: "timelineChart", x: 0, y: 4, w: 3, h: 10, minW: 4, minH: 8},
-        {i: "dateFilter", x: 4, y: 0, w: 2, h: 3, minW: 1, minH: 3, maxH: 3},
-        {i: "heatmap", x: 0, y: 5, w: 5, h: 10, minW: 4, minH: 7}
+        {i: "dateFilter", x: 7, y: 0, w: 3, h: 3, minW: 2, minH: 3, maxH: 3},
+        {i: "heatmap", x: 0, y: 5, w: 5, h: 10, minW: 4, minH: 7},
+        {i: "scatterPlot", x: 0, y: 5, w: 5, h: 10, minW: 4, minH: 7},
+        {i: "timelineChart", x: 0, y: 4, w: 3, h: 10, minW: 4, minH: 8}
     ],
     xs: [
-        {i: "searchPatient", x: 0, y: 0, w: 2, h: 1, minW: 2, maxH: 1},
         {i: "allPatients", x: 0, y: 1, w: 2, h: 6, minW: 2, minH: 5},
-        {i: "tabelVisitPatient", x: 0, y: 2, w: 2, h: 6, minW: 2, minH: 6},
-        {i: "tableDataVisit", x: 0, y: 3, w: 2, h: 5, minW: 2, minH: 5},
-        {i: "noteVisit", x: 1, y: 3, w: 1, h: 4, minW: 1, minH: 3},
+        {i: "tableAnalysis", x: 0, y: 2, w: 2, h: 6, minW: 2, minH: 6},
+        {i: "allDataInformation", x: 0, y: 3, w: 2, h: 5, minW: 2, minH: 5},
         {i: "patientInfo", x: 2, y: 0, w: 2, h: 3, minW: 2, minH: 3, maxH: 3},
-        {i: "VitalSignsGraph", x: 3, y: 1, w: 2, h: 6, minW: 2, minH: 6},
+        {i: "VitalSignsGraph", x: 3, y: 1, w: 2, h: 7, minW: 2, minH: 7},
         {i: "graph", x: 3, y: 2, w: 2, h: 10, minW: 2, minH: 7},
+        {i: "dateFilter", x: 5, y: 0, w: 2, h: 3, minW: 1, minH: 3, maxH: 3},
+        {i: "heatmap", x: 0, y: 5, w: 5, h: 10, minW: 4, minH: 7},
+        {i: "scatterPlot", x: 0, y: 5, w: 5, h: 10, minW: 4, minH: 7},
         {i: "timelineChart", x: 0, y: 4, w: 2, h: 6, minW: 2, minH: 6},
-        {i: "dateFilter", x: 3, y: 0, w: 2, h: 3, minW: 1, minH: 3, maxH: 3},
-        {i: "heatmap", x: 0, y: 5, w: 5, h: 10, minW: 4, minH: 7}
     ],
     xxs: [
-        {i: "searchPatient", x: 0, y: 5, w: 2, h: 1, minW: 2, maxH: 1},
-        {i: "allPatients", x: 0, y: 6, w: 2, h: 6, minW: 2, minH: 5},
-        {i: "tabelVisitPatient", x: 0, y: 7, w: 2, h: 6, minW: 2, minH: 6},
-        {i: "tableDataVisit", x: 0, y: 8, w: 2, h: 5, minW: 2, minH: 5},
-        {i: "noteVisit", x: 0, y: 9, w: 2, h: 4, minW: 1, minH: 3},
+        {i: "allPatients", x: 0, y: 4, w: 2, h: 6, minW: 2, minH: 5},
+        {i: "tableAnalysis", x: 0, y: 5, w: 2, h: 6, minW: 2, minH: 6},
+        {i: "allDataInformation", x: 0, y: 6, w: 2, h: 5, minW: 2, minH: 5},
         {i: "patientInfo", x: 0, y: 0, w: 2, h: 3, minW: 2, minH: 2, maxH: 3},
-        {i: "VitalSignsGraph", x: 0, y: 2, w: 2, h: 11, minW: 2, minH: 8},
-        {i: "graph", x: 0, y: 3, w: 2, h: 11, minW: 2, minH: 7},
-        {i: "timelineChart", x: 0, y: 4, w: 2, h: 11, minW: 2, minH: 8},
-        {i: "dateFilter", x: 0, y: 1, w: 2, h: 3, minW: 1, minH: 3, maxH: 3},
-        {i: "heatmap", x: 0, y: 10, w: 6, h: 11, minW: 4, minH: 7}
+        {i: "VitalSignsGraph", x: 0, y: 1, w: 2, h: 11, minW: 2, minH: 8},
+        {i: "graph", x: 0, y: 2, w: 2, h: 11, minW: 2, minH: 7},
+        {i: "dateFilter", x: 0, y: 7, w: 2, h: 3, minW: 1, minH: 3, maxH: 3},
+        {i: "heatmap", x: 0, y: 8, w: 6, h: 11, minW: 4, minH: 7},
+        {i: "scatterPlot", x: 0, y: 9, w: 6, h: 11, minW: 4, minH: 7},
+        {i: "timelineChart", x: 0, y: 3, w: 2, h: 11, minW: 2, minH: 8}
     ]
 };
 //layout that sets the properties of a collapsing element
@@ -199,7 +205,6 @@ export class Dashboard extends React.Component {
     //called to collapse an element (id of element, idCButton collapse button id, idSButton show button id)
     collapseItem(id, idCButton, idSButton) {
         for (var i = 0; i < layoutsHMod.lg.length; i++) {
-
             if (layoutsHMod.lg[i].i == id) {
                 //sets the properties of the collapsing element
                 layoutsHMod.lg[i].minH = layoutCollapse.collapse.minH;
@@ -256,7 +261,6 @@ export class Dashboard extends React.Component {
                 }
             }
         }
-
         $('#'+id).css("display", "block");
         //set a new layout with expanded element
         this.setState({
@@ -367,11 +371,7 @@ export class Dashboard extends React.Component {
                         rowHeight={30}
                         layouts={this.state.layouts}
                         onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}>
-                        {/*search bar*/}
-                        <div key="searchPatient" className={"searchDiv"} >
-                            <span><i className={"fa fa-search"}></i></span>
-                            <input type="text" className={"search_patient"} id={"searchPatient"} placeholder={textSearch}/>
-                        </div>
+
 
                         {/*all patients table*/}
                         <div key="allPatients" className={"table_patient"} >
@@ -381,115 +381,130 @@ export class Dashboard extends React.Component {
                                     <i className="fas fa-angle-down"></i></button>
                                 <h5 className={"h4_titleDiv"}>{tablePatientsText}</h5>
                             </div>
-                            <div className={"table-responsive"} id={"allPatients"}>
+                            <div id={"allPatientsDiv"} style={{width: 100+'%', height: 85+'%'}}>
+                                <div className={"searchDiv"} >
+                                    <span><i className={"fa fa-search"}></i></span>
+                                    <input type="text" className={"search_patient"} id={"searchPatient"} placeholder={textSearch}/>
+                                </div>
+                                <div className={"table-responsive"} id={"allPatients"}>
 
-                                <table id={"tableAllPatient"} className={"table table-hover nowrap"}
-                                       style={{width:100 + '%'}}>
-                                    <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>ID</th>
-                                        <th>{namePTable}</th>
-                                        <th>{genderPTable}</th>
-                                        <th>{dateBirthPTable}</th>
-                                        <th>{bloodPTable}</th>
-                                        <th>{heightTable}</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id={"patientTableBody"}>
-                                    </tbody>
-                                </table>
+                                    <table id={"tableAllPatient"} className={"table table-hover nowrap"}
+                                           style={{width:100 + '%'}}>
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>ID</th>
+                                            <th>{namePTable}</th>
+                                            <th>{genderPTable}</th>
+                                            <th>{dateBirthPTable}</th>
+                                            <th>{bloodPTable}</th>
+                                            <th>{heightTable}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id={"patientTableBody"}>
+                                        </tbody>
+                                    </table>
 
+                                </div>
                             </div>
                         </div>
-                        {/*table with all visits of a patient*/}
-                        <div key="tabelVisitPatient" className={"table_visit_patient"} >
+                        {/*table with all analisys, diseases, surgical operations of a patient*/}
+                        <div key="tableAnalysis" className={"table_visit_patient"} >
                             <div className={"firstDiv"}>
-                                <button id={"colltabelVisitPatient"} className={"btn-collShow"} onClick={() => this.collapseItem('tabelVisitPatient', 'colltabelVisitPatient', 'showtabelVisitPatient')}> <i className="fas fa-angle-up"></i></button>
-                                <button id={"showtabelVisitPatient"} className={"btn-collShow"} onClick={() => this.expandItem('tabelVisitPatient', 'colltabelVisitPatient', 'showtabelVisitPatient')}>
+                                <button id={"colltableAnalysis"} className={"btn-collShow"} onClick={() => this.collapseItem('tableAnalysis', 'colltableAnalysis', 'showtableAnalysis')}> <i className="fas fa-angle-up"></i></button>
+                                <button id={"showtableAnalysis"} className={"btn-collShow"} onClick={() => this.expandItem('tableAnalysis', 'colltableAnalysis', 'showtableAnalysis')}>
                                     <i className="fas fa-angle-down"></i></button>
                                 <h5 className={"h4_titleDiv"}>{tableVisitText}</h5>
                             </div>
-                            <div className={"table-responsive"} id={"tabelVisitPatient"} >
-                                <table className={"table table-hover nowrap"} style={{width:100+'%'}}>
-                                    <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>{visitDateTable}</th>
-                                        <th>{infoTable}</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id={"tableVisitDate"}>
-                                    </tbody>
-                                </table>
+                            <div id={"tableAnalysis"} style={{width: 100+'%', height: 85+'%'}}>
+                                <div className={"selectType"} >
+                                    <select id={'selectTypeInfo'} className={"form-select form-select-sm"} aria-label={".form-select-sm example"} defaultValue={'all'}>
+                                        <option value={'all'}>{filterPHRAllTypes}</option>
+                                        <option value={'surgery'}>{filterPHRSurgery}</option>
+                                        <option value={'medicine'}>{filterPHRMedicine}</option>
+                                        <option value={'clinical analysis'}>{filterPHRClnAnl}</option>
+                                        <option value={'disease'}>{filterPHRDisease}</option>
+                                    </select>
+                                </div>
+
+                                <div className={"table-responsive"} id={"tableResponsiveAnalysis"} >
+                                    <table className={"table table-hover nowrap"} style={{width:100+'%'}}>
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>{startDateTable}</th>
+                                            <th>{endDateTable}</th>
+                                            <th>{typeInfoTable}</th>
+                                            <th>{infoTable}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id={"tableVisitDate"}>
+                                        </tbody>
+                                    </table>
+                                </div>
+
                             </div>
+
                         </div>
                         {/*table with information about a visit*/}
-                        <div key="tableDataVisit" className={"table_data_visit"}>
+                        <div key="allDataInformation" className={"table_data_visit"}>
                             <div className={"firstDiv"}>
-                                <button id={"colltableDataVisit"} className={"btn-collShow"} onClick={() => this.collapseItem('tableDataVisit', 'colltableDataVisit', 'showtableDataVisit')}> <i className="fas fa-angle-up"></i></button>
-                                <button id={"showtableDataVisit"} className={"btn-collShow"} onClick={() => this.expandItem('tableDataVisit', 'colltableDataVisit', 'showtableDataVisit')}>
+                                <button id={"collallDataInformation"} className={"btn-collShow"} onClick={() => this.collapseItem('allDataInformation', 'collallDataInformation', 'showallDataInformation')}> <i className="fas fa-angle-up"></i></button>
+                                <button id={"showallDataInformation"} className={"btn-collShow"} onClick={() => this.expandItem('allDataInformation', 'collallDataInformation', 'showallDataInformation')}>
                                     <i className="fas fa-angle-down"></i></button>
                                 <h5 className={"h4_titleDiv"}>{visitInfoText}</h5>
                             </div>
-                            <div className={"table-responsive"} id={"tableDataVisit"} >
+                            <div className={"table-responsive"} id={"allDataInformation"} >
                                 <table className={"table table-hover nowrap"} style={{width:100+'%'}}>
-                                    <thead>
-                                    <tr>
-                                        <th>{measTable}</th>
-                                        <th>{valueTable}</th>
-                                    </tr>
-                                    </thead>
                                     <tbody id={"measurementTable"}>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        {/*note about a visit*/}
-                        <div key="noteVisit" className={"div_note_visit"} >
-                            <div id={"titleNote"} className={"firstDiv"}>
-                                <button id={"collnoteVisit"} className={"btn-collShow"} onClick={() => this.collapseItem('noteVisit', 'collnoteVisit', 'shownoteVisit')}> <i className="fas fa-angle-up"></i></button>
-                                <button id={"shownoteVisit"} className={"btn-collShow"} onClick={() => this.expandItem('noteVisit', 'collnoteVisit', 'shownoteVisit')}>
-                                    <i className="fas fa-angle-down"></i></button>
-                                <h5 className={"h4_titleDiv"}>{noteTitle}</h5>
-                            </div>
-                            <div id={"noteVisit"} style={{width: 100+'%', height: 90+'%'}}>
-                                <p id={"noteVisit"}>{nullNote}</p>
-                            </div>
-                        </div>
                         {/*patient personal information*/}
                         <div key="patientInfo" className={"personal_info"} >
-                            <div style={{width: 100+'%', height: 100+'%'}} id={"patientInfo"}>
-                                <div>
-                                    <h3 id={"patientName"}> {noPatientSel} </h3>
-                                </div>
-                                <div className={"informationTable"}>
-                                    <div className={"p-2 d-flex stats"}>
-                                        <div className={"d-flex flex-column"}><span className={"titleSpan"}>{ageLab}</span><span
-                                            id={"ageSpan"}>-</span></div>
-                                        <div className={"d-flex flex-column"}><span className={"titleSpan"}>{sexLab}</span><span
-                                            id={"sexSpan"}>-</span></div>
-                                        <div className={"d-flex flex-column"}><span className={"titleSpan"}>{bloodLab}</span><span
-                                            id={"bloodSpan"}>-</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            <div style={{width: 100+'%', height: 100+'%'}} id={"patientInfo"} className={"tabbable"}>
 
-                        <div key="dateFilter" className={"div_dateFilter"} >
-                            <div id={"titleDateFilter"} className={"firstDiv"}>
-                                <button id={"colldateFilter"} className={"btn-collShow"} onClick={() => this.collapseItem('dateFilter', 'colldateFilter', 'showdateFilter')}> <i className="fas fa-angle-up"></i></button>
-                                <button id={"showdateFilter"} className={"btn-collShow"} onClick={() => this.expandItem('dateFilter', 'colldateFilter', 'showdateFilter')}>
-                                    <i className="fas fa-angle-down"></i></button>
-                                <h5 className={"h4_titleDiv"}>{dateFilterTitle}</h5>
-                            </div>
-                            <div id={"dateFilter"} className={"date_row"} style={{width: 100+'%', height: 90+'%'}}>
-                                <div className="inputDate">
-                                    <input type="date" name="startDate" id="startDate" disabled/>
+                                <ul className={"nav nav-tabs"} id={"menuPatientInfo"}>
+                                    <li className={"nav-item"}><a className={"nav-link active"} href={"#tabPersonalInfo"} data-toggle={"tab"}>{tabDetails}</a></li>
+                                    <li className={"nav-item"}><a className={"nav-link"} href={"#tabDiseases"} data-toggle={"tab"}>{tabDiseases}</a></li>
+                                    <li className={"nav-item"}><a className={"nav-link"} href={"#tabMedicines"} data-toggle={"tab"}>{tabMedicines}</a></li>
+                                </ul>
+
+                                <div className={"tab-content"}>
+
+                                    <div className={"tab-pane fade show active"} id={"tabPersonalInfo"}>
+
+                                        <div>
+                                            <h3 id={"patientName"}> {noPatientSel} </h3>
+                                        </div>
+                                        <div className={"informationTable"}>
+                                            <div className={"p-2 d-flex stats"}>
+                                                <div className={"d-flex flex-column"}><span className={"titleSpan"}>{ageLab}</span><span
+                                                    id={"ageSpan"}>-</span></div>
+                                                <div className={"d-flex flex-column"}><span className={"titleSpan"}>{sexLab}</span><span
+                                                    id={"sexSpan"}>-</span></div>
+                                                <div className={"d-flex flex-column"}><span className={"titleSpan"}>{bloodLab}</span><span
+                                                    id={"bloodSpan"}>-</span></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div className={"tab-pane fade"} id={"tabDiseases"}>
+                                        <ul className={"list-group"} id={"list-diseases"}>
+                                        </ul>
+                                    </div>
+
+                                    <div className={"tab-pane fade"} id={"tabMedicines"}>
+                                        <ul className={"list-group"} id={"list-medicines"}>
+                                        </ul>
+                                    </div>
+
+
                                 </div>
-                                <div className="inputDate">
-                                    <input type="date" name="endDate" id="endDate" disabled />
-                                </div>
+
+
                             </div>
                         </div>
 
@@ -532,8 +547,12 @@ export class Dashboard extends React.Component {
                             <div id={"graph"} style={{width: 100+'%', height: 90+'%'}}>
                                 <div id={"titleGraph"}><select id={"selectValue"} multiple={'multiple'} name={'measurement[]'}>
                                 </select>
-                                    <div className="form-check form-switch">
-                                        <input className="form-check-input" type="checkbox" id="switchChart"></input>
+                                    <div className={"div_switch"}>
+                                        <span className={"labelSwitch"}>{labelSwitchMulti}</span>
+                                        <div className="form-check form-switch">
+                                            <input className="form-check-input" type="checkbox" id="switchChart"></input>
+                                        </div>
+                                        <span className={"labelSwitch"}>{labelSwitchSingle}</span>
                                     </div>
                                 </div>
                                 <svg id={"svg-main"} viewBox={"0 0 600 400"} preserveAspectRatio={"none"}>
@@ -558,18 +577,24 @@ export class Dashboard extends React.Component {
 
                             </div>
                         </div>
-                        {/*timeline chart*/}
-                        <div key="timelineChart" className={"div_timelineChart"} >
-                            <div className={"firstDiv"}>
-                                <button id={"colltimelineChart"} className={"btn-collShow"} onClick={() => this.collapseItem('timelineChart', 'colltimelineChart', 'showtimelineChart')}> <i className="fas fa-angle-up"></i></button>
-                                <button id={"showtimelineChart"} className={"btn-collShow"} onClick={() => this.expandItem('timelineChart', 'colltimelineChart', 'showtimelineChart')}>
-                                    <i className="fas fa-angle-down"></i></button>
-                                <h5 className={"h4_titleDiv"}>{timelineTitleText}</h5>
-                            </div>
-                            <div id={"timelineChart"} style={{width: 100+'%', height: 100+'%'}}>
 
+                        <div key="dateFilter" className={"div_dateFilter"} >
+                            <div id={"titleDateFilter"} className={"firstDiv"}>
+                                <button id={"colldateFilter"} className={"btn-collShow"} onClick={() => this.collapseItem('dateFilter', 'colldateFilter', 'showdateFilter')}> <i className="fas fa-angle-up"></i></button>
+                                <button id={"showdateFilter"} className={"btn-collShow"} onClick={() => this.expandItem('dateFilter', 'colldateFilter', 'showdateFilter')}>
+                                    <i className="fas fa-angle-down"></i></button>
+                                <h5 className={"h4_titleDiv"}>{dateFilterTitle}</h5>
+                            </div>
+                            <div id={"dateFilter"} className={"date_row"} style={{width: 100+'%', height: 90+'%'}}>
+                                <div className="inputDate">
+                                    <input type="date" name="startDate" id="startDate" disabled/>
+                                </div>
+                                <div className="inputDate">
+                                    <input type="date" name="endDate" id="endDate" disabled />
+                                </div>
                             </div>
                         </div>
+
 
                         {/*heatmap chart based on genes and patients*/}
                         <div key="heatmap" className={"div_heatmap"} id={"containerHeatmap"} >
@@ -593,6 +618,32 @@ export class Dashboard extends React.Component {
                                 <div id={"heatmapChart"} style={{width: 100+'%', height: 85+'%'}}>
 
                                 </div>
+
+                            </div>
+                        </div>
+
+                        {/*scatter plot*/}
+                        <div key="scatterPlot" className={"div_scatterPlot"} id={"containerScatterplot"}>
+                            <div id={"titleNote"} className={"firstDiv"}>
+                                <button id={"collscatterPlot"} className={"btn-collShow"} onClick={() => this.collapseItem('scatterPlot', 'collscatterPlot', 'showscatterPlot')}> <i className="fas fa-angle-up"></i></button>
+                                <button id={"showscatterPlot"} className={"btn-collShow"} onClick={() => this.expandItem('scatterPlot', 'collscatterPlot', 'showscatterPlot')}>
+                                    <i className="fas fa-angle-down"></i></button>
+                                <h5 className={"h4_titleDiv"}>{noteTitle}</h5>
+                            </div>
+                            <div id={"scatterPlot"} style={{width: 100+'%', height: 90+'%'}}>
+
+                            </div>
+                        </div>
+
+                        {/*timeline chart*/}
+                        <div key="timelineChart" className={"div_timelineChart"} >
+                            <div className={"firstDiv"}>
+                                <button id={"colltimelineChart"} className={"btn-collShow"} onClick={() => this.collapseItem('timelineChart', 'colltimelineChart', 'showtimelineChart')}> <i className="fas fa-angle-up"></i></button>
+                                <button id={"showtimelineChart"} className={"btn-collShow"} onClick={() => this.expandItem('timelineChart', 'colltimelineChart', 'showtimelineChart')}>
+                                    <i className="fas fa-angle-down"></i></button>
+                                <h5 className={"h4_titleDiv"}>{timelineTitleText}</h5>
+                            </div>
+                            <div id={"timelineChart"} style={{width: 100+'%', height: 100+'%'}}>
 
                             </div>
                         </div>

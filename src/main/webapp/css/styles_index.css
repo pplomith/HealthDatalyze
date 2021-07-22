@@ -41,6 +41,11 @@ div#root {
     flex-direction: column;
 }
 
+#allPatientsDiv {
+    display: flex;
+    flex-direction: column;
+}
+
 .table_visit_patient {
     border-radius: 5px;
     background: white;
@@ -57,7 +62,7 @@ div#root {
     display: flex;
     flex-direction: column;
 }
-.div_note_visit {
+.div_scatterPlot {
     border-radius: 5px;
     background: white;
     display: flex;
@@ -111,8 +116,9 @@ div#root {
 
 #patientName {
     text-align: center;
-    margin-top: 15px;
+    margin-top: 5px;
     font-family: 'Poppins';
+    margin-bottom: 3px !important;
 }
 .div-table {
     width: 600px;
@@ -174,9 +180,7 @@ tbody, td, tfoot, th, thead, tr {
 #titleNote{
     border-radius: 5px;
 }
-.form-switch {
-    margin-left: 50px;
-}
+
 span.multiselect-native-select {
     margin-left: 10px;
     font-size: 10px;
@@ -454,10 +458,10 @@ a.layouts-div.list-group-item {
     width: 95%;
     margin: 5px;
 }
-#heatmapChart, #patientInfo {
+#heatmapChart, #patientInfo, #scatterPlot {
     overflow: hidden;
 }
-#heatmapChart > .marks {
+#heatmapChart > .marks, #scatterPlot > .marks {
     width: 100% !important;
     height: 100% !important;
 }
@@ -465,4 +469,97 @@ a.layouts-div.list-group-item {
 #createHeatmap {
     margin-left: 10px;
     vertical-align: middle;
+}
+span.labelSwitch {
+    font-size: 14px;
+    margin-right: 5px;
+}
+.div_switch {
+    display: flex;
+    flex-direction: row;
+    margin-left: 20px;
+    align-items: center;
+}
+
+#allDataInformation {
+    height: 100%;
+}
+
+.form-check {
+    margin-bottom: 0 !important;
+}
+
+#tableResponsiveAnalysis {
+    height: 95%;
+}
+
+#selectTypeInfo {
+    margin-left: 10px;
+    margin-bottom: 2px;
+    width: 130px;
+}
+
+.selectType {
+    display: flex;
+    flex-direction: row;
+}
+
+#menuPatientInfo {
+    font-size: 12px !important;
+    line-height: 20px !important;
+    margin-top: 1px !important;
+    margin-left: 1px !important;
+}
+
+.informationTable .p-2 {
+    padding: 0 !important;
+}
+.nav-tabs .nav-link {
+    color: gray;
+    border: 0 !important;
+    border-bottom: 0 solid grey;
+}
+
+.nav-tabs .nav-link:hover {
+    border: 0;
+    border-bottom: 0 solid grey;
+}
+
+.nav-tabs .nav-link.active {
+    color: #000000;
+    border: 0;
+    border-radius: 0;
+    border-bottom: 2px solid #47474e !important;
+}
+
+.nav-tabs .nav-item {
+    margin-bottom: 0 !important;
+}
+
+.tab-pane {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+.tab-content {
+    width: 100%;
+    height: 75%;
+}
+
+.listInfoPatient {
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-top: 0 !important;
+    padding: 3px 0 0 12px !important;
+    display: block !important;
+    margin-bottom: 0 !important;
+}
+.heading-itemInfo {
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.listInfoPatient:last-child {
+    margin-bottom: 10px !important;
 }
