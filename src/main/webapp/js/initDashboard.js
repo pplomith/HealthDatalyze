@@ -45,9 +45,17 @@ import {
     filterPHRMedicine,
     filterPHRClnAnl,
     filterPHRDisease,
+    filterPHRDiaRadiology,
     tabDetails,
     tabDiseases,
-    tabMedicines
+    tabMedicines,
+    modalHRFormTitle,
+    descriptionHR,
+    filterOST,
+    filterOSTSex,
+    filterOSTRace,
+    filterOSTAge,
+    filterOSTBMI
 } from './allStrings'
 //responsive width for GridLayout - React
 const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -59,58 +67,58 @@ var layoutsInit = {
         {i: "allPatients", x: 0, y: 0, w: 6, h: 8, minW: 3, minH: 6},
         {i: "tableAnalysis", x: 0, y: 9, w: 6, h: 8, minW: 3, minH: 6},
         {i: "allDataInformation", x: 0, y: 17, w: 6, h: 8, minW: 3, minH: 3},
-        {i: "patientInfo", x: 6, y: 0, w: 3, h: 3, minW: 3, minH: 3, maxH: 3},
-        {i: "VitalSignsGraph", x: 6, y: 4, w: 6, h: 10, minW: 4, minH: 8},
-        {i: "graph", x: 7, y: 15, w: 6, h: 11, minW: 4, minH: 7},
-        {i: "dateFilter", x: 11, y: 0, w: 3, h: 3, minW: 2, minH: 3, maxH: 3},
-        {i: "heatmap", x: 0, y: 36, w: 6, h: 11, minW: 4, minH: 7},
-        {i: "scatterPlot", x: 7, y: 36, w: 6, h: 11, minW: 4, minH: 7},
-        {i: "timelineChart", x: 0, y: 27, w: 12, h: 8, minW: 4, minH: 8}
+        {i: "patientInfo", x: 6, y: 0, w: 3, h: 4, minW: 3, minH: 4, maxH: 4},
+        {i: "VitalSignsGraph", x: 6, y: 5, w: 6, h: 10, minW: 4, minH: 8},
+        {i: "graph", x: 7, y: 16, w: 6, h: 11, minW: 4, minH: 7},
+        {i: "dateFilter", x: 11, y: 0, w: 3, h: 4, minW: 2, minH: 4, maxH: 4},
+        {i: "heatmap", x: 0, y: 37, w: 6, h: 11, minW: 4, minH: 7},
+        {i: "scatterPlot", x: 7, y: 37, w: 6, h: 11, minW: 4, minH: 7},
+        {i: "timelineChart", x: 0, y: 28, w: 12, h: 8, minW: 4, minH: 8}
     ],
     md: [
         {i: "allPatients", x: 0, y: 1, w: 5, h: 6, minW: 3, minH: 5},
         {i: "tableAnalysis", x: 0, y: 2, w: 5, h: 6, minW: 3, minH: 6},
         {i: "allDataInformation", x: 0, y: 3, w: 5, h: 5, minW: 3, minH: 3},
-        {i: "patientInfo", x: 5, y: 0, w: 3, h: 3, minW: 3, minH: 3, maxH: 3},
-        {i: "VitalSignsGraph", x: 5, y: 1, w: 5, h: 10, minW: 4, minH: 8},
-        {i: "graph", x: 5, y: 2, w: 5, h: 11, minW: 4, minH: 7},
-        {i: "dateFilter", x: 11, y: 0, w: 2, h: 3, minW: 2, minH: 3, maxH: 3},
-        {i: "heatmap", x: 0, y: 5, w: 5, h: 11, minW: 4, minH: 7},
-        {i: "scatterPlot", x: 5, y: 5, w: 5, h: 11, minW: 4, minH: 7},
-        {i: "timelineChart", x: 0, y: 4, w: 5, h: 10, minW: 4, minH: 8}
+        {i: "patientInfo", x: 5, y: 0, w: 3, h: 4, minW: 3, minH: 4, maxH: 4},
+        {i: "VitalSignsGraph", x: 5, y: 2, w: 5, h: 10, minW: 4, minH: 8},
+        {i: "graph", x: 5, y: 3, w: 5, h: 11, minW: 4, minH: 7},
+        {i: "dateFilter", x: 11, y: 0, w: 2, h: 4, minW: 2, minH: 4, maxH: 4},
+        {i: "heatmap", x: 0, y: 6, w: 5, h: 11, minW: 4, minH: 7},
+        {i: "scatterPlot", x: 5, y: 6, w: 5, h: 11, minW: 4, minH: 7},
+        {i: "timelineChart", x: 0, y: 5, w: 5, h: 10, minW: 4, minH: 8}
     ],
     sm: [
         {i: "allPatients", x: 0, y: 1, w: 3, h: 6, minW: 3, minH: 5},
         {i: "tableAnalysis", x: 0, y: 2, w: 3, h: 6, minW: 3, minH: 6},
         {i: "allDataInformation", x: 0, y: 3, w: 3, h: 4, minW: 2, minH: 3},
-        {i: "patientInfo", x: 3, y: 0, w: 2, h: 3, minW: 2, minH: 3, maxH: 3},
-        {i: "VitalSignsGraph", x: 4, y: 1, w: 3, h: 10, minW: 4, minH: 8},
-        {i: "graph", x: 4, y: 2, w: 3, h: 10, minW: 3, minH: 7},
-        {i: "dateFilter", x: 7, y: 0, w: 3, h: 3, minW: 2, minH: 3, maxH: 3},
-        {i: "heatmap", x: 0, y: 5, w: 5, h: 10, minW: 4, minH: 7},
-        {i: "scatterPlot", x: 0, y: 5, w: 5, h: 10, minW: 4, minH: 7},
-        {i: "timelineChart", x: 0, y: 4, w: 3, h: 10, minW: 4, minH: 8}
+        {i: "patientInfo", x: 3, y: 0, w: 2, h: 4, minW: 2, minH: 4, maxH: 4},
+        {i: "VitalSignsGraph", x: 4, y: 2, w: 3, h: 10, minW: 4, minH: 8},
+        {i: "graph", x: 4, y: 3, w: 3, h: 10, minW: 3, minH: 7},
+        {i: "dateFilter", x: 7, y: 0, w: 3, h: 4, minW: 2, minH: 4, maxH: 4},
+        {i: "heatmap", x: 0, y: 6, w: 5, h: 10, minW: 4, minH: 7},
+        {i: "scatterPlot", x: 0, y: 6, w: 5, h: 10, minW: 4, minH: 7},
+        {i: "timelineChart", x: 0, y: 5, w: 3, h: 10, minW: 4, minH: 8}
     ],
     xs: [
         {i: "allPatients", x: 0, y: 1, w: 2, h: 6, minW: 2, minH: 5},
         {i: "tableAnalysis", x: 0, y: 2, w: 2, h: 6, minW: 2, minH: 6},
         {i: "allDataInformation", x: 0, y: 3, w: 2, h: 5, minW: 2, minH: 5},
-        {i: "patientInfo", x: 2, y: 0, w: 2, h: 3, minW: 2, minH: 3, maxH: 3},
-        {i: "VitalSignsGraph", x: 3, y: 1, w: 2, h: 7, minW: 2, minH: 7},
-        {i: "graph", x: 3, y: 2, w: 2, h: 10, minW: 2, minH: 7},
-        {i: "dateFilter", x: 5, y: 0, w: 2, h: 3, minW: 1, minH: 3, maxH: 3},
-        {i: "heatmap", x: 0, y: 5, w: 5, h: 10, minW: 4, minH: 7},
-        {i: "scatterPlot", x: 0, y: 5, w: 5, h: 10, minW: 4, minH: 7},
-        {i: "timelineChart", x: 0, y: 4, w: 2, h: 6, minW: 2, minH: 6},
+        {i: "patientInfo", x: 2, y: 0, w: 2, h: 4, minW: 2, minH: 4, maxH: 4},
+        {i: "VitalSignsGraph", x: 3, y: 2, w: 2, h: 7, minW: 2, minH: 7},
+        {i: "graph", x: 3, y: 3, w: 2, h: 10, minW: 2, minH: 7},
+        {i: "dateFilter", x: 5, y: 0, w: 2, h: 4, minW: 1, minH: 4, maxH: 4},
+        {i: "heatmap", x: 0, y: 6, w: 5, h: 10, minW: 4, minH: 7},
+        {i: "scatterPlot", x: 0, y: 6, w: 5, h: 10, minW: 4, minH: 7},
+        {i: "timelineChart", x: 0, y: 5, w: 2, h: 6, minW: 2, minH: 6},
     ],
     xxs: [
         {i: "allPatients", x: 0, y: 4, w: 2, h: 6, minW: 2, minH: 5},
         {i: "tableAnalysis", x: 0, y: 5, w: 2, h: 6, minW: 2, minH: 6},
         {i: "allDataInformation", x: 0, y: 6, w: 2, h: 5, minW: 2, minH: 5},
-        {i: "patientInfo", x: 0, y: 0, w: 2, h: 3, minW: 2, minH: 2, maxH: 3},
+        {i: "patientInfo", x: 0, y: 0, w: 2, h: 4, minW: 2, minH: 4, maxH: 4},
         {i: "VitalSignsGraph", x: 0, y: 1, w: 2, h: 11, minW: 2, minH: 8},
         {i: "graph", x: 0, y: 2, w: 2, h: 11, minW: 2, minH: 7},
-        {i: "dateFilter", x: 0, y: 7, w: 2, h: 3, minW: 1, minH: 3, maxH: 3},
+        {i: "dateFilter", x: 0, y: 7, w: 2, h: 4, minW: 1, minH: 4, maxH: 4},
         {i: "heatmap", x: 0, y: 8, w: 6, h: 11, minW: 4, minH: 7},
         {i: "scatterPlot", x: 0, y: 9, w: 6, h: 11, minW: 4, minH: 7},
         {i: "timelineChart", x: 0, y: 3, w: 2, h: 11, minW: 2, minH: 8}
@@ -120,18 +128,27 @@ var layoutsInit = {
 var layoutCollapse = {
     collapse: {w: 2, h: 1, minW: 2, minH:1, maxH:1}
 };
-
 //layout of each item saved in the database
-var originalLayouts = getFromDB("layouts", '1');
-//if there are no layouts in the database, use the default layout
+var originalLayouts;
+//all layouts to be displayed in the left bar
+const allLayouts = getAllLayouts();
+var obj = JSON.parse(allLayouts);
+var layoutLSId;
+for (var i = 0; i < Object.keys(obj).length; i++){
+    if (obj[i].layoutName == 'localStorage') {
+        originalLayouts = getFromDB("layouts", obj[i].layoutId);
+        layoutLSId = obj[i].layoutId;
+        break;
+    }
+}
+//if there are no layouts in the database, use the default layout and create new localStorage
 if (originalLayouts == null) {
     originalLayouts = layoutsInit;
+    var idButton = getIdfromDB();
+    saveToDB("layouts", originalLayouts, idButton, 'localStorage');
 }
 //layout used to collapse-expand element
 var layoutsHMod = JSON.parse(JSON.stringify(originalLayouts));
-//all layouts to be displayed in the left bar
-const allLayouts = getAllLayouts();
-
 //react class that creates the Dashboard
 export class Dashboard extends React.Component {
 
@@ -158,7 +175,7 @@ export class Dashboard extends React.Component {
     //called when layout changes
     onLayoutChange(layout, layouts) {
         //save in the database new layout
-        saveToDB("layouts", layouts, '1', 'localStorage');
+        saveToDB("layouts", layouts, layoutLSId, 'localStorage');
         //change state
         this.setState({ layouts });
         layoutsHMod = JSON.parse(JSON.stringify(layouts));
@@ -182,11 +199,11 @@ export class Dashboard extends React.Component {
                 //div not displayed (item is collapsed)
                 $('#'+id).css("display", "none");
                 $('#coll'+id).attr("disabled", true).css("display", "none");
-                $('#show'+id).attr("disabled", false).css("display", "block");
+                $('#show'+id).attr("disabled", false).css("display", "");
             } else {
                 //div is displayed (item is no collapsed)
-                $('#'+id).css("display", "block");
-                $('#coll'+id).attr("disabled", false).css("display", "block");
+                $('#'+id).css("display", "");
+                $('#coll'+id).attr("disabled", false).css("display", "");
                 $('#show'+id).attr("disabled", true).css("display", "none");
             }
         }
@@ -196,8 +213,9 @@ export class Dashboard extends React.Component {
         var obj = JSON.parse(allLayouts);
         $('#layouts-list').attr("aria-expanded","false");
         $('#layouts-list').addClass("collapsed");
-        for (var i = 1; i < Object.keys(obj).length; i++){
-            createDiv_SaveLayout(this.setState.bind(this), obj[i].layoutName, obj[i].layoutId, this.checkHeightItem.bind(this));
+        for (var i = 0; i < Object.keys(obj).length; i++){
+            if (obj[i].layoutName != "localStorage")
+                createDiv_SaveLayout(this.setState.bind(this), obj[i].layoutName, obj[i].layoutId, this.checkHeightItem.bind(this));
         }
         this.checkHeightItem();
     }
@@ -233,7 +251,7 @@ export class Dashboard extends React.Component {
         $('#'+idCButton).attr("disabled", true);
         $('#'+idSButton).attr("disabled", false);
         $('#'+idCButton).css("display", "none");
-        $('#'+idSButton).css("display", "block");
+        $('#'+idSButton).css("display", "");
     };
     //called to expand an element (id of element, idCButton collapse button id, idSButton show button id)
     expandItem(id, idCButton, idSButton) {
@@ -261,14 +279,14 @@ export class Dashboard extends React.Component {
                 }
             }
         }
-        $('#'+id).css("display", "block");
+        $('#'+id).css("display", "");
         //set a new layout with expanded element
         this.setState({
             layouts: layoutsHMod
         });
         $('#'+idCButton).attr("disabled", false);
         $('#'+idSButton).attr("disabled", true);
-        $('#'+idCButton).css("display", "block");
+        $('#'+idCButton).css("display", "");
         $('#'+idSButton).css("display", "none");
     };
 
@@ -318,10 +336,77 @@ export class Dashboard extends React.Component {
                     </div>
                 </div>
 
-                    {/*left nav bar*/}
+                {/*modal form -> new health record*/}
+                <div className={"modal fade"} id={"modal-HRform"} role={"dialog"}>
+
+                    <div className={"modal-dialog"}>
+
+                        <div className={"modal-content"}>
+                            <div className={"modal-header"}>
+                                <button type={"button"} className={"close"} data-dismiss={"modal"}>&times;</button>
+                                <h4 className={"modal-title"}> {modalHRFormTitle} </h4>
+                            </div>
+                            <div className={"modal-body"}>
+                                    <div className="form-group">
+                                        <label>{typeInfoTable}:</label>
+                                        <select id={'selectTypeHealthRecord'} className={"form-select form-select-sm"} aria-label={".form-select-sm example"} defaultValue={'null'}>
+                                            <option value={"medicine"}>{filterPHRMedicine}</option>
+                                            <option value={"disease"}>{filterPHRDisease}</option>
+                                            <option value={"surgery"}>{filterPHRSurgery}</option>
+                                        </select>
+                                    </div>
+                                    <div className="form-group">
+                                        <label> {namePTable}: </label>
+                                        <input type="text" className="form-control"  id={"nameHealthRecord"} required />
+                                    </div>
+                                    <div className="form-group" className={"date_row"}>
+                                        <label>{startDateTable}: </label>
+                                        <div className="inputDate">
+                                            <input type="datetime-local" name="startDateHR" id="startDateHR"/>
+                                        </div>
+                                        <label>{endDateTable}: </label>
+                                        <div className="inputDate">
+                                            <input type="datetime-local" name="endDateHR" id="endDateHR"/>
+                                        </div>
+                                    </div>
+                                    <div className="form-group">
+                                        <label> {descriptionHR}: </label>
+                                        <input id={"descriptionRecord"} className="form-control" type={"text"} defaultValue={" "} required/>
+                                    </div>
+
+                            </div>
+                            <div className={"modal-footer"}>
+                                <button type={"button"} className={"btn btn-default"} data-dismiss={"modal"}> {textButtonClose} </button>
+                                <button type={"button"} className={"btn btn-default"} id={"saveHealthRecord"}
+                                        data-dismiss={"modal"} > {textButtonSave}
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                {/*left nav bar*/}
                     <div className="border-end bg-white" id="sidebar-wrapper">
 
                         <div className="sidebar-heading border-bottom bg-light">HealthDatalyze</div>
+
+                        <div className={"sidebar-footing border-bottom bg-light"} id={"doctorInformation"}>
+                            <h4>Welcome, </h4>
+                            <h5 id={"doctorName"}></h5>
+                            <small>ID No</small>
+                            <small id={"doctorId"}></small>
+                            <form className={"form"} role={"form"} action={"Logout"} method={"post"}>
+                                <div className={"form-group"} id={"formBtnLogout"}>
+                                    <button type={"submit"} id={"btnLogout"}
+                                            className={"btn btn-primary btn-block create-account"}>
+                                        <i className="fas fa-sign-out-alt"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
 
                         <div className="list-group list-group-flush">
 
@@ -352,6 +437,7 @@ export class Dashboard extends React.Component {
                             </div>
 
                         </div>
+
                     </div>
                    {/*center div*/}
                     <div id="page-content-wrapper">
@@ -424,7 +510,11 @@ export class Dashboard extends React.Component {
                                         <option value={'medicine'}>{filterPHRMedicine}</option>
                                         <option value={'clinical analysis'}>{filterPHRClnAnl}</option>
                                         <option value={'disease'}>{filterPHRDisease}</option>
+                                        <option value={'diagnostic radiology'}>{filterPHRDiaRadiology}</option>
                                     </select>
+                                    <button className={"btn btn-primary"} id={"add-healthRecord"} data-toggle={"modal"} data-target={"#modal-HRform"} value={"1"} disabled>
+                                        <i className="fas fa-plus"></i>
+                                    </button>
                                 </div>
 
                                 <div className={"table-responsive"} id={"tableResponsiveAnalysis"} >
@@ -446,7 +536,7 @@ export class Dashboard extends React.Component {
                             </div>
 
                         </div>
-                        {/*table with information about a visit*/}
+                        {/*table with information about health record*/}
                         <div key="allDataInformation" className={"table_data_visit"}>
                             <div className={"firstDiv"}>
                                 <button id={"collallDataInformation"} className={"btn-collShow"} onClick={() => this.collapseItem('allDataInformation', 'collallDataInformation', 'showallDataInformation')}> <i className="fas fa-angle-up"></i></button>
@@ -578,6 +668,7 @@ export class Dashboard extends React.Component {
                             </div>
                         </div>
 
+
                         <div key="dateFilter" className={"div_dateFilter"} >
                             <div id={"titleDateFilter"} className={"firstDiv"}>
                                 <button id={"colldateFilter"} className={"btn-collShow"} onClick={() => this.collapseItem('dateFilter', 'colldateFilter', 'showdateFilter')}> <i className="fas fa-angle-up"></i></button>
@@ -590,8 +681,9 @@ export class Dashboard extends React.Component {
                                     <input type="date" name="startDate" id="startDate" disabled/>
                                 </div>
                                 <div className="inputDate">
-                                    <input type="date" name="endDate" id="endDate" disabled />
+                                    <input type="date" name="endDate" id="endDate" disabled/>
                                 </div>
+                                <button className={"btn btn-primary"} id="btnFilterDate" disabled>{btnHeatmapApply}</button>
                             </div>
                         </div>
 
@@ -631,7 +723,18 @@ export class Dashboard extends React.Component {
                                 <h5 className={"h4_titleDiv"}>{noteTitle}</h5>
                             </div>
                             <div id={"scatterPlot"} style={{width: 100+'%', height: 90+'%'}}>
+                                <div id={"titleScatterPlot"}>
+                                    <select id={'selectCategorySP'} className={"form-select form-select-sm"} aria-label={".form-select-sm example"} defaultValue={'Osteoarthritis'}>
+                                        <option value={'Osteoarthritis'}>{filterOST}</option>
+                                        <option value={'sex'}>{filterOSTSex}</option>
+                                        <option value={'race'}>{filterOSTRace}</option>
+                                        <option value={'age_cat'}>{filterOSTAge}</option>
+                                        <option value={'bmi_cat'}>{filterOSTBMI}</option>
+                                    </select>
+                                </div>
+                                <div id={"scatterPlotChart"} style={{width: 100+'%', height: 85+'%'}}>
 
+                                </div>
                             </div>
                         </div>
 
