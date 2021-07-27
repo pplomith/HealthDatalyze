@@ -6,7 +6,9 @@
     "@babel/preset-react": "^7.13.13",
     "babel-loader": "^8.2.2",
     "npm-install-webpack-plugin": "^4.0.5",
-    "webpack": "^5.38.1",
+    "sass": "^1.35.2",
+    "sass-loader": "^12.1.0",
+    "webpack": "^5.46.0",
     "webpack-cli": "^4.7.0"
   },
   "dependencies": {
@@ -18,14 +20,19 @@
     "gridstack": "^4.2.3",
     "jquery": "^3.6.0",
     "jquery-ui": "^1.12.1",
+    "lightgallery": "^2.1.8",
     "react": "^17.0.2",
+    "react-awesome-lightbox": "^1.8.0",
     "react-bootstrap": "^1.6.0",
     "react-collapsible": "^2.8.3",
     "react-dom": "^17.0.2",
     "react-grid-layout": "^1.2.5",
-    "topojson": "^3.0.2",
+    "react-image-lightbox": "^5.1.4",
     "topojson-client": "^3.0.0",
+    "topojson-server": "^3.0.0",
+    "vega": "^5.20.2",
     "vega-embed": "^6.18.2",
+    "vega-lite": "^5.1.0",
     "vis-timeline": "^7.4.9"
   },
   "scripts": {
