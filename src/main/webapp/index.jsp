@@ -25,8 +25,17 @@
     <script src="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/js/bootstrap-multiselect.js"
             type="text/javascript"></script>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/react-image-lightbox@5.1.4/style.css">
+
 </head>
 <body style="background: rgba(224,224,224,0.5); font-family: 'Poppins';">
+<%
+    String docName = (String) request.getAttribute("DoctorName");
+    String docID = String.valueOf(request.getAttribute("DoctorID"));
+%>
+    <input type="hidden" id="docName" value="<%= docName%>"/>
+    <input type="hidden" id="docID" value="<%= docID%>"/>
+
 <div id="root" class="main_div">
 
 </div>
@@ -34,8 +43,11 @@
 </body>
 
 
+
 <script src = "js/bundle.js">
 
 </script>
+
+
 
 </html>
