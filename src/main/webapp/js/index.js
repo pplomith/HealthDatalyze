@@ -7,9 +7,13 @@ import { createChart, processData } from './createChart';
 import { timelineChart } from './timelineChart';
 import { heatmap } from './heatmapChart';
 import { scatterplot } from './scatterPlot';
+
+import { renderLightbox } from './lightboxImg';
+import { formControl } from './HRFormControl';
 var allPatients = null;
 var patientSelected = null;
 var geneData = null;
+var scatterPlotData = null;
 var selectedGenes = [];
 var selectedPatients = [];
 //call react render for create the dahsboard
@@ -50,18 +54,9 @@ $("#switchChart").change(function () {
 
 $(document).ready(function () {
 
-    //<!---------- SCATTER PLOT ------------!>
-    scatterplot();
-    const config = {
-        childList: true
-    };
-    const callback = function (mutationList, observer) {
-        document.getElementById('scatterPlot')
-            .getElementsByTagName('svg')[0]
-            .setAttribute('preserveAspectRatio','none');
-    }
-    var mutationObserver = new MutationObserver(callback);
-    mutationObserver.observe(document.getElementById('scatterPlot'), config);
+    $('#doctorName').html("Dr. " + $('#docName').val() + ", M.D.");
+    $('#doctorId').html($('#docID').val());
+
 
     //get all patients ajax function
     $.ajax({
@@ -95,6 +90,11 @@ $(document).ready(function () {
     $('#selectTypeInfo').on('change', function() {
         filterDatePHR($('#startDate').val(), $('#endDate').val());
     });
+
+    formControl();
+    newHealthRecord();
+
+    getDataScatterPlot();
 });
 
 
@@ -402,6 +402,7 @@ function fillPatientTable(data) {
 }
 //fill in the table with the appointments made by the patient
 function tablePHR(data) {
+
     //the first item of data is patient selected
     selectedPatients.push(data.Patient[0].ID);
     var options = [
@@ -417,74 +418,11 @@ function tablePHR(data) {
     $("#tableVisitDate").empty();
     $('#noteVisit').empty();
     $("#tableVisitDate").off("click","button");
+    $('#add-healthRecord').removeAttr('disabled');
     patientSelected = data; //patient selected
-    var table = null;
-    if(data.DataPatient.length > 1 || data.TimelineData.length > 1) {
-        var stringDate = [];
-        var dateObject = [];
-        for (var i = 1; i < data.DataPatient.length; i++) {
-            var dataVisit = new Date(data.DataPatient[i].Date);
-            if (!stringDate.includes(dataVisit.toString())) {
-                var obj = {
-                    'id' : data.Patient[0].ID,
-                    'startDate': dataVisit,
-                    'endDate' : '/',
-                    'type' : 'clinical analysis',
-                    'btnValue' : data.DataPatient[i].Date
-                };
-                dateObject.push(obj);
-                stringDate.push(dataVisit.toString());
-            }
-        }
-        var analysisId = '102'; //exclude clinical analysis group
-        var nowDate = new Date();
-        stringDate = [];
-        for (var i = 0; i < data.TimelineData.length; i++) {
-            if (data.TimelineData[i].group != analysisId) {
-                var startDate = new Date(data.TimelineData[i].start);
-                if (!stringDate.includes(startDate.toString())) {
-                        var obj = {
-                            'id' : data.Patient[0].ID,
-                            'startDate': startDate,
-                            'endDate' : data.TimelineData[i].end != null ? new Date(data.TimelineData[i].end) : '/',
-                            'type' : data.TimelineData[i].type,
-                            'btnValue' : data.TimelineData[i].start
-                        };
-                        dateObject.push(obj);
-                        stringDate.push(startDate.toString());
-                }
-            }
-        }
-        dateObject.sort(function (a,b) {
-            var bDate = b.endDate;
-            var aDate = a.endDate;
-            if (b.endDate == '/') bDate = b.startDate;
-            if (a.endDate == '/') aDate = a.startDate;
-            return new Date(bDate) - new Date(aDate)
-        });
-        for (var i = 0; i < dateObject.length; i++) {
-            var formatStartDate = dateObject[i].startDate.getFullYear()
-                + "-" + (dateObject[i].startDate.getMonth() + 1)
-                + "-" + dateObject[i].startDate.getDate();
-            var formatEndDate;
-            if (dateObject[i].endDate != '/')
-                formatEndDate = dateObject[i].endDate.getFullYear()
-                    + "-" + (dateObject[i].endDate.getMonth() + 1)
-                    + "-" + dateObject[i].endDate.getDate();
-            else
-                formatEndDate = '/';
-            var btnValue = (dateObject[i].type == 'clinical analysis') ? 'PHR'+dateObject[i].btnValue : dateObject[i].btnValue;
-            table += "<tr><td>" + dateObject[i].id + "</td>"
-                + "<td>" + formatStartDate + "</td>"
-                + "<td>" + formatEndDate + "</td>"
-                + "<td>" + dateObject[i].type + "</td>"
-                + "<td>" +
-                "<button type='button' class='btn btn-primary' value='"+ btnValue +"'>"+ textButtonShow +"</button>" +
-                "</td>"
-                + "</tr>"
-        }
 
-        $("#tableVisitDate").html(table);
+    if(data.DataPatient.length > 1 || data.TimelineData.length > 1) {
+        fillTablePHR(data);
         filterDatePHR($('#startDate').val(), $('#endDate').val());
         $("#tableVisitDate").on("click","button", function () {
             tableInformationAnalysis(this.value);
@@ -495,6 +433,7 @@ function tablePHR(data) {
         fillSelect('selectValue',patientSelected.DataPatient);
         timelineChart(patientSelected.TimelineData, $('#startDate').val(), $('#endDate').val());
         dateFilters();
+        createScatterPlot();
     }
     function getAge(dateOfBirth) {
         var today = Date.now();
@@ -503,26 +442,96 @@ function tablePHR(data) {
     }
 }
 
+function fillTablePHR(data) {
+    var table = null;
+    var stringDate = [];
+    var dateObject = [];
+    for (var i = 1; i < data.DataPatient.length; i++) {
+        var dataVisit = new Date(data.DataPatient[i].Date);
+        if (!stringDate.includes(dataVisit.toString())) {
+            var obj = {
+                'id' : data.Patient[0].ID,
+                'startDate': dataVisit,
+                'endDate' : '/',
+                'type' : 'clinical analysis',
+                'btnValue' : data.DataPatient[i].Date
+            };
+            dateObject.push(obj);
+            stringDate.push(dataVisit.toString());
+        }
+    }
+    var analysisId = '102'; //exclude clinical analysis group
+    var nowDate = new Date();
+    stringDate = [];
+    for (var i = 0; i < data.TimelineData.length; i++) {
+        if (data.TimelineData[i].group != analysisId) {
+            var startDate = new Date(data.TimelineData[i].start);
+            if (!stringDate.includes(startDate.toString())) {
+                var obj = {
+                    'id' : data.Patient[0].ID,
+                    'startDate': startDate,
+                    'endDate' : data.TimelineData[i].end != null ? new Date(data.TimelineData[i].end) : '/',
+                    'type' : data.TimelineData[i].type,
+                    'btnValue' : data.TimelineData[i].start
+                };
+                dateObject.push(obj);
+                stringDate.push(startDate.toString());
+            }
+        }
+    }
+    dateObject.sort(function (a,b) {
+        var bDate = b.endDate;
+        var aDate = a.endDate;
+        if (b.endDate == '/') bDate = b.startDate;
+        if (a.endDate == '/') aDate = a.startDate;
+        return new Date(bDate) - new Date(aDate)
+    });
+    for (var i = 0; i < dateObject.length; i++) {
+        var formatStartDate = dateObject[i].startDate.getFullYear()
+            + "-" + (dateObject[i].startDate.getMonth() + 1)
+            + "-" + dateObject[i].startDate.getDate() + " " +
+            dateObject[i].startDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+        var formatEndDate;
+        if (dateObject[i].endDate != '/')
+            formatEndDate = dateObject[i].endDate.getFullYear()
+                + "-" + (dateObject[i].endDate.getMonth() + 1)
+                + "-" + dateObject[i].endDate.getDate() + " " +
+                dateObject[i].endDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+        else
+            formatEndDate = '/';
+        var btnValue = (dateObject[i].type == 'clinical analysis') ? 'PHR'+dateObject[i].btnValue : dateObject[i].btnValue;
+
+        table += "<tr><td>" + dateObject[i].id + "</td>"
+            + "<td>" + formatStartDate + "</td>"
+            + "<td>" + formatEndDate + "</td>"
+            + "<td>" + dateObject[i].type + "</td>"
+            + "<td>" +
+            "<button type='button' class='btn btn-primary' value='"+ btnValue +"'>"+ textButtonShow +"</button>" +
+            "</td>"
+            + "</tr>"
+    }
+
+    $("#tableVisitDate").html(table);
+}
+
 function dateFilters() {
     $('#startDate').removeAttr('disabled');
+    $('#endDate').removeAttr('disabled');
 
     $('#startDate').on('change', function () {
         var startDate = $('#startDate').val();
-        $('#endDate').removeAttr('disabled');
         $('#endDate').attr('min', startDate);
-        if (startDate == '') {
-            $('#endDate').attr('disabled', true);
-            $('#endDate').val('');
-            $('#endDate').trigger('change');
-        }
-        else {
-            if ($('#endDate').val() == '')
-                $('#endDate').val(startDate);
-            else $('#endDate').trigger('change');
-        }
+        var endDate = $('#endDate').val();
+        checkDate(startDate, endDate);
     });
 
     $('#endDate').on('change', function () {
+        var startDate = $('#startDate').val();
+        var endDate = $('#endDate').val();
+        checkDate(startDate, endDate);
+    });
+
+    $('#btnFilterDate').on('click', function () {
         var items = $('#selectValue option:selected');
         var selected = [];
         $(items).each(function(index, items){
@@ -536,7 +545,15 @@ function dateFilters() {
         filterDatePHR(startDate, endDate);
     });
 }
-
+function checkDate(startDate, endDate) {
+    if (startDate != '' && endDate != ''){
+        if (new Date(startDate).getTime() <= new Date(endDate).getTime())
+            $('#btnFilterDate').removeAttr('disabled');
+        else
+            $('#btnFilterDate').attr('disabled', true);
+    } else if (startDate != '' || endDate != '')
+        $('#btnFilterDate').removeAttr('disabled');
+}
 //create options for multiselect
 function fillSelect(id,data) {
     $('#'+id).empty();
@@ -587,14 +604,35 @@ function tableInformationAnalysis(analysisDate) {
                     dataSelected.push(patientSelected.TimelineData[i]);
                 }
             }
+            var radiologyImg = [];
             for (var i = 0; i < dataSelected.length; i++) {
                 table += "<tr><td>" + dataSelected[i].content + "</td>"
                     + "<td>" + dataSelected[i].title + "</td>"
                     + "</tr>"
+                if (dataSelected[i].type == 'diagnostic radiology') {
+                    var idDiv = "lightbox-img"+i;
+                    table += "<tr><td colSpan='2'> "
+                        + "<div id ='"+ idDiv +"'></div>" +
+                        "</td>"
+                        + "</tr>";
+                    var obj = {
+                        "pathImg" : dataSelected[i].pathImg,
+                        "id"  : idDiv
+                    };
+                    radiologyImg.push(obj);
+                }
             }
         }
 
         $("#measurementTable").html(table);
+        for (var i = 0; i < radiologyImg.length; i++) {
+            var img = [];
+            for (var j = 0; j < radiologyImg[i].pathImg.length; j++) {
+                img.push("images/" + radiologyImg[i].pathImg[j]);
+            }
+            renderLightbox(img, radiologyImg[i].id);
+        }
+
     }
 
 }
@@ -616,7 +654,8 @@ function list_Diseases_Medicines(data) {
                 var startDate = new Date(data[i].start);
                 var formatDate = startDate.getFullYear()
                     + "-" + (startDate.getMonth() + 1)
-                    + "-" + startDate.getDate();
+                    + "-" + startDate.getDate() + " " +
+                    startDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
                 h6.innerHTML = data[i].content;
                 small.innerHTML = 'Diagnosed: ' + formatDate;
                 node.appendChild(h6);
@@ -628,11 +667,13 @@ function list_Diseases_Medicines(data) {
                  var startDate = new Date(data[i].start);
                  var formatDate = startDate.getFullYear()
                      + "-" + (startDate.getMonth() + 1)
-                     + "-" + startDate.getDate();
+                     + "-" + startDate.getDate() + " " +
+                     startDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });;
                  var endDate = new Date(data[i].end);
                  var formatEndDate = endDate.getFullYear()
                      + "-" + (endDate.getMonth() + 1)
-                     + "-" + endDate.getDate();
+                     + "-" + endDate.getDate() + " " +
+                     endDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });;
                 h6.innerHTML = data[i].content;
                 small.innerHTML = 'from: ' + formatDate + ' to: ' + formatEndDate;
                 node.appendChild(h6);
@@ -642,4 +683,77 @@ function list_Diseases_Medicines(data) {
         }
     }
 
+}
+
+function newHealthRecord() {
+    $('#saveHealthRecord').on('click', function () {
+        var local = new Date().toString().match(/([-\+][0-9]+)\s/)[1];
+        var sDate = $('#startDateHR').val()+':00.000'+local;
+        var eDate = ($('#endDateHR').val() != '') ? $('#endDateHR').val()+':00.000'+local : null;
+        var nameHR = $('#nameHealthRecord').val();
+        var descrHR = $('#descriptionRecord').val();
+        var typeHR = $('#selectTypeHealthRecord').val();
+        var groupId;
+        if (typeHR == 'medicine') groupId = '100';
+        else if (typeHR == 'disease' || typeHR == 'surgery') groupId = '101';
+        $.ajax({
+            type: 'POST',
+            url: 'PatientData',
+            dataType: 'json',
+            data: {"id" : patientSelected.Patient[0].ID, "requestId" : '105', "startDate" : sDate, "endDate" : eDate,
+            "name" : nameHR, "type" : typeHR, "description" : descrHR, "groupId" : groupId},
+            success: function (response) {
+                patientSelected.TimelineData = response.TimelineData;
+                $("#measurementTable").empty();
+
+                fillTablePHR(patientSelected);
+
+                filterDatePHR($('#startDate').val(), $('#endDate').val());
+
+                $("#tableVisitDate").on("click","button", function () {
+                    tableInformationAnalysis(this.value);
+                });
+
+                list_Diseases_Medicines(patientSelected.TimelineData);
+
+                timelineChart(patientSelected.TimelineData, $('#startDate').val(), $('#endDate').val());
+            }
+        });
+    });
+}
+
+function getDataScatterPlot() {
+
+    $.ajax({
+        type: 'POST',
+        data: {"requestId" : '201'},
+        url: 'GeneData',
+        dataType: 'json',
+        success: function (response) {
+            if (response != "Server Error") {
+                scatterPlotData = response.Data;
+                createScatterPlot();
+            }
+        }
+    });
+    $('#selectCategorySP').on('change', function() {
+        createScatterPlot();
+    });
+}
+function createScatterPlot() {
+    if (patientSelected != null) {
+        scatterplot(scatterPlotData, $('#selectCategorySP').val(), patientSelected.Patient[0].ID);
+    } else {
+        scatterplot(scatterPlotData, $('#selectCategorySP').val(), null);
+    }
+    const config = {
+        childList: true
+    };
+    const callback = function (mutationList, observer) {
+        document.getElementById('scatterPlot')
+            .getElementsByTagName('svg')[0]
+            .setAttribute('preserveAspectRatio','none');
+    }
+    var mutationObserver = new MutationObserver(callback);
+    mutationObserver.observe(document.getElementById('scatterPlotChart'), config);
 }
