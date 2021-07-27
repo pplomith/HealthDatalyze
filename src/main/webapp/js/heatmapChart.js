@@ -49,6 +49,6 @@ export const heatmap = (data) => {
         }
     }
 
-    // Embed the visualization in the container with id `vis`
+    // Embed the visualization in the container with id `heatmapChart`
     embed('#heatmapChart', vlSpec, {"actions": false, "mode": "vega-lite"});
 }
