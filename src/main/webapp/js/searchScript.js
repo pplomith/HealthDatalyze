@@ -54,7 +54,7 @@ export const filterDatePHR = (startDate, endDate) => {
     input = $('#selectTypeInfo option:selected').val();
     filter = input.toUpperCase();
     for (i = 0; i < tr.length; i++) {
-        if ((startDate == '' || endDate == '') && input == 'all') {
+        if (startDate == '' && endDate == '' && input == 'all') {
             tr[i].style.display = "";
         } else {
             var td_type = tr[i].getElementsByTagName("td")[3];
@@ -64,42 +64,58 @@ export const filterDatePHR = (startDate, endDate) => {
                 var txtValue_id = td_type.textContent || td_type.innerText;
                 var txtStartDate = td_startDate.textContent || td_startDate.innerText;
                 var txtEndDate = td_endDate.textContent || td_endDate.innerText;
-                if (startDate == '' || endDate == '') {
+                if (startDate == '' && endDate == '') {
                     if (txtValue_id.toUpperCase().indexOf(filter) > -1) {
                         tr[i].style.display = "";
                     } else {
                         tr[i].style.display = "none";
                     }
                 } else {
-                    var sDate = new Date(startDate);
-                    var eDate = new Date(endDate);
+                    var sDate;
+                    var eDate;
                     var txtSDate = new Date(txtStartDate);
-                    if (txtEndDate == '/') {
-                        if (input == 'all') {
-                            if (txtSDate.getTime() >= sDate.getTime() && txtSDate.getTime() <= eDate.getTime())
+                    if (startDate != '' && endDate == '') {
+                        sDate = new Date(startDate);
+                        if (txtSDate.getTime() >= sDate.getTime()) {
+                            if (input == 'all' || txtValue_id.toUpperCase().indexOf(filter) > -1)
                                 tr[i].style.display = "";
                             else
                                 tr[i].style.display = "none";
-                        } else if (txtSDate.getTime() >= sDate.getTime() && txtSDate.getTime() <= eDate.getTime()
-                            && txtValue_id.toUpperCase().indexOf(filter) > -1) {
-                            tr[i].style.display = "";
-                        } else {
+                        } else
                             tr[i].style.display = "none";
+                    } else if (startDate == '' && endDate != '') {
+                        eDate = new Date(endDate);
+                        if (txtEndDate == '/') {
+                            if ((input == 'all' || txtValue_id.toUpperCase().indexOf(filter) > -1) && txtSDate.getTime() <= eDate.getTime())
+                                tr[i].style.display = "";
+                            else
+                                tr[i].style.display = "none";
+                        } else {
+                            if ((input == 'all' || txtValue_id.toUpperCase().indexOf(filter) > -1) && new Date(txtEndDate).getTime() <= eDate.getTime())
+                                tr[i].style.display = "";
+                            else
+                                tr[i].style.display = "none";
                         }
                     } else {
+                        sDate = new Date(startDate);
+                        eDate = new Date(endDate);
                         var txtEDate = new Date(txtEndDate);
-                        if (txtSDate.getTime() >= sDate.getTime() && txtEDate.getTime() <= eDate.getTime() && txtValue_id.toUpperCase().indexOf(filter) > -1) {
-                            tr[i].style.display = "";
-                        } else if (input == 'all') {
-                            if (txtSDate.getTime() >= sDate.getTime() && txtEDate.getTime() <= eDate.getTime()) {
+                        if (txtEndDate == '/') {
+                            if (txtSDate.getTime() >= sDate.getTime() && txtSDate.getTime() <= eDate.getTime()
+                                && ((input == 'all' || txtValue_id.toUpperCase().indexOf(filter) > -1)))
                                 tr[i].style.display = "";
-                            } else {
+                            else
                                 tr[i].style.display = "none";
-                            }
                         } else {
-                            tr[i].style.display = "none";
+                            if (txtSDate.getTime() >= sDate.getTime() && txtEDate.getTime() <= eDate.getTime()
+                                && ((input == 'all' || txtValue_id.toUpperCase().indexOf(filter) > -1)))
+                                tr[i].style.display = "";
+                            else
+                                tr[i].style.display = "none";
                         }
+
                     }
+
                 }
             }
         }
