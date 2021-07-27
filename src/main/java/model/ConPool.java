@@ -17,7 +17,7 @@ public class ConPool {
         String database = "meddata";
         if (datasource == null) {
             PoolProperties p = new PoolProperties();
-            p.setUrl("jdbc:mysql://localhost:3306/"+database+"?serverTimezone=" + TimeZone.getDefault().getID());
+            p.setUrl("jdbc:mysql://localhost:3306/"+database+"?autoReconnect=true&serverTimezone=" + TimeZone.getDefault().getID());
             p.setDriverClassName("com.mysql.cj.jdbc.Driver");
             p.setUsername(username);
             p.setPassword(password);
@@ -26,6 +26,10 @@ public class ConPool {
             p.setMinIdle(10);
             p.setRemoveAbandonedTimeout(60);
             p.setRemoveAbandoned(true);
+            p.setTestOnBorrow(true);
+            p.setValidationQuery("SELECT 1");
+            p.setValidationInterval(30000);
+            p.setJdbcInterceptors("org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer;org.apache.tomcat.jdbc.pool.interceptor.ResetAbandonedTimer");
             datasource = new DataSource();
             datasource.setPoolProperties(p);
         }
