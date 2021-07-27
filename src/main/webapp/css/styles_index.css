@@ -461,7 +461,7 @@ a.layouts-div.list-group-item {
 #heatmapChart, #patientInfo, #scatterPlot {
     overflow: hidden;
 }
-#heatmapChart > .marks, #scatterPlot > .marks {
+#heatmapChart > .marks, #scatterPlotChart > .marks {
     width: 100% !important;
     height: 100% !important;
 }
@@ -490,10 +490,10 @@ span.labelSwitch {
 }
 
 #tableResponsiveAnalysis {
-    height: 95%;
+    height: 90%;
 }
 
-#selectTypeInfo {
+#selectTypeInfo, #selectCategorySP {
     margin-left: 10px;
     margin-bottom: 2px;
     width: 130px;
@@ -562,4 +562,39 @@ span.labelSwitch {
 
 .listInfoPatient:last-child {
     margin-bottom: 10px !important;
+}
+
+#add-healthRecord {
+    margin-left: 10px;
+}
+
+#tableAnalysis {
+    display: flex;
+    flex-direction: column;
+    height: 90% !important;
+}
+
+#btnFilterDate {
+    margin-top: 10px;
+    width: 80px;
+    align-self: center;
+}
+
+#btnLogout {
+    width: 45px !important;
+    margin-left: auto;
+    color: black;
+    height: 35px;
+    border-color: #0000001f;
+    background-color: transparent;
+}
+
+#doctorInformation {
+    padding: 17px;
+    display: flex;
+    flex-direction: column;
+}
+
+#formBtnLogout {
+    margin-top: 10px;
 }
