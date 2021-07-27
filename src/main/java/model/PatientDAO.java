@@ -106,7 +106,7 @@ public class PatientDAO {
             rootObject.put("VitalSigns",vitalSigns);
 
             ps = con.prepareStatement("SELECT * " +
-                    "FROM patient as p, eventsData as ed"
+                    "FROM patient as p, eventsdata as ed"
                     + " WHERE p.PatientId = ? AND p.PatientId = ed.patientId");
 
             ps.setString(1,id);
@@ -160,13 +160,23 @@ public class PatientDAO {
                     Date endDate = new SimpleDateFormat(dataPattern).parse(rs.getString("endDate"));
                     title += "<br>From: " + new SimpleDateFormat(dataFormat).format(startDate)+
                             "<br>To: " + new SimpleDateFormat(dataFormat).format(endDate);
+                    if (rs.getString("doctorID") != null) {
+                        title += "<br>M.D.: " + getDoctorName(Integer.parseInt(rs.getString("doctorID")), con) +
+                                " #" + rs.getString("doctorID");
+                    }
                 }
                 else {
                     title += "<br>Date: " + new SimpleDateFormat(dataFormat).format(startDate);
+                    if (rs.getString("doctorID") != null) {
+                        title += "<br>M.D.: " + getDoctorName(Integer.parseInt(rs.getString("doctorID")), con) +
+                                " #" + rs.getString("doctorID");
+                    }
                     object.put("end", null);
                 }
                 object.put("title", title);
                 object.put("type", rs.getString("type"));
+                if (rs.getString("type").equals("diagnostic radiology"))
+                    putImg(object, rs.getString("id"), con);
                 eventsData.add(object);
             }
 
@@ -191,5 +201,56 @@ public class PatientDAO {
         }
         cnt += "</ul>";
         return cnt;
+    }
+
+    private void putImg(JSONObject object, String id, Connection con) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("SELECT r.pathImg " +
+                "FROM radiologyimg as r, eventsdata as ed"
+                + " WHERE r.radId = ed.id AND ed.id = ?");
+        ps.setString(1,id);
+        ResultSet rs = ps.executeQuery();
+        int i = 1;
+        JSONArray arrayImg = new JSONArray();
+        while (rs.next()) {
+            arrayImg.add(rs.getString("pathImg"));
+            i++;
+        }
+        object.put("pathImg", arrayImg);
+    }
+
+    private String getDoctorName(int docId, Connection con) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("SELECT d.firstName, d.lastName " +
+                "FROM medicaldoctor as d"
+                + " WHERE d.doctorId = ?");
+        ps.setInt(1, docId);
+        ResultSet rs = ps.executeQuery();
+        String dN = "";
+        while (rs.next()) {
+            dN = rs.getString("firstName") + " " + rs.getString("lastName");
+        }
+        return dN;
+    }
+
+    public boolean doSaveHR(String pId, String gId, String content, String sDate, String eDate, String cmt, String type, int doctorId) {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("insert into eventsdata("
+                    + "patientId, groupId, content, startDate, endDate, comment, type, doctorID)"
+                    + "values(?, ?, ?, ?, ?, ?, ?, ?)");
+
+            ps.setString(1, pId);
+            ps.setString(2, gId);
+            ps.setString(3, content);
+            ps.setString(4, sDate);
+            ps.setString(5, eDate);
+            ps.setString(6, cmt);
+            ps.setString(7, type);
+            ps.setInt(8, doctorId);
+
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
     }
 }

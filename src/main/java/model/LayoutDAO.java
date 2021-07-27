@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 public class LayoutDAO {
 
-    public boolean saveLayout(String id, String lName, String layouts) {
+    public boolean saveLayout(String id, String lName, String layouts, int doctorId) {
 
         try (Connection con = ConPool.getConnection()) {
 
@@ -19,11 +19,12 @@ public class LayoutDAO {
             ps.setString(1, id);
             int rs = ps.executeUpdate();
 
-             ps = con.prepareStatement("INSERT INTO layoutconfig(LayoutId, LayoutName, layouts) values (?, ?, ?)");
+             ps = con.prepareStatement("INSERT INTO layoutconfig(LayoutId, LayoutName, layouts, doctorId) values (?, ?, ?, ?)");
 
              ps.setString(1, id);
              ps.setString(2, lName);
              ps.setString(3, layouts);
+             ps.setInt(4, doctorId);
 
              rs = ps.executeUpdate();
              return true;
@@ -80,12 +81,12 @@ public class LayoutDAO {
 
     }
 
-    public JSONArray getAllLayouts() {
+    public JSONArray getAllLayouts(int doctorId) {
 
         try (Connection con = ConPool.getConnection()) {
 
-            PreparedStatement ps = con.prepareStatement("SELECT layoutId, layoutName FROM layoutconfig");
-
+            PreparedStatement ps = con.prepareStatement("SELECT layoutId, layoutName FROM layoutconfig WHERE doctorId = ?");
+            ps.setInt(1, doctorId);
             JSONArray arrayObject = new JSONArray();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

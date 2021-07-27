@@ -71,4 +71,35 @@ public class GeneDAO {
         return null;
     }
 
+    public JSONObject getDataScatterPlot() {
+        try (Connection con = ConPool.getConnection()) {
+
+            PreparedStatement ps = con.prepareStatement("SELECT *  FROM osteoarthritismicrorna");
+
+            JSONObject rootObject = new JSONObject();
+
+            JSONArray arrayObject = new JSONArray();
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                JSONObject object = new JSONObject();
+                object.put("id", rs.getString("id"));
+                object.put("PC1", rs.getString("OsteoarthritisPC1"));
+                object.put("PC2", rs.getString("OsteoarthritisPC2"));
+                object.put("Osteoarthritis", rs.getString("Osteoarthritis"));
+                object.put("sex", rs.getString("sex"));
+                object.put("race", rs.getString("race"));
+                object.put("age_cat", rs.getString("age_cat"));
+                object.put("bmi_cat", rs.getString("bmi_cat"));
+                arrayObject.add(object);
+            }
+
+            rootObject.put("Data", arrayObject);
+
+            return rootObject;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+    }
+
 }
