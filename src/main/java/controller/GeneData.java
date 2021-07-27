@@ -37,6 +37,8 @@ public class GeneData extends HttpServlet {
                     e.printStackTrace();
                 }
             }
+        } else if (requestId.equals("201")) {
+                jsonObject = geneDAO.getDataScatterPlot();
         }
 
         if (jsonObject != null) {
