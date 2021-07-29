@@ -76,6 +76,11 @@ function checkDate(startDate, endDate) {
             $("#startDateHR").css("color","#FF0000");
             $("#endDateHR").css("color","#FF0000");
         }
+    } else {
+        boolStartDate = false;
+        boolEndDate = false;
+        $("#startDateHR").css("color","#FF0000");
+        $("#endDateHR").css("color","#FF0000");
     }
 }
 
