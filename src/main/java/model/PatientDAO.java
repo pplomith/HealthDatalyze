@@ -43,7 +43,7 @@ public class PatientDAO {
     }
 
     public JSONObject getPatientData(String id) {
-
+        String dataPatternDB = "yyyy-MM-dd HH:mm:ss";
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("SELECT * FROM patient as p WHERE p.PatientId = ?");
             JSONObject rootObject = new JSONObject();
@@ -64,7 +64,7 @@ public class PatientDAO {
             }
             rootObject.put("Patient", patient);
 
-            ps = con.prepareStatement("SELECT vd.Date, part.Short_Name, vd.Value, vd.Comment " +
+            ps = con.prepareStatement("SELECT vd.DateTime, part.Short_Name, vd.Value, vd.Comment " +
                     "FROM patient as p, visitdata as vd, part as part"
                     + " WHERE p.PatientId = ? AND vd.Part = part.LOINC AND p.PatientId = vd.Patient");
 
@@ -75,12 +75,12 @@ public class PatientDAO {
             JSONArray analysisData = new JSONArray();
 
             while (rs.next()) {
-                JSONObject object = new JSONObject();
-                object.put("Date", rs.getString("Date"));
-                object.put("Measurement", rs.getString("Short_Name"));
-                object.put("Value", rs.getString("Value"));
-                object.put("Comment", rs.getString("Comment"));
-                analysisData.add(object);
+                    JSONObject object = new JSONObject();
+                    object.put("Date", new SimpleDateFormat(dataPatternDB).format(rs.getTimestamp("DateTime")));
+                    object.put("Measurement", rs.getString("Short_Name"));
+                    object.put("Value", rs.getString("Value"));
+                    object.put("Comment", rs.getString("Comment"));
+                    analysisData.add(object);
             }
 
             rootObject.put("DataPatient",analysisData);
@@ -112,7 +112,7 @@ public class PatientDAO {
             ps.setString(1,id);
 
             JSONArray eventsData = new JSONArray();
-            String dataPattern = "yyyy-MM-dd'T'HH:mm:ss";
+            String dataPattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
             String dataFormat = "yyyy-MM-dd hh:mm aa";
             ArrayList<String> dateList = new ArrayList<>();
 
@@ -130,7 +130,7 @@ public class PatientDAO {
                     title += getCommentPHR(analysisData, dataItem);
                     object.put("content", "PHR #"+phdId);
                     object.put("start", item.get("Date"));
-                    Date startDate = new SimpleDateFormat(dataPattern).parse((String) item.get("Date"));
+                    Date startDate = new SimpleDateFormat(dataPatternDB).parse(dataItem);
                     title += "Date: " + new SimpleDateFormat(dataFormat).format(startDate);
                     object.put("end", null);
                     object.put("title", title);
@@ -153,11 +153,13 @@ public class PatientDAO {
                 }
                 title += sb.toString();
                 object.put("content", rs.getString("content"));
-                object.put("start", rs.getString("startDate"));
-                Date startDate = new SimpleDateFormat(dataPattern).parse(rs.getString("startDate"));
-                if (rs.getString("endDate") != null) {
-                    object.put("end", rs.getString("endDate"));
-                    Date endDate = new SimpleDateFormat(dataPattern).parse(rs.getString("endDate"));
+                Timestamp startTime = rs.getTimestamp("startDatetime");
+                object.put("start", new SimpleDateFormat(dataPatternDB).format(startTime));
+                Date startDate = new SimpleDateFormat(dataPatternDB).parse(startTime.toString());
+                if (rs.getTimestamp("endDatetime") != null) {
+                    Timestamp endTime = rs.getTimestamp("endDatetime");
+                    object.put("end", new SimpleDateFormat(dataPatternDB).format(endTime));
+                    Date endDate = new SimpleDateFormat(dataPatternDB).parse(endTime.toString());
                     title += "<br>From: " + new SimpleDateFormat(dataFormat).format(startDate)+
                             "<br>To: " + new SimpleDateFormat(dataFormat).format(endDate);
                     if (rs.getString("doctorID") != null) {
@@ -178,10 +180,10 @@ public class PatientDAO {
                 if (rs.getString("type").equals("diagnostic radiology"))
                     putImg(object, rs.getString("id"), con);
                 eventsData.add(object);
+
             }
 
             rootObject.put("TimelineData",eventsData);
-
             return rootObject;
 
         } catch (SQLException | ParseException throwables) {
@@ -234,23 +236,50 @@ public class PatientDAO {
     public boolean doSaveHR(String pId, String gId, String content, String sDate, String eDate, String cmt, String type, int doctorId) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("insert into eventsdata("
-                    + "patientId, groupId, content, startDate, endDate, comment, type, doctorID)"
+                    + "patientId, groupId, content, comment, type, doctorID, startDatetime, endDatetime)"
                     + "values(?, ?, ?, ?, ?, ?, ?, ?)");
 
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+            Date startDatetime = formatter.parse(sDate);
             ps.setString(1, pId);
             ps.setString(2, gId);
             ps.setString(3, content);
-            ps.setString(4, sDate);
-            ps.setString(5, eDate);
-            ps.setString(6, cmt);
-            ps.setString(7, type);
-            ps.setInt(8, doctorId);
-
+            ps.setString(4, cmt);
+            ps.setString(5, type);
+            ps.setInt(6, doctorId);
+            ps.setTimestamp(7, new java.sql.Timestamp(startDatetime.getTime()));
+            if (eDate != null) {
+                Date endDatetime = formatter.parse(eDate);
+                ps.setTimestamp(8, new java.sql.Timestamp(endDatetime.getTime()));
+            }
+            else
+                ps.setTimestamp(8, null);
             ps.executeUpdate();
             return true;
-        } catch (SQLException throwables) {
+        } catch (SQLException | ParseException throwables) {
             throwables.printStackTrace();
         }
         return false;
+    }
+
+
+    private void parseDate(String id) {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM  WHERE");
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String sDate1 = rs.getString("Date");
+                SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+                Date date1 = formatter1.parse(sDate1);
+                ps = con.prepareStatement("Update  set DateTime = ?");
+                ps.setTimestamp(1, new java.sql.Timestamp(date1.getTime()));
+
+                ps.executeUpdate();
+            }
+
+        } catch (SQLException | ParseException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }

@@ -402,14 +402,14 @@ function fillPatientTable(data) {
 }
 //fill in the table with the appointments made by the patient
 function tablePHR(data) {
-
     //the first item of data is patient selected
     selectedPatients.push(data.Patient[0].ID);
     var options = [
         {label: data.Patient[0].Name, title: data.Patient[0].Name, value: data.Patient[0].ID, selected: true}
     ];
     $('#selectPatientHeatmap').multiselect('dataprovider', options);
-
+    $("#patientAvatar").empty();
+    $("#patientAvatar").append('<img src="images/patients/'+data.Patient[0].ID+'.jpg" id="patientImage" />');
     $("#patientName").html(data.Patient[0].Name);
     $("#ageSpan").html(getAge(data.Patient[0].DateOfBirth));
     $("#sexSpan").html(data.Patient[0].Gender[0].toUpperCase()+data.Patient[0].Gender.slice(1));
@@ -687,7 +687,7 @@ function list_Diseases_Medicines(data) {
 
 function newHealthRecord() {
     $('#saveHealthRecord').on('click', function () {
-        var local = new Date().toString().match(/([-\+][0-9]+)\s/)[1];
+        var local = getTimeZone();
         var sDate = $('#startDateHR').val()+':00.000'+local;
         var eDate = ($('#endDateHR').val() != '') ? $('#endDateHR').val()+':00.000'+local : null;
         var nameHR = $('#nameHealthRecord').val();
@@ -720,6 +720,12 @@ function newHealthRecord() {
             }
         });
     });
+
+    function getTimeZone() {
+        var offset = new Date().getTimezoneOffset(),
+            o = Math.abs(offset);
+        return (offset < 0 ? "+" : "-") + ("00" + Math.floor(o / 60)).slice(-2) + ":" + ("00" + (o % 60)).slice(-2);
+    }
 }
 
 function getDataScatterPlot() {

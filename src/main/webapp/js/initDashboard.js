@@ -564,21 +564,24 @@ export class Dashboard extends React.Component {
                                 <div className={"tab-content"}>
 
                                     <div className={"tab-pane fade show active"} id={"tabPersonalInfo"}>
-
-                                        <div>
-                                            <h3 id={"patientName"}> {noPatientSel} </h3>
-                                        </div>
-                                        <div className={"informationTable"}>
-                                            <div className={"p-2 d-flex stats"}>
-                                                <div className={"d-flex flex-column"}><span className={"titleSpan"}>{ageLab}</span><span
-                                                    id={"ageSpan"}>-</span></div>
-                                                <div className={"d-flex flex-column"}><span className={"titleSpan"}>{sexLab}</span><span
-                                                    id={"sexSpan"}>-</span></div>
-                                                <div className={"d-flex flex-column"}><span className={"titleSpan"}>{bloodLab}</span><span
-                                                    id={"bloodSpan"}>-</span></div>
+                                        <div id={"patientInfoIMG"}>
+                                            <div id={"patientAvatar"}></div>
+                                            <div id={"otherInfo"}>
+                                                <div>
+                                                    <h3 id={"patientName"}> {noPatientSel} </h3>
+                                                </div>
+                                                <div className={"informationTable"}>
+                                                    <div className={"p-2 d-flex stats"}>
+                                                        <div className={"d-flex flex-column"}><span className={"titleSpan"}>{ageLab}</span><span
+                                                            id={"ageSpan"}>-</span></div>
+                                                        <div className={"d-flex flex-column"}><span className={"titleSpan"}>{sexLab}</span><span
+                                                            id={"sexSpan"}>-</span></div>
+                                                        <div className={"d-flex flex-column"}><span className={"titleSpan"}>{bloodLab}</span><span
+                                                            id={"bloodSpan"}>-</span></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-
                                     </div>
 
                                     <div className={"tab-pane fade"} id={"tabDiseases"}>

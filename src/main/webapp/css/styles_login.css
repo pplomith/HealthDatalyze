@@ -99,10 +99,13 @@ body{
 }
 
 .btn-primary{
-    color: #f8f9fa;
-    background-color: #0275d8;
-    border-color: #288b5d00;
+    color: black !important;
+    background-color: transparent !important;
+    border-color: #0000001f !important;
     font-size: 10px;
+}
+.btn-primary:hover {
+    background-color: #0000001f !important;
 }
 
 #title-form{

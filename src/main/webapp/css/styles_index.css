@@ -134,12 +134,14 @@ tbody td, th, tr {
     border-radius: 5px;
 }
 .btn-primary{
-    color: #f8f9fa;
-    background-color: #0a58ca;
-    border-color: #288b5d00;
+    color: black !important;
+    background-color: transparent !important;
+    border-color: #0000001f !important;
     font-size: 10px;
 }
-
+.btn-primary:hover {
+    background-color: #0000001f !important;
+}
 tbody, td, tfoot, th, thead, tr {
 
     border-style: solid;
@@ -340,7 +342,6 @@ div.submenu1 button {
     font-size: 10px;
     margin: 3px;
     outline: none;
-    border: none;
 }
 
 a.layouts-div.list-group-item {
@@ -566,6 +567,7 @@ span.labelSwitch {
 
 #add-healthRecord {
     margin-left: 10px;
+    margin-bottom: 2px;
 }
 
 #tableAnalysis {
@@ -597,4 +599,22 @@ span.labelSwitch {
 
 #formBtnLogout {
     margin-top: 10px;
+}
+
+#patientInfoIMG {
+    display: flex;
+    flex-direction: row;
+}
+#otherInfo {
+    width: 100%;
+    margin-top: 10px;
+}
+#patientAvatar {
+    margin: 10px;
+}
+#patientImage {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-size: cover;
 }

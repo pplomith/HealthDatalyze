@@ -44,7 +44,7 @@ export const lineChart = (selection, props) => {
     //creation of the doamin and the scale, based on linear scale, of the y-axis
     //extent -> domain based on the min and max value of the values in DataSelected
     var yScale = scaleLinear()
-        .domain(extent(dataSelected, yValue))
+        .domain([0, max(dataSelected, yValue)])
         .range([innerHeight, 0]);
     rescaleY = yScale;
     //creation of the doamin and the scale, based on time scale, of the x-axis
@@ -85,11 +85,11 @@ export const lineChart = (selection, props) => {
     yAxisGEnter.merge(yAxisG).call(yAxis).selectAll('.domain').remove();
 
     //x-axis creation
-    var xAxis = axisBottom(xScale).ticks(4).tickFormat(d3.timeFormat("%Y-%m-%d"));
+    var xAxis = axisBottom(xScale).ticks(4).tickFormat(d3.timeFormat("%Y-%m-%d")).tickSize(-innerHeight);
     const xAxisGEnter = gEnter.append('g').attr('class','x-axis');
     const xAxisG = g.select('.x-axis');
     xAxisGEnter.merge(xAxisG).call(xAxis).attr('transform', `translate(0,${innerHeight})`);
-
+    xAxisGEnter.selectAll('.domain').remove();
     //line generator function uses d3.line, called when lines they need to be drawn
     const lineGenerator = line()
         .x(d => xScale(xValue(d)))

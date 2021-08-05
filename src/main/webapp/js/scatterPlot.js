@@ -26,12 +26,8 @@ export const scatterplot = (data, valueSelected, patient) => {
                 "scale": {"zero": false}
             },
             "color": {
-                "condition": {
-                    "param": "pts",
                     "field": valueSelected,
                     "type": "nominal"
-                },
-                "value": "grey"
             },
             "shape": {"field": valueSelected, "type": "nominal"},
             "size": {
