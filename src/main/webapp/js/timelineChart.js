@@ -1,12 +1,14 @@
 import {DataSet, Timeline} from "vis-timeline/standalone";
 
 export const timelineChart = (data, minZoomDate, maxZoomDate) => {
+    //initial zoom setting
     var today = new Date();
     var start = today.toString(), end = today.toString();
     if (minZoomDate != '' && maxZoomDate != '') {
         start = minZoomDate;
         end = maxZoomDate;
     }
+    //delete the old chart
     $('#timelineChart').empty();
     // DOM element where the Timeline will be attached
     var container = document.getElementById('timelineChart');

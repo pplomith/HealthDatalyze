@@ -1,8 +1,11 @@
 import embed from 'vega-embed';
+//function to create scatter chart
 export const scatterplot = (data, valueSelected, patient) => {
-
+    //custom params (selected patient)
     var paramsSetting = [{"name": "pts", "select": {"type" : "point", "fields" :  ["id"]}, "value" : [{"id" : patient}] }];
+    //default params (no selected patient)
     var defaultParams = [{"name": "pts", "select": "point"}];
+    //chart spec
     var vlSpec = {
         "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
         "usermeta": {"embedOptions": {"renderer": "svg"}},
@@ -37,7 +40,7 @@ export const scatterplot = (data, valueSelected, patient) => {
         }
     };
 
-    // Embed the visualization in the container with id `scatterPlot`
+    // Embed the visualization in the container with id `scatterPlotChart`
     embed('#scatterPlotChart', vlSpec, {"actions": false, "mode": "vega-lite"});
 
 }

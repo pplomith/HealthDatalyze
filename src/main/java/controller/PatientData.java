@@ -41,6 +41,7 @@ public class PatientData extends HttpServlet {
                 String type = request.getParameter("type");
                 String description = request.getParameter("description");
                 String groupId = request.getParameter("groupId");
+                System.out.println(startDate + " " + endDate + " " + name + " " + type + " " + description + " " + description.length());
                 boolean checkDate = false, checkName = false, checkType = false, checkDescr = false;
                 if (endDate.equals("")) endDate = null;
                 if (session.getAttribute("MedDoctor") != null) {
@@ -57,12 +58,13 @@ public class PatientData extends HttpServlet {
                         }
                     } else if (startDate != null)
                         checkDate = true;
-                    if (name.matches("^[a-zA-Z0-9]+") && name.length() > 1)
+                    if (name.matches("^[a-zA-Z0-9_ ]*$") && name.length() > 1)
                         checkName = true;
-                    if (description.matches("^[a-zA-Z0-9]+") && description.length() > 2)
+                    if (description.matches("^[a-zA-Z0-9_ ]*$") && description.length() > 2)
                         checkDescr = true;
                     if (type != null && !type.equals(""))
                         checkType = true;
+                    System.out.println(checkDate + " " +checkDescr + " " + checkName + " " + checkType);
                     if (checkDate && checkDescr && checkName && checkType)
                         patientDAO.doSaveHR(patientId, groupId, name, startDate, endDate, description, type, doc.getId());
                 }

@@ -17,7 +17,7 @@ import {
     bisector
 } from 'd3';
 import { legendChart } from './legendChart';
-import {nest} from 'd3-collection';
+import { nest } from 'd3-collection';
 import { zoom as d3Zoom } from 'd3-zoom';
 import React from "react";
 //function that creates the chart, exported and called in the index.js file

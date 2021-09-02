@@ -785,10 +785,14 @@ function getFromDB(key, id) {
         dataType: 'text',
         data: {"layoutId" : id},
         success: function (response) {
-            if (response != 'failed') {
+            console.log(response);
+            console.log(typeof response);
+            if (response != 'failed' && response != '') {
                 let ls = {};
                 ls = JSON.parse(response) || {};
+                console.log(ls);
                 result = ls[key];
+                console.log(result);
             }
             else result = null;
         }
@@ -880,8 +884,10 @@ function createDiv_SaveLayout(setState, name, idButton, checkHeightItem) {
     //set state on click button
     buttonApply.addEventListener('click', function() {
         var layout = getFromDB("layouts",this.value); //get layout
-        setState({ layouts: JSON.parse(JSON.stringify(layout)) }); //set layout
-        checkHeightItem;
+        if (layout != null) {
+            setState({ layouts: JSON.parse(JSON.stringify(layout)) });
+            checkHeightItem;
+        } //set layoutoverleaf
     });
     //add buttons to div
     divButton.appendChild(buttonDelete);

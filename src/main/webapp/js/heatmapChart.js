@@ -1,6 +1,8 @@
 import embed from 'vega-embed';
 import { select } from 'd3';
+//function to create heatmap chart
 export const heatmap = (data) => {
+    //chart spec
     var vlSpec = {
         "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
         "usermeta": {"embedOptions": {"renderer": "svg"}},

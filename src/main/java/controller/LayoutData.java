@@ -71,10 +71,15 @@ public class LayoutData extends HttpServlet {
                         response.getWriter().write("Server Error");
                     }
                 }
+            } else {
+                request.setCharacterEncoding("utf8");
+                response.setContentType("text/plain");
+                response.getWriter().write("failed");
             }
         } else {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/view/login.jsp");
-            dispatcher.forward(request,response);
+            request.setCharacterEncoding("utf8");
+            response.setContentType("text/plain");
+            response.getWriter().write("failed");
         }
 
     }

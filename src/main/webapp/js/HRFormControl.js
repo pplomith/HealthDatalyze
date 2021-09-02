@@ -1,3 +1,4 @@
+//code to verify the correctness of the fields in the creation of the new clinical event
 var boolStartDate = false;
 var boolEndDate = false;
 var boolName = false;
@@ -5,6 +6,7 @@ var boolDescription = false;
 var boolType = false;
 export const formControl = () => {
     $('#saveHealthRecord').attr('disabled', true);
+    //initial setting
     $('#add-healthRecord').on('click', function () {
         $('#startDateHR').val('');
         $('#endDateHR').val('');
@@ -17,35 +19,34 @@ export const formControl = () => {
         $("#nameHealthRecord").css("color","black");
         $("#selectTypeHealthRecord").css("color","black");
     });
-
-
+    //event listener for when the start date entry changes
     $('#startDateHR').on('change', function () {
         var startDate = $('#startDateHR').val();
-        $('#endDateHR').attr('min', startDate);
-        checkDate(startDate, $('#endDateHR').val());
-        checkFields();
+        $('#endDateHR').attr('min', startDate); //minimum value of the end date set to the start date
+        checkDate(startDate, $('#endDateHR').val()); //check the correctness of the dates
+        checkFields(); //checks if all booleans are true
     });
+    //event listener for when the end date entry changes
     $('#endDateHR').on('change', function () {
-        checkDate($('#startDateHR').val(), $('#endDateHR').val());
-        checkFields();
+        checkDate($('#startDateHR').val(), $('#endDateHR').val()); //check the correctness of the dates
+        checkFields(); //checks if all booleans are true
     });
-
+    //listener of events for when the voice of the type changes
     $('#selectTypeHealthRecord').on('change', function () {
-        checkType($(this).val());
-        checkDate($('#startDateHR').val(), $('#endDateHR').val());
-        checkFields();
+        checkType($(this).val()); //check the correctness of the type
+        checkDate($('#startDateHR').val(), $('#endDateHR').val()); //check the correctness of the dates
+        checkFields(); //checks if all booleans are true
     });
-
+    //events listener for when the name is changed
     $('#nameHealthRecord').on('input', function () {
-        checkName($(this).val());
-        checkFields();
+        checkName($(this).val()); //check the correctness of the name
+        checkFields(); //checks if all booleans are true
     });
-
+    //events listener for when the description is changed
     $('#descriptionRecord').on('input', function () {
-        checkDescription($(this).val());
-        checkFields();
+        checkDescription($(this).val()); //check the correctness of the description
+        checkFields(); //checks if all booleans are true
     });
-
 }
 
 function checkType(val) {
@@ -85,7 +86,7 @@ function checkDate(startDate, endDate) {
 }
 
 function checkName(text) {
-    if (text.match(/^[a-zA-Z0-9]+/) && text.length > 1) {
+    if (text.match(/^[a-zA-Z0-9_ ]*$/) && text.length > 1) {
         boolName = true;
         $("#nameHealthRecord").css("color","#266202");
     } else {
@@ -94,7 +95,7 @@ function checkName(text) {
     }
 }
 function checkDescription(text) {
-    if (text.match(/^[a-zA-Z0-9]+/)  && text.length > 2) {
+    if (text.match(/^[a-zA-Z0-9_ ]*$/)  && text.length > 2) {
         boolDescription = true;
         $("#descriptionRecord").css("color","#266202");
     } else {

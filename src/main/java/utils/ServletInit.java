@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+//initial servlet
 @WebServlet(name = "Home", urlPatterns = "", loadOnStartup = 1)
 public class ServletInit extends HttpServlet {
 
@@ -22,8 +23,9 @@ public class ServletInit extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        HttpSession session = request.getSession(false);
+        //creation of the session and loading of the login page
+        HttpSession session = request.getSession(true);
+        session.setMaxInactiveInterval(180*60);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/view/login.jsp");
         dispatcher.forward(request,response);
     }

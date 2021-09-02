@@ -1,6 +1,6 @@
 var checkBoolEmail = false;
 var checkBoolPw = false;
-
+//check the correctness of the e-mail
 function checkEmail() {
     var email = $('#email').val();
     if (email.length > 5 &&
@@ -13,7 +13,7 @@ function checkEmail() {
     }
     checkBool();
 }
-
+//check the correctness of the password
 function checkPw() {
     var pw = $('#password').val();
     if (pw.length > 7) {
@@ -25,7 +25,7 @@ function checkPw() {
     }
     checkBool();
 }
-
+//check if both fields are correct
 function checkBool() {
     if (checkBoolEmail && checkBoolPw) {
         $('#btnLogin').removeAttr('disabled');
