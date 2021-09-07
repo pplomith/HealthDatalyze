@@ -387,7 +387,37 @@ export class Dashboard extends React.Component {
                     </div>
                 </div>
 
+                {/*modal for login*/}
+                <div className={"modal fade"} id={"modalLogin"} role={"dialog"}>
 
+                    <div className={"modal-dialog"}>
+
+                        <div className={"modal-content"}>
+                            <div className={"modal-header"}>
+                                <button type={"button"} className={"close"} data-dismiss={"modal"}>&times;</button>
+                                <h4 className={"modal-title"}> Login </h4>
+                            </div>
+                            <div className={"modal-body"}>
+                                <div className="form-group">
+                                    <input type="text" name="email" className="form-control item" id="modalEmail"
+                                           placeholder="Email" />
+                                </div>
+                                <div className="form-group">
+                                    <input type="password" name="password" className="form-control item" id="modalPassword"
+                                           placeholder="Password" />
+                                </div>
+                            </div>
+                            <div className={"modal-footer"}>
+                                <button type={"button"} className={"btn btn-default"} data-dismiss={"modal"} id={"close_login_button"}> {textButtonClose} </button>
+                                <button type={"button"} className={"btn btn-default"} id={"login-button"}
+                                        data-dismiss={"modal"}> {textButtonSave}
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
                 {/*left nav bar*/}
                     <div className="border-end bg-white" id="sidebar-wrapper">
 
@@ -772,6 +802,9 @@ function saveToDB (key, value, id, name) {
         dataType: 'text',
         data: {"layoutId" : id, "layoutName": name, "layouts": string},
         success: function (response) {
+            if (response == 'session failed') {
+                $("#modalLogin").modal('show');
+            }
         }
     });
 }
@@ -785,14 +818,13 @@ function getFromDB(key, id) {
         dataType: 'text',
         data: {"layoutId" : id},
         success: function (response) {
-            console.log(response);
-            console.log(typeof response);
-            if (response != 'failed' && response != '') {
+            if (response == 'session failed') {
+                $("#modalLogin").modal('show');
+                result = null;
+            } else if (response != 'failed' && response != '') {
                 let ls = {};
                 ls = JSON.parse(response) || {};
-                console.log(ls);
                 result = ls[key];
-                console.log(result);
             }
             else result = null;
         }
@@ -808,7 +840,12 @@ function getIdfromDB() {
         url: 'LayoutConfig',
         dataType: 'text',
         success: function (response) {
-            if (response != 'failed') result = response;
+            if (response == 'session failed') {
+                $("#modalLogin").modal('show');
+                result = null;
+            } else if (response != 'failed')
+                result = response;
+            else result = null;
         }
     });
     return result;
@@ -822,7 +859,11 @@ function deleteLayout(id) {
         dataType: 'text',
         data: {"layoutId" : id, "boolDelete": "true"},
         success: function (response) {
-            document.getElementById("submenu"+id).remove();
+            if (response == 'session failed') {
+                $("#modalLogin").modal('show');
+            } else {
+                document.getElementById("submenu"+id).remove();
+            }
         }
     });
 }

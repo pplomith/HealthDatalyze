@@ -4,7 +4,6 @@ import model.Doctor;
 import model.PatientDAO;
 import org.json.simple.JSONObject;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +15,7 @@ import java.io.PrintWriter;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
+//servlet that manages all patient data, including their medical history
 @WebServlet("/PatientData")
 public class PatientData extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -29,19 +28,18 @@ public class PatientData extends HttpServlet {
             JSONObject jsonObject = null;
             String patientId = request.getParameter("id");
             String reqId = request.getParameter("requestId");
-            if (patientId != null && reqId == null) {
+            if (patientId != null && reqId == null) { //obtaining the patient's personal information
                 jsonObject = patientDAO.getPatientData(patientId);
             }
-            else if (reqId == null){
+            else if (reqId == null){ //obtaining all patients in the database
                 jsonObject = patientDAO.getAllPatients();
-            } else if (reqId.equals("105")) {
+            } else if (reqId.equals("105")) { //insertion of a new medical record for the selected patient
                 String startDate = request.getParameter("startDate");
                 String endDate = request.getParameter("endDate");
                 String name = request.getParameter("name");
                 String type = request.getParameter("type");
                 String description = request.getParameter("description");
                 String groupId = request.getParameter("groupId");
-                System.out.println(startDate + " " + endDate + " " + name + " " + type + " " + description + " " + description.length());
                 boolean checkDate = false, checkName = false, checkType = false, checkDescr = false;
                 if (endDate.equals("")) endDate = null;
                 if (session.getAttribute("MedDoctor") != null) {
@@ -64,7 +62,6 @@ public class PatientData extends HttpServlet {
                         checkDescr = true;
                     if (type != null && !type.equals(""))
                         checkType = true;
-                    System.out.println(checkDate + " " +checkDescr + " " + checkName + " " + checkType);
                     if (checkDate && checkDescr && checkName && checkType)
                         patientDAO.doSaveHR(patientId, groupId, name, startDate, endDate, description, type, doc.getId());
                 }
@@ -81,8 +78,9 @@ public class PatientData extends HttpServlet {
                 response.getWriter().write("Server Error");
             }
         } else {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/view/login.jsp");
-            dispatcher.forward(request,response);
+            request.setCharacterEncoding("utf8");
+            response.setContentType("text/plain");
+            response.getWriter().write("session failed");
         }
     }
 }

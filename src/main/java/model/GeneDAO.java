@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class GeneDAO {
-
+    //obtaining all the names of the genes
     public JSONObject getAllGeneName() {
         try (Connection con = ConPool.getConnection()) {
 
@@ -32,7 +32,7 @@ public class GeneDAO {
         }
         return null;
     }
-
+    //obtaining the data to build the heatmap
     public JSONObject getDataHeatmap(JSONArray genes, JSONArray patients) {
         try (Connection con = ConPool.getConnection()) {
 
@@ -70,7 +70,7 @@ public class GeneDAO {
         }
         return null;
     }
-
+    //obtaining data for the scatter plot
     public JSONObject getDataScatterPlot() {
         try (Connection con = ConPool.getConnection()) {
 

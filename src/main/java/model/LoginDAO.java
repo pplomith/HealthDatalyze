@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class LoginDAO {
+    //operation to verify the existence of the user and his data are correct
     public Doctor checkDoctor(String email, String pw) {
 
         try (Connection con = ConPool.getConnection()) {
@@ -37,7 +38,7 @@ public class LoginDAO {
 
         return null;
     }
-
+    //password verification
     private boolean checkPassword(String pwDB, String pw) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-1");

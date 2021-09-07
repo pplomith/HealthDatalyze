@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-
+//servlet that manages the obtaining of data on genes
 @WebServlet("/GeneData")
 public class GeneData extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -22,9 +22,9 @@ public class GeneData extends HttpServlet {
         GeneDAO geneDAO = new GeneDAO();
         JSONObject jsonObject = null;
         String requestId = request.getParameter("requestId");
-        if (requestId == null) {
+        if (requestId == null) { //obtaining all the names of the genes
             jsonObject = geneDAO.getAllGeneName();
-        } else if (requestId.equals("100")) {
+        } else if (requestId.equals("100")) { //obtaining all data of the selected genes and patients
             String selectedGenes = request.getParameter("selectedGenes");
             String selectedPatients = request.getParameter("selectedPatients");
             if (selectedGenes != null && selectedPatients != null) {
@@ -37,7 +37,7 @@ public class GeneData extends HttpServlet {
                     e.printStackTrace();
                 }
             }
-        } else if (requestId.equals("201")) {
+        } else if (requestId.equals("201")) { //obtaining the data for the construction of the scatter plot
                 jsonObject = geneDAO.getDataScatterPlot();
         }
 

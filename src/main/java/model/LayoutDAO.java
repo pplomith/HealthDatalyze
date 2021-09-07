@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class LayoutDAO {
-
+    //layout saving operation
     public boolean saveLayout(String id, String lName, String layouts, int doctorId) {
 
         try (Connection con = ConPool.getConnection()) {
@@ -33,7 +33,7 @@ public class LayoutDAO {
         }
 
     }
-
+    //operation of obtaining the layout
     public String getLayout(String lId) {
         String result = null;
         try (Connection con = ConPool.getConnection()) {
@@ -49,7 +49,7 @@ public class LayoutDAO {
             return result;
         }
     }
-
+    //operation of obtaining the id for the new layout
     public int getId() {
         try (Connection con = ConPool.getConnection()) {
             int id = -1;
@@ -65,7 +65,7 @@ public class LayoutDAO {
             return -1;
         }
     }
-
+    //layout delete operation
     public boolean deleteLayout(String id) {
 
         try (Connection con = ConPool.getConnection()) {
@@ -80,7 +80,7 @@ public class LayoutDAO {
         }
 
     }
-
+    //operation of obtaining all layouts for the logged in user
     public JSONArray getAllLayouts(int doctorId) {
 
         try (Connection con = ConPool.getConnection()) {

@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 import React from "react";
-import { searchMultiselect, nonSelectedText, textButtonShow, nonSelectedPatientText } from './allStrings'
+import { searchMultiselect, nonSelectedText, textButtonShow, nonSelectedPatientText, loginFailedAlert, loginSuccessAlert } from './allStrings'
 import { Dashboard } from './initDashboard';
 import { searchPatient, filterDatePHR } from './searchScript';
 import { createChart, processData } from './createChart';
@@ -65,11 +65,15 @@ $(document).ready(function () {
         url: 'PatientData',
         dataType: 'json',
         success: function (response) {
-            //fill in the table with patient information
-            fillPatientTable(response.Patients);
-            allPatients = response.Patients;
-            // create a multiple selection of patients for heatmap
-            createMultiSelectPatients();
+            if (response == 'session failed') {
+                $("#modalLogin").modal('show');
+            } else {
+                //fill in the table with patient information
+                fillPatientTable(response.Patients);
+                allPatients = response.Patients;
+                // create a multiple selection of patients for heatmap
+                createMultiSelectPatients();
+            }
         }
     });
 
@@ -98,6 +102,30 @@ $(document).ready(function () {
     newHealthRecord();
     //function to get scatter plot data
     getDataScatterPlot();
+    //repeat login operation when session expires
+    $('#close_login_button').on('click', function() {
+        alert('Login Failed.');
+        $('#btnLogout').click();
+    });
+
+    $('#login-button').on('click', function() {
+        var email = $('#modalEmail').val();
+        var password = $('#modalPassword').val();
+        var docId = $('#docID').val();
+        $.ajax({
+            type: 'POST',
+            url: 'Login',
+            dataType: 'text',
+            data: {"email" : email, "password" : password, "requestId" : '201', "docId" : docId},
+            success: function (response) {
+                if (response == 'login failed') {
+                    alert(loginFailedAlert);
+                    $('#btnLogout').click();
+                } else if (response == 'login success')
+                    alert(loginSuccessAlert);
+            }
+        });
+    });
 });
 //creation of multiselect for gene selection
 function createMultiSelectGenes() {
@@ -403,7 +431,11 @@ function fillPatientTable(data) {
             dataType: 'json',
             data: {"id" : this.id},
             success: function (response) {
-                tablePHR(response);
+                if (response == 'session failed') {
+                    $("#modalLogin").modal('show');
+                } else {
+                    tablePHR(response);
+                }
             }
         });
     });
@@ -741,17 +773,21 @@ function newHealthRecord() {
             data: {"id" : patientSelected.Patient[0].ID, "requestId" : '105', "startDate" : sDate, "endDate" : eDate,
             "name" : nameHR, "type" : typeHR, "description" : descrHR, "groupId" : groupId},
             success: function (response) {
-                //insertion occurred
-                //update all graphs to view the new element created
-                patientSelected.TimelineData = response.TimelineData;
-                $("#measurementTable").empty();
-                fillTablePHR(patientSelected);
-                filterDatePHR($('#startDate').val(), $('#endDate').val());
-                $("#tableVisitDate").on("click","button", function () {
-                    tableInformationAnalysis(this.value);
-                });
-                list_Diseases_Medicines(patientSelected.TimelineData);
-                timelineChart(patientSelected.TimelineData, $('#startDate').val(), $('#endDate').val());
+                if (response == 'session failed') {
+                    $("#modalLogin").modal('show');
+                } else {
+                    //insertion occurred
+                    //update all graphs to view the new element created
+                    patientSelected.TimelineData = response.TimelineData;
+                    $("#measurementTable").empty();
+                    fillTablePHR(patientSelected);
+                    filterDatePHR($('#startDate').val(), $('#endDate').val());
+                    $("#tableVisitDate").on("click","button", function () {
+                        tableInformationAnalysis(this.value);
+                    });
+                    list_Diseases_Medicines(patientSelected.TimelineData);
+                    timelineChart(patientSelected.TimelineData, $('#startDate').val(), $('#endDate').val());
+                }
             }
         });
     });

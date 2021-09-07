@@ -57,3 +57,5 @@ export const filterOSTSex = 'Sex';
 export const filterOSTRace = 'Race';
 export const filterOSTAge = 'Age Category';
 export const filterOSTBMI = 'BMI Category';
+export const loginFailedAlert = 'Login failed, incorrect credentials!';
+export const loginSuccessAlert = 'Login successful, repeat the last operation.';

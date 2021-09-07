@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class PatientDAO {
-
+    //obtaining all patients present in the db
     public JSONObject getAllPatients() {
 
         try (Connection con = ConPool.getConnection()) {
@@ -41,7 +41,7 @@ public class PatientDAO {
 
         return null;
     }
-
+    //obtaining all the data of the selected patient
     public JSONObject getPatientData(String id) {
         String dataPatternDB = "yyyy-MM-dd HH:mm:ss";
         try (Connection con = ConPool.getConnection()) {
@@ -52,6 +52,7 @@ public class PatientDAO {
 
             JSONArray patient = new JSONArray();
             ResultSet rs = ps.executeQuery();
+            //personal data
             while (rs.next()) {
                 JSONObject object = new JSONObject();
                 object.put("ID", rs.getString("PatientId"));
@@ -73,7 +74,7 @@ public class PatientDAO {
             rs = ps.executeQuery();
 
             JSONArray analysisData = new JSONArray();
-
+            //data on clinical analyzes
             while (rs.next()) {
                     JSONObject object = new JSONObject();
                     object.put("Date", new SimpleDateFormat(dataPatternDB).format(rs.getTimestamp("DateTime")));
@@ -94,7 +95,7 @@ public class PatientDAO {
             rs = ps.executeQuery();
 
             JSONArray vitalSigns = new JSONArray();
-
+            //data on vital signs
             while (rs.next()) {
                 JSONObject object = new JSONObject();
                 object.put("Date", rs.getString("Date"));
@@ -115,7 +116,7 @@ public class PatientDAO {
             String dataPattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
             String dataFormat = "yyyy-MM-dd hh:mm aa";
             ArrayList<String> dateList = new ArrayList<>();
-
+            //construction of the json array with the data for the timeline
             int phdId = 1;
             for (int i = 0; i < analysisData.size(); i++) {
                 JSONObject item = (JSONObject) analysisData.get(i);
@@ -204,7 +205,7 @@ public class PatientDAO {
         cnt += "</ul>";
         return cnt;
     }
-
+    //obtaining path images for the results of the radiographs
     private void putImg(JSONObject object, String id, Connection con) throws SQLException {
         PreparedStatement ps = con.prepareStatement("SELECT r.pathImg " +
                 "FROM radiologyimg as r, eventsdata as ed"
@@ -219,7 +220,7 @@ public class PatientDAO {
         }
         object.put("pathImg", arrayImg);
     }
-
+    //obtaining the name of the doctor who registered a new clinical information
     private String getDoctorName(int docId, Connection con) throws SQLException {
         PreparedStatement ps = con.prepareStatement("SELECT d.firstName, d.lastName " +
                 "FROM medicaldoctor as d"
@@ -232,7 +233,7 @@ public class PatientDAO {
         }
         return dN;
     }
-
+    //saving a new clinical information
     public boolean doSaveHR(String pId, String gId, String content, String sDate, String eDate, String cmt, String type, int doctorId) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("insert into eventsdata("
