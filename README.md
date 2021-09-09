@@ -13,12 +13,12 @@ HealthDatalyze is a Web Dashboard for the interactive visualization of data in t
 - MySQL Workbench.
 - IDE per lo sviluppo (es. Intellij, Eclipse).
 
-#####Versioni:
+##### Versioni:
 - **Tomcat 9.0.31**
 - **Java 15**
 - **MySQL 8.0.18**
 
-###Setup e installazione del sistema:
+### Setup e installazione del sistema:
 
 1) Avviare l'IDE selezionato e compiere una fork del repository corrente per ottenere il codice sorgente.
 2) Connessione al DB del sistema:
