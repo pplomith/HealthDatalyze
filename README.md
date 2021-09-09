@@ -54,7 +54,7 @@ npm install --save-dev webpack
     package.json: ~\IdeaProjects\[nome progetto]\package.json
     Command: run
     Scripts: build
-    Node interpreter: Project node (*~\nodejs\node.exe)
+    Node interpreter: Project node (~\nodejs\node.exe)
     Package manager: Project ~\nodejs\node_modules\npm
 ``` 
 5) Eseguire la nuova configurazione cliccando **Run 'build'**.
