@@ -5,3 +5,13 @@ HealthDatalyze è una Dashboard Web per la visualizzazione interattiva dei dati 
 
 EN
 HealthDatalyze is a Web Dashboard for the interactive visualization of data in the medical field, allowing doctors to monitor the condition of patients, in order to identify possible diseases or treatments in the measured values. In addition, for each patient the previously diagnosed diseases, periods in which drugs were taken and the visualization on a timeline of particular events (operations, hospitalizations) are shown.
+
+Requisiti per l'installazione del sistema: Connessione ad Internet, Web Browser (es. Chrome, Firefox, Opera), Server Tomcat, MySQL Workbench, IDE per lo sviluppo (es. Intellij, Eclipse).
+
+Versioni:
+
+tomcat 9.0.31
+
+Java 15
+
+MySql 8.0.18
