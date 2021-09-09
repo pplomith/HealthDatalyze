@@ -47,15 +47,16 @@ Spiegazione eseguita sull'IDE Intellij.
 ```
 npm install --save-dev webpack
 ```
-- Recarsi in **Run/Debug Configurations**.
-- Aggiungere una nuova configurazione: **npm**.
-- Impostazioni della configurazione:
-  - package.json: *~\IdeaProjects\[nome progetto]\package.json*
-  - Command: **run**
-  - Scripts: **build**
-  - Node interpreter: *Project node (*~\nodejs\node.exe)*
-  - Package manager: *Project ~\nodejs\node_modules\npm*
-    
-- Eseguire la nuova configurazione cliccando **Run 'build'**.
+2) Recarsi in **Run/Debug Configurations**.
+3) Aggiungere una nuova configurazione: **npm**.
+4) Impostazioni della configurazione:
+```  
+    package.json: ~\IdeaProjects\[nome progetto]\package.json
+    Command: run
+    Scripts: build
+    Node interpreter: Project node (*~\nodejs\node.exe)
+    Package manager: Project ~\nodejs\node_modules\npm
+``` 
+5) Eseguire la nuova configurazione cliccando **Run 'build'**.
 
-Al termine del successo della compilazione, è necessario riavviare il server per aggiornare l'applicazione.
+6) Riavviare il server **Tomcat** per aggiornare l'applicazione.
