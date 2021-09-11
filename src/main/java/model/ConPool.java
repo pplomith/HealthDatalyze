@@ -12,8 +12,8 @@ public class ConPool {
     private static DataSource datasource;
 
     public static Connection getConnection() throws SQLException {
-        String username = "root";
-        String password = "";
+        String username = "meddataviz";
+        String password = "dyzefEdedHwf";
         String database = "meddata";
         if (datasource == null) {
             PoolProperties p = new PoolProperties();
