@@ -199,6 +199,11 @@ span.multiselect-native-select {
 .text-legend {
     font-size: 10px;
 }
+
+.navbar {
+    width: 103%;
+}
+
 @media all and (max-width: 970px) {
 
     .table-responsive {
